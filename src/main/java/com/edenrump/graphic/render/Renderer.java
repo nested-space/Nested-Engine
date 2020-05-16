@@ -1,8 +1,11 @@
 package com.edenrump.graphic.render;
 
 import com.edenrump.graphic.data.Attribute;
+import com.edenrump.graphic.data.VertexArrayObject;
 
 import java.util.List;
+
+import static org.lwjgl.opengl.GL20.*;
 
 /**
  * This class holds all the information required to render a mesh onto screen in OpenGL
@@ -32,7 +35,7 @@ public class Renderer {
     /**
      * A list of vao ids that have been registered with this renderer for rending
      */
-    private List<VAO> registeredVAOs;
+    private List<VertexArrayObject> registeredVertexArrayObjects;
 
 
     /**
@@ -44,35 +47,35 @@ public class Renderer {
 
         //enable attributes that are needed to render the registered meshes
         for (Attribute attribute : attributesInUse) {
-            glEnableAttribute(attribute.getLocation());
+            glEnableVertexAttribArray(attribute.getLocation());
         }
 
         //render each model in turn
-        for (VAO vao : registeredVAOs) {
-            //bind VAO
+        for (VertexArrayObject vao : registeredVertexArrayObjects) {
+            //bind VertexArrayObject
             vao.bind();
             //render
 
 
-            //unbind VAO
+            //unbind VertexArrayObject
         }
 
         //disable attributes again
         for (Attribute attribute : attributesInUse) {
-            glDisableAttribute(attribute.getLocation());
+            glDisableVertexAttribArray(attribute.getLocation());
         }
 
-        //unbind VAOs to prevent subsequent accidental activity
-        VAO.unbind();
+        //unbind VertexArrayObjects to prevent subsequent accidental activity
+        VertexArrayObject.unbind();
 
         //stop using the shader program
     }
 
-    public void addVAO(VAO vao) {
-        registeredVAOs.add(vao);
+    public void addVertexArrayObject(VertexArrayObject vao) {
+        registeredVertexArrayObjects.add(vao);
     }
 
-    public void removeVAO(VAO vao) {
-        registeredVAOs.remove(VAO);
+    public void removeVertexArrayObject(VertexArrayObject vao) {
+        registeredVertexArrayObjects.remove(vao);
     }
 }

@@ -1,5 +1,7 @@
 package com.edenrump.graphic.render;
 
+import com.edenrump.graphic.data.VertexArrayObject;
+
 /**
  * This class manages the 3-dimensional entities that should be rendered in a world.
  * <p>
@@ -41,26 +43,26 @@ public class VolumeRenderManager {
 
     }
 
-    public void addTexturedMeshToRender(VAO vao) {
-        if(texturedMeshRenderer==null)
+    public void addTexturedMeshToRender(VertexArrayObject vao) {
+        if (texturedMeshRenderer == null)
             inflateTexturedMeshRenderer();
 
-        texturedMeshRenderer.addVAO(vao);
+        texturedMeshRenderer.addVertexArrayObject(vao);
     }
 
-    public void addColouredMeshToRender(VAO vao) {
-        if(colouredMeshRenderer==null)
+    public void addColouredMeshToRender(VertexArrayObject vao) {
+        if (colouredMeshRenderer == null)
             inflateTexturedMeshRenderer();
 
-        colouredMeshRenderer.addVAO(vao);
+        colouredMeshRenderer.addVertexArrayObject(vao);
 
     }
 
-    public void removeTexturedMeshToRender(VAO vao) {
-        texturedMeshRenderer.removeVAO(vao);
+    public void removeTexturedMeshToRender(VertexArrayObject vao) {
+        texturedMeshRenderer.removeVertexArrayObject(vao);
     }
 
-    public void removeColouredMeshToRender(VAO vao) {
-        colouredMeshRenderer.removeVAO(vao);
+    public void removeColouredMeshToRender(VertexArrayObject vao) {
+        colouredMeshRenderer.removeVertexArrayObject(vao);
     }
 }
