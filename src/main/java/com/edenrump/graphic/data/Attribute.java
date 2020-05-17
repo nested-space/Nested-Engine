@@ -33,6 +33,7 @@ public class Attribute {
      * Parameter representing the size of the attribute
      */
     private int size;
+
     /**
      * Constructor allowing full set up of attribute for further use
      *
@@ -42,7 +43,7 @@ public class Attribute {
      * @param stride   the stride between attribute values in GPU memory
      * @param offset   the gap between the start of the VBO and the start of the attribute in GPU memory
      */
-    public Attribute(int location, String name, int size, int stride, int offset) {
+    private Attribute(int location, String name, int size, int stride, int offset) {
         this.location = location;
         this.name = name;
         this.size = size;
@@ -71,6 +72,10 @@ public class Attribute {
                 TEXTURE_COORDS_ATTRIB,
                 TEXTURE_COORDS_ATTRIB_NAME,
                 2, 0, 0);
+    }
+
+    public String getName() {
+        return name;
     }
 
     /**
