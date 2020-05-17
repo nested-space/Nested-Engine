@@ -32,7 +32,9 @@ import com.edenrump.graphic.data.VertexArrayObject;
 import com.edenrump.graphic.data.VertexBufferObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
@@ -45,14 +47,11 @@ public class Mesh {
     /**
      * A vertex array object, representing the handle OpenGL uses for this entity.
      */
-    private VertexArrayObject vao;
+    private final VertexArrayObject vao;
 
-    /**
-     * A list of buffer gpu, representing the information OpenGL has for this object
-     */
-    private List<VertexBufferObject> vbos = new ArrayList<>();
+    private final Map<Attribute, VertexBufferObject> attributeVertexBufferObjectMap = new HashMap<>();
 
-    private List<Attribute> attributes = new ArrayList<>();
+    private final List<Attribute> attributes = new ArrayList<>();
 
     /**
      * Parameter that stores the texture ID of the texture
@@ -85,8 +84,9 @@ public class Mesh {
      * Method to link an attribute to this mesh
      * @param attribute attribute to link to this mesh
      */
-    public void addAttriute(Attribute attribute){
+    public void addAttriute(Attribute attribute, VertexBufferObject attachedBuffer){
         attributes.add(attribute);
+        attributeVertexBufferObjectMap.put(attribute, attachedBuffer);
     }
 
     /**
@@ -95,6 +95,20 @@ public class Mesh {
      */
     public void removeAttribute(Attribute attribute){
         attributes.remove(attribute);
+        attributeVertexBufferObjectMap.remove(attribute);
+    }
+
+    public VertexBufferObject getAttachedBuffer(Attribute attribute){
+        return attributeVertexBufferObjectMap.get(attribute);
+    }
+
+    public VertexBufferObject getAttachedBuffer(String attributeName){
+        for(Map.Entry<Attribute, VertexBufferObject> entry : attributeVertexBufferObjectMap.entrySet()){
+            if(entry.getKey().getName().equals(attributeName)){
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     /**
