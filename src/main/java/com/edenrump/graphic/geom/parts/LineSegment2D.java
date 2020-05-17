@@ -1,6 +1,6 @@
 package com.edenrump.graphic.geom.parts;
 
-import com.edenrump.math.Vector2f;
+import com.edenrump.math.arrays.Vector2f;
 
 import static com.edenrump.graphic.geom.parts.LineDefaults.*;
 
