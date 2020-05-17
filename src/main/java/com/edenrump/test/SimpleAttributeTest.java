@@ -42,47 +42,47 @@ public class SimpleAttributeTest {
     private static Runnable gameLoop() {
 
         return () -> {
-            window = new Window(0.5, 0.5, "Attribute Test", Color.BLUE);
+            window = new Window(0.5, 0.5, "Attribute Test", Color.LIGHT_GRAY);
             window.create(false);
-
-            gameTime = Time.getInstance();
             window.show();
 
+            gameTime = Time.getInstance();
+
+            GUI = VAOEasyLoader.loadTexturedMesh(positions, indices, textureCoords, "res/textures/noise.png");
+
             Renderer renderer = new Renderer(DefaultShaderPrograms.getDefaultTextureShader());
-
-            //create mesh
-            Mesh texturedMesh = VAOEasyLoader.loadTexturedMesh(positions, indices, textureCoords, "res/textures/noise.png");
-
-            renderer.addMesh(texturedMesh);
+            renderer.addMesh(GUI);
 
             while (!window.isCloseRequested()) {
-                //update window
                 gameTime.updateTime();
                 window.update();
+                updateGUI();
 
-                float heightFraction = 0.2f;
-                float widthFraction = heightFraction / 12 * window.getAspectRatio();
-                float[] positions = {
-                        -widthFraction, heightFraction, 0f,//v0
-                        -widthFraction, -heightFraction, 0f,//v1
-                        widthFraction, -heightFraction, 0f,//v2
-                        widthFraction, heightFraction, 0f,//v3
-                };
-
-                VertexBufferObject positionVBO = texturedMesh.getAttachedBuffer(POSITIONS_ATTRIB_NAME);
-                positionVBO.bind(GL_ARRAY_BUFFER);
-                positionVBO.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
-
-                glClear(GL_COLOR_BUFFER_BIT);
-                glClearColor(0, 0, 0, 1);
+                window.prepareForRender();
 
                 renderer.render();
 
-                //swap buffers
-                window.swapBuffers();
+                window.transferBuffersAfterRender();
             }
 
             window.terminate();
         };
+    }
+
+    static Mesh GUI;
+
+    private static void updateGUI(){
+        float heightFraction = 0.2f;
+        float widthFraction = heightFraction / 2 * window.getAspectRatio();
+        float[] positions = {
+                -widthFraction, heightFraction, 0f,//v0
+                -widthFraction, -heightFraction, 0f,//v1
+                widthFraction, -heightFraction, 0f,//v2
+                widthFraction, heightFraction, 0f,//v3
+        };
+
+        VertexBufferObject positionVBO = GUI.getAttachedBuffer(POSITIONS_ATTRIB_NAME);
+        positionVBO.bind(GL_ARRAY_BUFFER);
+        positionVBO.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
     }
 }

@@ -1,6 +1,7 @@
 package com.edenrump.graphic.render.renderers;
 
 import com.edenrump.graphic.data.Attribute;
+import com.edenrump.graphic.data.VertexArrayObject;
 import com.edenrump.graphic.mesh.Mesh;
 import com.edenrump.graphic.shaders.ShaderProgram;
 
@@ -30,17 +31,17 @@ public class Renderer implements GenericRenderer {
      * The shader should already have been loaded, linked and compiled.
      * Objects will not render if shader program is not complete. FIXME: May throw uncaught OpenGL errors.
      */
-    private ShaderProgram shaderProgram;
+    private final ShaderProgram shaderProgram;
 
     /**
      * List of attributes that are in use for shader program to work correctly
      */
-    private List<Attribute> attributesInUse  = new ArrayList<>();
+    private final List<Attribute> attributesInUse = new ArrayList<>();
 
     /**
      * Map of VAO IDs to meshes to allow instance rendering
      */
-    private Map<Integer, List<Mesh>> vaoIDMeshMap = new HashMap<>();
+    private final Map<Integer, List<Mesh>> vaoIDMeshMap = new HashMap<>();
 
     /**
      * Method to construct renderer.
@@ -58,31 +59,20 @@ public class Renderer implements GenericRenderer {
         prepare();
 
         //render each model in turn
-        for(Integer id : vaoIDMeshMap.keySet()){
+        for(Integer id : vaoIDMeshMap.keySet()) {
 
             //get all instances of this mesh
             List<Mesh> allMeshInstances = vaoIDMeshMap.get(id);
 
-            //enable attributes for rendering
-            allMeshInstances.get(0).enableAttributes();
-
-            for (Mesh currentMeshInstance : allMeshInstances) {
-                //bind VertexArrayObject
-                currentMeshInstance.getVao().bind();
-
-                //render
+            for (Mesh currentMesh : allMeshInstances) {
+                currentMesh.enableAttributes();
+                currentMesh.getVao().bind();
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-
-                //unbind VertexArrayObject
-                currentMeshInstance.getVao().unbind();
+                VertexArrayObject.unbind();
+                currentMesh.disableAttributes();
             }
 
-            //disable attributes for this mesh
-            allMeshInstances.get(0).disableAttributes();
-
         }
-
 
         //disable attributes again
         for (Attribute attribute : attributesInUse) {

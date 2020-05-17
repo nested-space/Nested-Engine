@@ -2,8 +2,6 @@ package com.edenrump.test;
 
 import com.edenrump.graphic.data.VertexArrayObject;
 import com.edenrump.graphic.render.renderers.EntityRenderer;
-import com.edenrump.graphic.render.renderers.Renderer;
-import com.edenrump.graphic.shaders.DefaultShaderPrograms;
 import com.edenrump.graphic.shaders.StaticEntityShaderProgram;
 import com.edenrump.graphic.time.Time;
 import com.edenrump.graphic.viewport.Window;
@@ -103,7 +101,7 @@ public class WindowClassTest implements Runnable {
 
         //stop shader here
 
-        mainWindow.swapBuffers();
+        mainWindow.transferBuffersAfterRender();
     }
 
     private void close() {
