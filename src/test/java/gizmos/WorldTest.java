@@ -1,4 +1,4 @@
-package com.edenrump.test;
+package gizmos;
 
 /**
  * Very simple application to test the rendering in the lwjgl engine

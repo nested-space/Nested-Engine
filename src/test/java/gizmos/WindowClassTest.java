@@ -1,4 +1,4 @@
-package com.edenrump.test;
+package gizmos;
 
 import com.edenrump.graphic.data.VertexArrayObject;
 import com.edenrump.graphic.render.renderers.EntityRenderer;

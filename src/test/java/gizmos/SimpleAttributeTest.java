@@ -1,4 +1,4 @@
-package com.edenrump.test;
+package gizmos;
 
 import com.edenrump.graphic.data.VertexBufferObject;
 import com.edenrump.math.util.DataUtils;
@@ -42,13 +42,13 @@ public class SimpleAttributeTest {
     private static Runnable gameLoop() {
 
         return () -> {
-            window = new Window(0.5, 0.5, "Attribute Test", Color.LIGHT_GRAY);
+            window = new Window(0.5, 0.5, "Attribute Test", Color.YELLOW);
             window.create(false);
             window.show();
 
             gameTime = Time.getInstance();
 
-            GUI = VAOEasyLoader.loadTexturedMesh(positions, indices, textureCoords, "res/textures/noise.png");
+            GUI = VAOEasyLoader.loadTexturedMesh(positions, indices, textureCoords, "res/textures/256_256_4-bit-noise.png");
 
             Renderer renderer = new Renderer(DefaultShaderPrograms.getDefaultTextureShader());
             renderer.addMesh(GUI);
