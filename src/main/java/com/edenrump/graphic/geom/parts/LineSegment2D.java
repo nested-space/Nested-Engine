@@ -57,13 +57,13 @@ public class LineSegment2D {
         float[] coordinates;
         if (subdivideLine) {
             //determine number of segments and initialise float array with correct size
-            float length = start.getXYDistance(end);
+            float length = start.getDistanceToOther(end);
             int numberOfCoordinates = Math.round(length / DEFAULT_SEGMENT_LENGTH) + 1;
             coordinates = new float[numberOfCoordinates * 4]; // multiply by 2 for x and y and for 2 because of cc and clockwise
 
             //break line into segments of length DEFAULT_SEGMENT_LENGTH
-            float xDist = end.x - start.x;
-            float yDist = end.y - start.y;
+            float xDist = end.getX() - start.getX();
+            float yDist = end.getY() - start.getY();
             Vector2f[] lineCentreCoordinates = new Vector2f[numberOfCoordinates];
             lineCentreCoordinates[0] = start;
             lineCentreCoordinates[lineCentreCoordinates.length - 1] = end;
@@ -82,10 +82,10 @@ public class LineSegment2D {
                 Vector2f[] pprCoords = getPerpendicularCoordinate(
                         ndv,
                         lineCentreCoordinates[i]);
-                coordinates[4*i] =      pprCoords[0].x;        //ccVec
-                coordinates[4*i+1] =    pprCoords[0].y;
-                coordinates[4*i+2] =    pprCoords[1].x;        //cVec
-                coordinates[4*i+3] =    pprCoords[1].y;
+                coordinates[4*i] =      pprCoords[0].getX();        //ccVec
+                coordinates[4*i+1] =    pprCoords[0].getY();
+                coordinates[4*i+2] =    pprCoords[1].getX();        //cVec
+                coordinates[4*i+3] =    pprCoords[1].getY();
             }
         } else {
             coordinates = new float[8];
@@ -128,8 +128,8 @@ public class LineSegment2D {
         Vector2f scaledVector = unitDirectionVector.scale(lineWidth);
 
         //create 2 vectors - one for clockwise and one for counter-clockwise coords
-        Vector2f cVec = new Vector2f(scaledVector.y, -scaledVector.x);
-        Vector2f ccVec = new Vector2f(-scaledVector.y, scaledVector.x);
+        Vector2f cVec = new Vector2f(scaledVector.getY(), -scaledVector.getX());
+        Vector2f ccVec = new Vector2f(-scaledVector.getY(), scaledVector.getX());
 
         //get coordinate rotated 90 degrees counter clockwise
         coordinates[0] = current2DCoordinate.add(ccVec);

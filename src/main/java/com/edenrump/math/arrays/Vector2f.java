@@ -28,8 +28,8 @@ import java.nio.FloatBuffer;
 
 public class Vector2f {
 
-    public float x;
-    public float y;
+    final float x;
+    final float y;
 
     /**
      * Creates a default 2-tuple vector with all values set to 0.
@@ -51,12 +51,21 @@ public class Vector2f {
     }
 
     /**
-     * Calculates the squared length of the vector.
+     * Normalizes the vector.
      *
-     * @return Squared length of this vector
+     * @return Normalized vector
      */
-    public float lengthSquared() {
-        return x * x + y * y;
+    public Vector2f normalize() {
+        return divide(length());
+    }
+
+    /**
+     * Negates this vector.
+     *
+     * @return Negated vector
+     */
+    public Vector2f negate() {
+        return scale(-1f);
     }
 
     /**
@@ -69,13 +78,12 @@ public class Vector2f {
     }
 
     /**
-     * Normalizes the vector.
+     * Calculates the squared length of the vector.
      *
-     * @return Normalized vector
+     * @return Squared length of this vector
      */
-    public Vector2f normalize() {
-        float length = length();
-        return divide(length);
+    public float lengthSquared() {
+        return x * x + y * y;
     }
 
     /**
@@ -88,15 +96,6 @@ public class Vector2f {
         float x = this.x + other.x;
         float y = this.y + other.y;
         return new Vector2f(x, y);
-    }
-
-    /**
-     * Negates this vector.
-     *
-     * @return Negated vector
-     */
-    public Vector2f negate() {
-        return scale(-1f);
     }
 
     /**
@@ -128,6 +127,7 @@ public class Vector2f {
      * @return Scalar quotient of this / scalar
      */
     public Vector2f divide(float scalar) {
+        if(scalar==0) throw new ArithmeticException("Cannot properly divide by 0");
         return scale(1f / scalar);
     }
 
@@ -158,12 +158,43 @@ public class Vector2f {
      *
      * @param buffer The buffer to store the vector data
      */
-    public void toBuffer(FloatBuffer buffer) {
+    public void storeCoordinatesInBuffer(FloatBuffer buffer) {
         buffer.put(x).put(y);
         buffer.flip();
     }
 
-    public float getXYDistance(Vector2f other) {
-        return (float) Math.sqrt((other.x - this.x) * (other.x - this.x) + (other.y - this.y) * (other.y - this.y));
+    public float getSquareDistanceToOther(Vector2f other){
+        return (other.x - this.x) * (other.x - this.x) + (other.y - this.y) * (other.y - this.y);
+    }
+
+    public float getDistanceToOther(Vector2f other) {
+        return (float) Math.sqrt(getSquareDistanceToOther(other));
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) x * 17 + (int) y * 13;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Vector2f) {
+            Vector2f other = (Vector2f) obj;
+            return x == other.getX() && y == other.getY();
+        }
+        return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return "Vector: (" + x + "," + y + ")";
     }
 }

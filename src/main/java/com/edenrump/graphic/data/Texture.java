@@ -26,6 +26,7 @@ package com.edenrump.graphic.data;
 
 import org.lwjgl.system.MemoryStack;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
@@ -94,6 +95,9 @@ public class Texture {
      * @return Texture from specified file
      */
     public static Texture loadTexture(String path) {
+        File file = new File(path);
+        if(!file.exists()) throw new IllegalArgumentException("Texture file does not exist: " + file.getAbsolutePath());
+
         ByteBuffer image;
         int width, height;
         try (MemoryStack stack = MemoryStack.stackPush()) {
@@ -106,7 +110,7 @@ public class Texture {
             stbi_set_flip_vertically_on_load(true);
             image = stbi_load(path, w, h, comp, 4);
             if (image == null) {
-                throw new RuntimeException("Failed to load a texture file!"
+                throw new RuntimeException("Failed to load a texture file: " + path
                         + System.lineSeparator() + stbi_failure_reason());
             }
 
