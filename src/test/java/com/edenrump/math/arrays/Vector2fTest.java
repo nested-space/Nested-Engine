@@ -1,10 +1,10 @@
 package com.edenrump.math.arrays;
 
 import org.lwjgl.system.MemoryStack;
-import java.nio.FloatBuffer;
-
-import org.testng.annotations.Test;
 import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.nio.FloatBuffer;
 
 public class Vector2fTest {
 
@@ -51,20 +51,24 @@ public class Vector2fTest {
 
         Vector2f neg_neg_Added = neg_neg.add(other);
         Assert.assertEquals(neg_neg_Added, new Vector2f(22.244f, -922.11f));
+
+        Assert.assertEquals(one, one.add(null));
     }
 
     @Test
     public void subtractionTest() {
         Vector2f other = new Vector2f(45, 77.89f);
 
-        Vector2f simpleAdded = one.subtract(other);
-        Assert.assertEquals(simpleAdded, new Vector2f(-44, -76.89f));
+        Vector2f simpleSubtracted = one.subtract(other);
+        Assert.assertEquals(simpleSubtracted, new Vector2f(-44, -76.89f));
 
-        Vector2f pos_neg_Added = pos_neg.subtract(other);
-        Assert.assertEquals(pos_neg_Added, new Vector2f(78, -502.89f));
+        Vector2f pos_neg_Subtracted = pos_neg.subtract(other);
+        Assert.assertEquals(pos_neg_Subtracted, new Vector2f(78, -502.89f));
 
-        Vector2f neg_neg_Added = neg_neg.subtract(other);
-        Assert.assertEquals(neg_neg_Added, new Vector2f(-67.756f, -1077.89f));
+        Vector2f neg_neg_Subtracted = neg_neg.subtract(other);
+        Assert.assertEquals(neg_neg_Subtracted, new Vector2f(-67.756f, -1077.89f));
+
+        Assert.assertEquals(one, one.subtract(null));
     }
 
     @Test
@@ -77,6 +81,9 @@ public class Vector2fTest {
 
         Vector2f neg_neg_scaled = neg_neg.scale(42.73f);
         Assert.assertEquals(neg_neg_scaled, new Vector2f(-972.36388f, -42730));
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> one.scale(Float.POSITIVE_INFINITY));
+        Assert.assertThrows(IllegalArgumentException.class, () -> one.scale(Float.NEGATIVE_INFINITY));
     }
 
     @Test
@@ -84,21 +91,29 @@ public class Vector2fTest {
         Assert.assertEquals(one.divide(2), new Vector2f(0.5f, 0.5f));
         Assert.assertEquals(pos_neg.divide(2), new Vector2f(61.5f, -212.5f));
         Assert.assertEquals(neg_neg.divide(0.00004f), new Vector2f(-568900, -25000000f));
+
         Assert.assertThrows(ArithmeticException.class, () -> one.divide(0));
     }
 
     @Test
     public void storeCoordinatesInBufferTest() {
-        FloatBuffer manual;
-        FloatBuffer test;
-        try(MemoryStack stack = MemoryStack.stackPush()){
-            manual = stack.mallocFloat(2);
-            test = stack.mallocFloat(2);
-            manual.put(1).put(1);
-            manual.flip();
+        FloatBuffer manuallyCalculatedFloatBuffer;
+        FloatBuffer testFloatBuffer;
+        FloatBuffer tooFewDimensions;
+
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            manuallyCalculatedFloatBuffer = stack.mallocFloat(2);
+            testFloatBuffer = stack.mallocFloat(2);
+            tooFewDimensions = stack.mallocFloat(1);
+
+            manuallyCalculatedFloatBuffer.put(1).put(1);
+            manuallyCalculatedFloatBuffer.flip();
         }
-        one.storeCoordinatesInBuffer(test);
-        Assert.assertEquals(test, manual);
+        one.storeCoordinatesInBuffer(testFloatBuffer);
+        Assert.assertEquals(testFloatBuffer, manuallyCalculatedFloatBuffer);
+
+        Assert.assertThrows(IllegalArgumentException.class, () -> one.storeCoordinatesInBuffer(null));
+        Assert.assertThrows(IllegalArgumentException.class, () -> one.storeCoordinatesInBuffer(tooFewDimensions));
     }
 
     @Test
@@ -117,6 +132,9 @@ public class Vector2fTest {
     public void lerpTest() {
         Vector2f two = new Vector2f(2, 2);
         Assert.assertEquals(new Vector2f(1.5f, 1.5f), two.lerp(one, 0.5f));
+
+        Vector2f inf = new Vector2f(Float.POSITIVE_INFINITY, 1);
+        Assert.assertThrows(IllegalArgumentException.class, () -> one.lerp(inf, 0.5f));
     }
 
 }

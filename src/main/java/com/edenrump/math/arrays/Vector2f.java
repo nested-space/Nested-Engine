@@ -93,6 +93,8 @@ public class Vector2f {
      * @return Sum of this + other
      */
     public Vector2f add(Vector2f other) {
+        if (other == null) return this;
+
         float x = this.x + other.x;
         float y = this.y + other.y;
         return new Vector2f(x, y);
@@ -105,6 +107,8 @@ public class Vector2f {
      * @return Difference of this - other
      */
     public Vector2f subtract(Vector2f other) {
+        if (other == null) return this;
+
         return this.add(other.negate());
     }
 
@@ -115,6 +119,9 @@ public class Vector2f {
      * @return Scalar product of this * scalar
      */
     public Vector2f scale(float scalar) {
+        if (scalar == Float.POSITIVE_INFINITY || scalar == Float.NEGATIVE_INFINITY) throw new IllegalArgumentException(
+                "Positive and negative infinity values cannot and should not be realistically handled with this program");
+
         float x = this.x * scalar;
         float y = this.y * scalar;
         return new Vector2f(x, y);
@@ -150,6 +157,9 @@ public class Vector2f {
      * @return Linear interpolated vector
      */
     public Vector2f lerp(Vector2f other, float alpha) {
+        if (Math.max(this.getX(), other.getX()) == Float.POSITIVE_INFINITY ||
+                Math.min(this.getX(), other.getX()) == Float.NEGATIVE_INFINITY) throw new IllegalArgumentException(
+                "Cannot interpolate half way to infinity");
         return this.scale(1f - alpha).add(other.scale(alpha));
     }
 
@@ -159,6 +169,10 @@ public class Vector2f {
      * @param buffer The buffer to store the vector data
      */
     public void storeCoordinatesInBuffer(FloatBuffer buffer) {
+        if (buffer == null)
+            throw new IllegalArgumentException("Buffer storage not possible when buffer is null. Aborting.");
+        if (buffer.capacity() - buffer.position() < 2)
+            throw new IllegalArgumentException("Buffer does not have sufficient space for this operation. Aborted.");
         buffer.put(x).put(y);
         buffer.flip();
     }

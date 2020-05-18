@@ -32,6 +32,7 @@ public class SimpleAttributeTest {
             1, 1,    //V2
             1, 0     //V3
     };
+    static Mesh GUI;
     private static Window window;
     private static Time gameTime;
 
@@ -68,8 +69,6 @@ public class SimpleAttributeTest {
             window.terminate();
         };
     }
-
-    static Mesh GUI;
 
     private static void updateGUI(){
         float heightFraction = 0.2f;
