@@ -30,6 +30,7 @@
     </build>
     <dependencies>
         <dependency>
+            <!--LWJGL-->
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
             <version>${lwjgl.version}</version>
@@ -94,6 +95,15 @@
             <artifactId>lwjgl-stb</artifactId>
             <version>${lwjgl.version}</version>
             <classifier>${lwjgl.natives}</classifier>
+        </dependency>
+
+        <!--TestNG-->
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.1.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
