@@ -39,7 +39,6 @@ import static org.lwjgl.opengl.GL30.glBindFragDataLocation;
 public class ShaderProgram {
 
     private Map<String, Integer> uniformNameLocationMap = new HashMap<>();
-
     public static ShaderProgram simpleTextureShaderProgram() {
         //files required for this shader
         final String VERTEX_FILE_LOCATION = "res/shaderCode/flat_texture.vert";
@@ -103,16 +102,6 @@ public class ShaderProgram {
         for (Shader shader : shaders) {
             attachShader(shader);
         }
-    }
-
-    /**
-     * Binds the fragment out color variable.
-     *
-     * @param number Color number you want to bind
-     * @param name   Variable name
-     */
-    public void bindFragmentDataLocation(int number, CharSequence name) {
-        glBindFragDataLocation(id, number, name);
     }
 
     /**

@@ -25,7 +25,7 @@ public class VolumeRenderManager {
     /**
      * Map to store the supported mesh types and the renderers used to render them
      */
-    private Map<Integer, Renderer> meshTypeRendererMap;
+    private Map<Integer, FlatRenderer> meshTypeRendererMap;
 
     /**
      * Constructor initialises default renderers.
@@ -39,7 +39,7 @@ public class VolumeRenderManager {
      * Method to set up the textured mesh renderer with the required parameters
      */
     private void inflateDefaultRenderers() {
-        meshTypeRendererMap.put(RIGID_TEXTURED_MESH, new Renderer(ShaderProgram.simpleTextureShaderProgram()));
+        meshTypeRendererMap.put(RIGID_TEXTURED_MESH, new FlatRenderer(ShaderProgram.simpleTextureShaderProgram()));
     }
 
     /**

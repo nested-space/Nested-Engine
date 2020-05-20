@@ -1,6 +1,5 @@
 package com.edenrump.graphic.openGL_gpu;
 
-import static com.edenrump.graphic.mesh.MeshVariables.*;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL20.*;
 
@@ -8,6 +7,25 @@ import static org.lwjgl.opengl.GL20.*;
  * This class represents an attribute in OpenGL
  */
 public class Attribute {
+
+    public static final int INDEX_VERTEX_SIZE = 0x1;
+    public static final int FLAT_COORDS_VERTEX_SIZE = 0x2;
+    public static final int VOLUME_COORDS_VERTEX_SIZE = 0x3;
+
+    public static final String POSITIONS_ATTRIB_NAME = "positions";
+    public static final String TEXTURE_COORDS_ATTRIB_NAME = "textureCoordinates";
+    public static final String COLOURS_ATTRIB_NAME = "colours";
+
+    public static final int POSITION_COORDINATE_ATTRIB = 0x0;
+    public static final int NORMALS_ATTRIB = 0x1;
+    public static final int TEXTURE_COORDS_ATTRIB = 0x2;
+    public static final int COLOURS_ATTRIB = 0x2;
+
+    public static final int RAW_COORDINATES = 0x10;
+    public static final int UNTEXTURED_MESH = 0x11;
+    public static final int TEXTURED_MESH = 0x12;
+    public static final int COLOURED_MESH = 0x13;
+
 
     /**
      * The attribute location.
@@ -33,6 +51,7 @@ public class Attribute {
      * Parameter representing the size of the attribute
      */
     private int size;
+    private int vboID;
 
     /**
      * Constructor allowing full set up of attribute for further use
@@ -43,12 +62,13 @@ public class Attribute {
      * @param stride   the stride between attribute values in GPU memory
      * @param offset   the gap between the start of the VBO and the start of the attribute in GPU memory
      */
-    private Attribute(int location, String name, int size, int stride, int offset) {
+    private Attribute(int location, String name, int size, int stride, int offset, int vboID) {
         this.location = location;
         this.name = name;
         this.size = size;
         this.stride = stride;
         this.offset = offset;
+        this.vboID = vboID;
         pointVertexAttribute();
     }
 
@@ -56,22 +76,36 @@ public class Attribute {
      * Method to get type-safe attribute for referencing a standard location and
      * name for vertex positions
      */
-    public static Attribute getDefaultPositionsAttribute() {
+    public static Attribute getDefault3DPositionsAttribute(int vboID) {
         return new Attribute(
                 POSITION_COORDINATE_ATTRIB,
                 POSITIONS_ATTRIB_NAME,
-                3, 0, 0);
+                3, 0, 0,
+                vboID);
+    }
+
+    /**
+     * Method to get type-safe attribute for referencing a standard location and
+     * name for vertex positions
+     */
+    public static Attribute getDefault2DPositionsAttribute(int vboID) {
+        return new Attribute(
+                POSITION_COORDINATE_ATTRIB,
+                POSITIONS_ATTRIB_NAME,
+                2, 0, 0,
+                vboID);
     }
 
     /**
      * Method to get type-safe attribute for referencing a standard location and
      * name for vertex texture coords
      */
-    public static Attribute getDefaultTextureCoordsAttribute() {
+    public static Attribute getDefaultTextureCoordsAttribute(int vboID) {
         return new Attribute(
                 TEXTURE_COORDS_ATTRIB,
                 TEXTURE_COORDS_ATTRIB_NAME,
-                2, 0, 0);
+                2, 0, 0,
+                vboID);
     }
 
     public String getName() {
@@ -141,6 +175,10 @@ public class Attribute {
      */
     public int getLocation() {
         return location;
+    }
+
+    public int getVBOId(){
+        return vboID;
     }
 
     /**

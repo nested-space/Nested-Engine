@@ -4,34 +4,29 @@ import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.math.util.DataUtils;
 import com.edenrump.graphic.mesh.Mesh;
-import com.edenrump.graphic.render.Renderer;
+import com.edenrump.graphic.render.FlatRenderer;
 import com.edenrump.graphic.time.Time;
 import com.edenrump.graphic.mesh.MeshUtils;
 import com.edenrump.graphic.viewport.Window;
 
 import java.awt.*;
 
-import static com.edenrump.graphic.mesh.MeshVariables.POSITIONS_ATTRIB_NAME;
+import static com.edenrump.graphic.openGL_gpu.Attribute.POSITIONS_ATTRIB_NAME;
 import static org.lwjgl.opengl.GL20.*;
 
 public class SimpleAttributeTest {
 
     static float[] positions = {
-            -0.5f, 0.5f, 0f,//v0
-            -0.5f, -0.5f, 0f,//v1
-            0.5f, -0.5f, 0f,//v2
-            0.5f, 0.5f, 0f,//v3
+            -0.5f, 0.5f,//v0
+            -0.5f, -0.5f,//v1
+            0.5f, -0.5f,//v2
+            0.5f, 0.5f,//v3
     };
     static int[] indices = {
             0, 1, 3,//top left triangle (v0, v1, v3)
             3, 1, 2//bottom right triangle (v3, v1, v2)
     };
-    static float[] textureCoords = {
-            0, 0,    //V0
-            0, 1,    //V1
-            1, 1,    //V2
-            1, 0     //V3
-    };
+
     static Mesh GUI;
     private static Window window;
     private static Time gameTime;
@@ -49,10 +44,10 @@ public class SimpleAttributeTest {
 
             gameTime = Time.getInstance();
 
-            GUI = MeshUtils.loadTexturedMesh(positions, indices, textureCoords, "res/textures/256_256_4-bit-noise.png");
+            GUI = MeshUtils.loadTexturedMesh2D(positions, indices, "res/textures/256_256_4-bit-noise.png");
 
-            Renderer renderer = new Renderer(ShaderProgram.simpleTextureShaderProgram());
-            renderer.addMesh(GUI);
+            FlatRenderer flatRenderer = new FlatRenderer(ShaderProgram.simpleTextureShaderProgram());
+            flatRenderer.addMesh(GUI);
 
             while (!window.isCloseRequested()) {
                 gameTime.updateTime();
@@ -61,11 +56,12 @@ public class SimpleAttributeTest {
 
                 window.prepareForRender();
 
-                renderer.render();
+                flatRenderer.render();
 
                 window.transferBuffersAfterRender();
             }
 
+            flatRenderer.cleanUp();
             window.terminate();
         };
     }
@@ -74,14 +70,14 @@ public class SimpleAttributeTest {
         float heightFraction = 0.2f;
         float widthFraction = heightFraction / 2 * window.getAspectRatio();
         float[] positions = {
-                -widthFraction, heightFraction, 0f,//v0
-                -widthFraction, -heightFraction, 0f,//v1
-                widthFraction, -heightFraction, 0f,//v2
-                widthFraction, heightFraction, 0f,//v3
+                -widthFraction, heightFraction,//v0
+                -widthFraction, -heightFraction,//v1
+                widthFraction, -heightFraction,//v2
+                widthFraction, heightFraction,//v3
         };
 
-        VertexBufferObject positionVBO = GUI.getAttachedBuffer(POSITIONS_ATTRIB_NAME);
-        positionVBO.bind(GL_ARRAY_BUFFER);
-        positionVBO.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
+        int positionVBO = GUI.getAttribute(POSITIONS_ATTRIB_NAME).getVBOId();
+        VertexBufferObject.bind(positionVBO, GL_ARRAY_BUFFER);
+        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
     }
 }

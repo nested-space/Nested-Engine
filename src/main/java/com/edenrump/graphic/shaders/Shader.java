@@ -51,9 +51,7 @@ public class Shader {
     }
 
     /**
-     * Creates a shader with specified type and source and compiles it. The type
-     * in the tutorial should be either <code>GL_VERTEX_SHADER</code> or
-     * <code>GL_FRAGMENT_SHADER</code>.
+     * Creates a shader with specified type and source and compiles it.
      *
      * @param type   Type of the shader
      * @param source Source of the shader

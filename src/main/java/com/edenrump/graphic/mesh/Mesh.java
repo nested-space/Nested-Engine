@@ -32,9 +32,7 @@ import com.edenrump.graphic.openGL_gpu.VertexArrayObject;
 import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
@@ -42,14 +40,12 @@ import static org.lwjgl.opengl.GL13.glActiveTexture;
 /**
  * This class represents how a mesh should be created and stored in the application
  */
-public class Mesh {
+public class Mesh implements Drawable {
 
     /**
      * A vertex array object, representing the handle OpenGL uses for this entity.
      */
     private final VertexArrayObject vao;
-
-    private final Map<Attribute, VertexBufferObject> attributeVertexBufferObjectMap = new HashMap<>();
 
     private final List<Attribute> attributes = new ArrayList<>();
 
@@ -64,10 +60,11 @@ public class Mesh {
      */
     private boolean isTextured;
 
-    /**
-     *
-     */
-    public Mesh() {
+    private int vertexCount;
+    private int glDrawType;
+
+    public Mesh(int vertexCount) {
+        this.vertexCount = vertexCount;
         vao = new VertexArrayObject();
     }
 
@@ -82,37 +79,34 @@ public class Mesh {
 
     /**
      * Method to link an attribute to this mesh
+     *
      * @param attribute attribute to link to this mesh
      */
-    public void addAttriute(Attribute attribute, VertexBufferObject attachedBuffer){
+    @Override
+    public void associateAttribute(Attribute attribute) {
         attributes.add(attribute);
-        attributeVertexBufferObjectMap.put(attribute, attachedBuffer);
     }
 
-    /**
-     * Method to remove an attribute from this mesh
-     * @param attribute attribute to remove from this mesh
-     */
-    public void removeAttribute(Attribute attribute){
-        attributes.remove(attribute);
-        attributeVertexBufferObjectMap.remove(attribute);
+    @Override
+    public int getVAO_ID() {
+        return getVao().getID();
     }
 
-    public VertexBufferObject getAttachedBuffer(Attribute attribute){
-        return attributeVertexBufferObjectMap.get(attribute);
+    @Override
+    public void bindVAO() {
+        getVao().bind();
     }
 
-    public VertexBufferObject getAttachedBuffer(String attributeName){
-        for(Map.Entry<Attribute, VertexBufferObject> entry : attributeVertexBufferObjectMap.entrySet()){
-            if(entry.getKey().getName().equals(attributeName)){
-                return entry.getValue();
-            }
+    public Attribute getAttribute(String attributeName) {
+        for (Attribute attribute : attributes) {
+            if(attribute.getName().equals(attributeName)) return attribute;
         }
         return null;
     }
 
     /**
      * Method to get whether mesh is textured or not
+     *
      * @return isTextured
      */
     public boolean isTextured() {
@@ -147,6 +141,7 @@ public class Mesh {
     /**
      * Method to enable all attributes linked to this mesh
      */
+    @Override
     public void enableAttributes() {
         for(Attribute attribute : attributes){
             attribute.enableVertexAttribute();
@@ -162,10 +157,30 @@ public class Mesh {
     /**
      * Method to disable all attributes linked to this mesh
      */
-    public void disableAttributes(){
-        for(Attribute attribute : attributes){
+    @Override
+    public void disableAttributes() {
+        for (Attribute attribute : attributes) {
             attribute.disableVertexAttribute();
         }
     }
 
+    @Override
+    public int getVertexCount() {
+        return vertexCount;
+    }
+
+    @Override
+    public void setVertexCount(int vertexCount) {
+        this.vertexCount = vertexCount;
+    }
+
+    @Override
+    public int getDrawType() {
+        return this.glDrawType;
+    }
+
+    @Override
+    public void setDrawType(int glDrawType) {
+        this.glDrawType = glDrawType;
+    }
 }

@@ -47,32 +47,59 @@ public class MeshUtils {
      * @param textureFile   the file location of the texture to be used for this mesh
      * @return a new TextureIndexMesh created from the inputs.
      */
-    public static Mesh loadTexturedMesh(float[] positions, int[] indices, float[] textureCoords, String textureFile) {
-
-        Mesh tm = new Mesh();
-        tm.getVao().bind();
+    public static Mesh loadTexturedIndexMesh3D(float[] positions, int[] indices, float[] textureCoords, String textureFile) {
+        Mesh mesh = new Mesh(positions.length/3);
+        mesh.setDrawType(GL_TRIANGLES);
+        mesh.getVao().bind();
 
         //TODO: support VBOs in the textured index mesh
         VertexBufferObject positionVBO = new VertexBufferObject();
         positionVBO.bind(GL_ARRAY_BUFFER);
-        positionVBO.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
-        Attribute positionsAttrib = Attribute.getDefaultPositionsAttribute();
+        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
+        Attribute positionsAttrib = Attribute.getDefault3DPositionsAttribute(positionVBO.getID());
         positionsAttrib.enableVertexAttribute();
-        tm.addAttriute(positionsAttrib, positionVBO);
+        mesh.associateAttribute(positionsAttrib);
 
         VertexBufferObject indexVBO = new VertexBufferObject();
         indexVBO.bind(GL_ELEMENT_ARRAY_BUFFER);
-        indexVBO.uploadData(GL_ELEMENT_ARRAY_BUFFER, DataUtils.storeDataInBuffer(indices), GL_STATIC_DRAW);
+        VertexBufferObject.uploadData(GL_ELEMENT_ARRAY_BUFFER, DataUtils.storeDataInBuffer(indices), GL_STATIC_DRAW);
 
         VertexBufferObject textureVBO = new VertexBufferObject();
         textureVBO.bind(GL_ARRAY_BUFFER);
-        textureVBO.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(textureCoords), GL_STATIC_DRAW);
-        Attribute textureAttrib = Attribute.getDefaultTextureCoordsAttribute();
+        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(textureCoords), GL_STATIC_DRAW);
+        Attribute textureAttrib = Attribute.getDefaultTextureCoordsAttribute(textureVBO.getID());
         textureAttrib.enableVertexAttribute();
-        tm.addAttriute(textureAttrib, textureVBO);
+        mesh.associateAttribute(textureAttrib);
 
-        tm.setTexture(Texture.loadTexture(textureFile));
+        mesh.setTexture(Texture.loadTexture(textureFile));
 
-        return tm;
+        return mesh;
+    }
+
+    public static Mesh loadTexturedMesh2D(float[] positions, int[] indices, String textureFile){
+        Mesh mesh = new Mesh(indices.length);
+        mesh.setDrawType(GL_TRIANGLES);
+        mesh.getVao().bind();
+
+        VertexBufferObject positionVBO = new VertexBufferObject();
+        positionVBO.bind(GL_ARRAY_BUFFER);
+        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
+        Attribute positionsAttribute = Attribute.getDefault2DPositionsAttribute(positionVBO.getID());
+        positionsAttribute.enableVertexAttribute();
+        mesh.associateAttribute(positionsAttribute);
+
+        VertexBufferObject indexVBO = new VertexBufferObject();
+        indexVBO.bind(GL_ELEMENT_ARRAY_BUFFER);
+        VertexBufferObject.uploadData(GL_ELEMENT_ARRAY_BUFFER, DataUtils.storeDataInBuffer(indices), GL_STATIC_DRAW);
+
+        VertexBufferObject textureVBO = new VertexBufferObject();
+        textureVBO.bind(GL_ARRAY_BUFFER);
+        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(new float[]{0, 0, 0, 1, 1, 1, 1, 0}), GL_STATIC_DRAW);
+        Attribute textureAttrib = Attribute.getDefaultTextureCoordsAttribute(textureVBO.getID());
+        textureAttrib.enableVertexAttribute();
+        mesh.associateAttribute(textureAttrib);
+        mesh.setTexture(Texture.loadTexture(textureFile));
+
+        return mesh;
     }
 }

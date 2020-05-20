@@ -48,20 +48,21 @@ public class VertexBufferObject {
     }
 
     /**
-     * Binds this VertexBufferObject with specified target. The target in the tutorial should
-     * be <code>GL_ARRAY_BUFFER</code> most of the time.
-     *
+     * Binds this VertexBufferObject with specified target.
      * @param target Target to bind
      */
     public void bind(int target) {
         glBindBuffer(target, id);
     }
 
+    public static void bind(int id, int target){
+        glBindBuffer(target, id);
+    }
 
     /**
      * Binds OpenGL buffers to position 0, meaning to meaningful changes can be made by accident.
      */
-    public void unbind() {
+    public static void unbind() {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
@@ -75,7 +76,7 @@ public class VertexBufferObject {
      * @param data   Buffer with the data to upload
      * @param usage  Usage of the data
      */
-    public void uploadData(int target, FloatBuffer data, int usage) {
+    public static void uploadData(int target, FloatBuffer data, int usage) {
         glBufferData(target, data, usage);
     }
 
@@ -88,7 +89,7 @@ public class VertexBufferObject {
      * @param size   Size in bytes of the VertexBufferObject data store
      * @param usage  Usage of the data
      */
-    public void uploadData(int target, long size, int usage) {
+    public static void uploadData(int target, long size, int usage) {
         glBufferData(target, size, usage);
     }
 
@@ -101,7 +102,7 @@ public class VertexBufferObject {
      * @param offset Offset where the data should go in bytes
      * @param data   Buffer with the data to upload
      */
-    public void uploadSubData(int target, long offset, FloatBuffer data) {
+    public static void uploadSubData(int target, long offset, FloatBuffer data) {
         glBufferSubData(target, offset, data);
     }
 
@@ -114,7 +115,7 @@ public class VertexBufferObject {
      * @param offset Offset where the data should go in bytes
      * @param data   Buffer with the data to upload
      */
-    public void uploadSubData(int target, long offset, IntBuffer data) {
+    public static void uploadSubData(int target, long offset, IntBuffer data) {
         glBufferSubData(target, offset, data);
     }
 
@@ -127,7 +128,7 @@ public class VertexBufferObject {
      * @param data   Buffer with the data to upload
      * @param usage  Usage of the data
      */
-    public void uploadData(int target, IntBuffer data, int usage) {
+    public static void uploadData(int target, IntBuffer data, int usage) {
         glBufferData(target, data, usage);
     }
 
