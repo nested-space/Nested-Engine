@@ -9,7 +9,7 @@ public class SquareMatrix {
 
     public SquareMatrix(int dimensions) {
         this.dimensions = dimensions;
-        values = new float[dimensions * dimensions];
+        values = getIdentityMatrix(dimensions).getValues();
     }
 
     public SquareMatrix(float[] initialValues) {
@@ -49,6 +49,11 @@ public class SquareMatrix {
             }
         }
         return new SquareMatrix(values);
+    }
+
+    private static boolean isSquareNumber(float number) {
+        double sr = Math.sqrt(number);
+        return ((sr - Math.floor(sr)) == 0);
     }
 
     public int getDimensions() {
@@ -182,11 +187,6 @@ public class SquareMatrix {
             buffer.put(value);
         }
         buffer.flip();
-    }
-
-    private static boolean isSquareNumber(float number) {
-        double sr = Math.sqrt(number);
-        return ((sr - Math.floor(sr)) == 0);
     }
 
     @Override

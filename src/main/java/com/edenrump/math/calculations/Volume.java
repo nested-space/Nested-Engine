@@ -1,15 +1,15 @@
-package com.edenrump.math.util;
+package com.edenrump.math.calculations;
 
 import com.edenrump.math.arrays.ColumnVector;
-import com.edenrump.math.arrays.Matrix4f;
+import com.edenrump.math.arrays.SquareMatrix;
 
 /**
- * This class represents a number of utility methods that are useful to modifying or creating matrices and vectors in
+ * This class contains a number of utility methods that are useful to modifying or creating matrices and vectors in
  * 3D graphics
  *
  * @author Ed Eden-Rump
  */
-public class VolumeComputation {
+public class Volume {
 
     /**
      * Method to rotate a vector vectors about an axis by angle theta
@@ -19,7 +19,9 @@ public class VolumeComputation {
      * @param theta the angle by which to rotate the vector, in radians
      * @return the new rotated vector
      */
-    public static ColumnVector rotateVectorCC(ColumnVector vec, ColumnVector axis, double theta) {
+    public static ColumnVector rotateVectorCC(ColumnVector vec,
+                                              ColumnVector axis,
+                                              double theta) {
         checkDimensionality(vec, axis);
 
         double x, y, z;
@@ -42,7 +44,6 @@ public class VolumeComputation {
         return new ColumnVector(xPrime, yPrime, zPrime);
     }
 
-
     /**
      * Calculates the normal of the triangle made from the 3 vertices. The vertices must be specified in counter-clockwise order.
      *
@@ -51,7 +52,9 @@ public class VolumeComputation {
      * @param vertex2 xyz coordinates of third vertex of triangle
      * @return normalised normal vector for triangle
      */
-    public static ColumnVector calcNormal(ColumnVector vertex0, ColumnVector vertex1, ColumnVector vertex2) {
+    public static ColumnVector calcNormal(ColumnVector vertex0,
+                                          ColumnVector vertex1,
+                                          ColumnVector vertex2) {
         checkDimensionality(vertex0, vertex1, vertex2);
 
         ColumnVector tangentA = vertex1.subtract(vertex0);
@@ -69,25 +72,29 @@ public class VolumeComputation {
      * @param scale       the xyz scale of the object
      * @return 4D transformation matrix
      */
-    public static Matrix4f createTransformationMatrix(ColumnVector translation,
-                                                      ColumnVector rotation,
-                                                      ColumnVector scale) {
+    public static SquareMatrix createTransformationMatrix(ColumnVector translation,
+                                                          ColumnVector rotation,
+                                                          ColumnVector scale) {
         checkDimensionality(translation, rotation, scale);
 
-        Matrix4f matrix = new Matrix4f();
-        matrix.setIdentity();
+        SquareMatrix transformationMatrix = new SquareMatrix(4);
 
-        //translate matrix
-        matrix = Matrix4f.translate(translation.getValues()[0], translation.getValues()[1], translation.getValues()[2]);
+        SquareMatrix translationMatrix = HyperVolume.translate(
+                translation.getValues()[0],
+                translation.getValues()[1],
+                translation.getValues()[2]
+        );
+
+        transformationMatrix = transformationMatrix.multiply(translationMatrix);
 
         //rotate about each cartesian axis
-        matrix = matrix.multiply(Matrix4f.rotate((float) Math.toRadians(rotation.getValues()[0]), 1, 0, 0));
-        matrix = matrix.multiply(Matrix4f.rotate((float) Math.toRadians(rotation.getValues()[1]), 0, 1, 0));
-        matrix = matrix.multiply(Matrix4f.rotate((float) Math.toRadians(rotation.getValues()[2]), 0, 0, 1));
+        transformationMatrix = transformationMatrix.multiply(HyperVolume.rotate((float) Math.toRadians(rotation.getValues()[0]), 1, 0, 0));
+        transformationMatrix = transformationMatrix.multiply(HyperVolume.rotate((float) Math.toRadians(rotation.getValues()[1]), 0, 1, 0));
+        transformationMatrix = transformationMatrix.multiply(HyperVolume.rotate((float) Math.toRadians(rotation.getValues()[2]), 0, 0, 1));
 
         //scale
-        matrix = matrix.multiply(Matrix4f.scale(scale.getValues()[0], scale.getValues()[1], scale.getValues()[3]));
-        return matrix;
+        transformationMatrix = transformationMatrix.multiply(HyperVolume.scale(scale.getValues()[0], scale.getValues()[1], scale.getValues()[3]));
+        return transformationMatrix;
     }
 
     private static void checkDimensionality(ColumnVector... vectors) {

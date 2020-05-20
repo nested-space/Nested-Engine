@@ -1,9 +1,9 @@
 package com.edenrump.math.arrays;
 
-import org.lwjgl.system.MemoryStack;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import org.lwjgl.system.MemoryStack;
 import java.nio.FloatBuffer;
 
 public class SquareMatrixTest {
@@ -17,7 +17,7 @@ public class SquareMatrixTest {
         Assert.assertEquals(squareMatrix_n2_1,
                 new SquareMatrix(new ColumnVector(1, 2), new ColumnVector(3, 4)));
 
-        Assert.assertEquals(new SquareMatrix(new float[]{0, 0, 0, 0}), new SquareMatrix(2));
+        Assert.assertEquals(new SquareMatrix(new float[]{1, 0, 0, 1}), new SquareMatrix(2));
 
         Assert.assertThrows(IllegalArgumentException.class, () -> new SquareMatrix(new float[]{1, 2, 3}));
     }

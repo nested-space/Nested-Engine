@@ -1,9 +1,9 @@
-package com.edenrump.math.util;
+package com.edenrump.math.calculations;
 
-import com.edenrump.math.arrays.Matrix4f;
-import com.edenrump.math.arrays.Vector3f;
+import com.edenrump.math.arrays.ColumnVector;
+import com.edenrump.math.arrays.SquareMatrix;
 
-public class MatrixUtils {
+public class HyperVolume {
 
     /**
      * Creates a orthographic projection matrix. Similar to
@@ -17,21 +17,16 @@ public class MatrixUtils {
      * @param far    Coordinate for the far depth clipping pane
      * @return Orthographic matrix
      */
-    public static Matrix4f orthographic(float left, float right, float bottom, float top, float near, float far) {
-        Matrix4f ortho = new Matrix4f();
-
+    public static SquareMatrix orthographic(float left, float right, float bottom, float top, float near, float far) {
         float tx = -(right + left) / (right - left);
         float ty = -(top + bottom) / (top - bottom);
         float tz = -(far + near) / (far - near);
+        ColumnVector c0 = new ColumnVector(2f / (right - left), 0, 0, 0);
+        ColumnVector c1 = new ColumnVector(0, 2f / (right - left), 0, 0);
+        ColumnVector c2 = new ColumnVector(0, 0, -2f / (far - near), 0);
+        ColumnVector c3 = new ColumnVector(tx, ty, tz, 1);
 
-        ortho.m00 = 2f / (right - left);
-        ortho.m11 = 2f / (top - bottom);
-        ortho.m22 = -2f / (far - near);
-        ortho.m03 = tx;
-        ortho.m13 = ty;
-        ortho.m23 = tz;
-
-        return ortho;
+        return new SquareMatrix(c0, c1, c2, c3);
     }
 
     /**
@@ -48,24 +43,18 @@ public class MatrixUtils {
      *               positive
      * @return Perspective matrix
      */
-    public static Matrix4f frustum(float left, float right, float bottom, float top, float near, float far) {
-        Matrix4f frustum = new Matrix4f();
-
+    public static SquareMatrix frustum(float left, float right, float bottom, float top, float near, float far) {
         float a = (right + left) / (right - left);
         float b = (top + bottom) / (top - bottom);
         float c = -(far + near) / (far - near);
         float d = -(2f * far * near) / (far - near);
 
-        frustum.m00 = (2f * near) / (right - left);
-        frustum.m11 = (2f * near) / (top - bottom);
-        frustum.m02 = a;
-        frustum.m12 = b;
-        frustum.m22 = c;
-        frustum.m32 = -1f;
-        frustum.m23 = d;
-        frustum.m33 = 0f;
+        ColumnVector c0 = new ColumnVector((2f * near) / (right - left), 0, 0, 0);
+        ColumnVector c1 = new ColumnVector(0, (2f * near) / (top - bottom), 0, 0);
+        ColumnVector c2 = new ColumnVector(a, b, c, -1f);
+        ColumnVector c3 = new ColumnVector(0, 0, d, 0);
 
-        return frustum;
+        return new SquareMatrix(c0, c1, c2, c3);
     }
 
     /**
@@ -80,19 +69,13 @@ public class MatrixUtils {
      *               positive
      * @return Perspective matrix
      */
-    public static Matrix4f perspective(float fovy, float aspect, float near, float far) {
-        Matrix4f perspective = new Matrix4f();
-
+    public static SquareMatrix perspective(float fovy, float aspect, float near, float far) {
         float f = (float) (1f / Math.tan(Math.toRadians(fovy) / 2f));
-
-        perspective.m00 = f / aspect;
-        perspective.m11 = f;
-        perspective.m22 = (far + near) / (near - far);
-        perspective.m32 = -1f;
-        perspective.m23 = (2f * far * near) / (near - far);
-        perspective.m33 = 0f;
-
-        return perspective;
+        ColumnVector c0 = new ColumnVector(f/aspect, 0, 0, 0);
+        ColumnVector c1 = new ColumnVector(0, f, 0, 0);
+        ColumnVector c2 = new ColumnVector(0, 0, (far + near) / (near - far), -1f);
+        ColumnVector c3 = new ColumnVector(0, 0, (2f * far * near) / (near - far), 0f);
+        return new SquareMatrix(c0, c1, c2, c3);
     }
 
     /**
@@ -104,14 +87,12 @@ public class MatrixUtils {
      * @param z z coordinate of translation vector
      * @return Translation matrix
      */
-    public static Matrix4f translate(float x, float y, float z) {
-        Matrix4f translation = new Matrix4f();
-
-        translation.m03 = x;
-        translation.m13 = y;
-        translation.m23 = z;
-
-        return translation;
+    public static SquareMatrix translate(float x, float y, float z) {
+        return new SquareMatrix(new float[]{
+                0, 0, 0, 0,
+                0f, 0, 0, 0,
+                0, 0, 0, 0,
+                x, y, z, 0});
     }
 
     /**
@@ -124,30 +105,40 @@ public class MatrixUtils {
      * @param z     z coordinate of the rotation vector
      * @return Rotation matrix
      */
-    public static Matrix4f rotate(float angle, float x, float y, float z) {
-        Matrix4f rotation = new Matrix4f();
-
+    public static SquareMatrix rotate(float angle, float x, float y, float z) {
         float c = (float) Math.cos(Math.toRadians(angle));
         float s = (float) Math.sin(Math.toRadians(angle));
-        Vector3f vec = new Vector3f(x, y, z);
+        ColumnVector vec = new ColumnVector(x, y, z);
         if (vec.length() != 1f) {
             vec = vec.normalize();
-            x = vec.x;
-            y = vec.y;
-            z = vec.z;
+            x = vec.getValues()[0];
+            y = vec.getValues()[1];
+            z = vec.getValues()[2];
         }
 
-        rotation.m00 = x * x * (1f - c) + c;
-        rotation.m10 = y * x * (1f - c) + z * s;
-        rotation.m20 = x * z * (1f - c) - y * s;
-        rotation.m01 = x * y * (1f - c) - z * s;
-        rotation.m11 = y * y * (1f - c) + c;
-        rotation.m21 = y * z * (1f - c) + x * s;
-        rotation.m02 = x * z * (1f - c) + y * s;
-        rotation.m12 = y * z * (1f - c) - x * s;
-        rotation.m22 = z * z * (1f - c) + c;
+        ColumnVector c0 = new ColumnVector(
+                x * x * (1f - c) + c,
+                y * x * (1f - c) + z * s,
+                x * z * (1f - c) - y * s,
+                0
+        );
 
-        return rotation;
+        ColumnVector c1 = new ColumnVector(
+                x * y * (1f - c) - z * s,
+                y * y * (1f - c) + c,
+                y * z * (1f - c) + x * s,
+                0
+        );
+
+        ColumnVector c2 = new ColumnVector(
+                x * z * (1f - c) + y * s,
+                y * z * (1f - c) - x * s,
+                z * z * (1f - c) + c,
+                0
+        );
+
+        ColumnVector c3 = new ColumnVector(0, 0, 0, 0);
+        return new SquareMatrix(c0, c1, c2, c3);
     }
 
     /**
@@ -158,13 +149,20 @@ public class MatrixUtils {
      * @param z Scale factor along the z coordinate
      * @return Scaling matrix
      */
-    public static Matrix4f scale(float x, float y, float z) {
-        Matrix4f scaling = new Matrix4f();
+    public static SquareMatrix scale(float x, float y, float z) {
+        return new SquareMatrix(new float[]{
+                x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
+                0, 0, 0, 0
+        });
+    }
 
-        scaling.m00 = x;
-        scaling.m11 = y;
-        scaling.m22 = z;
-
-        return scaling;
+    public static SquareMatrix translate(ColumnVector translation) {
+        return translate(
+                translation.getValues()[0],
+                translation.getValues()[1],
+                translation.getValues()[2]
+                );
     }
 }

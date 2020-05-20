@@ -1,29 +1,26 @@
-package com.edenrump.math.property;
+package com.edenrump.observables;
 
 /**
  * This class represents an observable float
  * <p>
- * It extends the ObservableNumber class and locks the generic value parameter to Integer.
+ * It extends the ObservableNumber class and locks the generic value parameter to Float.
  *
  * @author Ed Eden-Rump
  */
+public class ObservableFloat extends ObservableNumber<Float> {
 
-public class ObservableInteger extends ObservableNumber<Integer> {
     /**
      * Parameterised constructor sets the initial value.
      *
      * @param value initial value
      */
-    public ObservableInteger(int value) {
+    public ObservableFloat(float value) {
         this.setValue(value);
     }
-
 
     /**
      * Unparameterised constructor leaves initial value as null.
      */
-    public ObservableInteger() {
+    public ObservableFloat() {
     }
-
-
 }

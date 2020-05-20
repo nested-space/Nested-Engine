@@ -1,5 +1,6 @@
 package com.edenrump.math.util;
 
+import com.edenrump.math.calculations.Unity;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -38,12 +39,12 @@ public class DataUtils {
     }
 
     public static int quantize(float original, float max, int highestLevel, boolean signed) {
-        float normalized = UnityComputation.clamp(original / max, signed ? -1 : 0, 1);
+        float normalized = Unity.clamp(original / max, signed ? -1 : 0, 1);
         return quantizeNormalized(normalized, highestLevel, signed);
     }
 
     public static byte quantizeToByte(float original, float max, boolean signed) {
-        float normalized = UnityComputation.clamp(original / max, signed ? -1 : 0, 1);
+        float normalized = Unity.clamp(original / max, signed ? -1 : 0, 1);
         return quantizeNormalizedToByte(normalized, signed);
     }
 
