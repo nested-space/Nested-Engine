@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.edenrump.graphic.data;
+package com.edenrump.graphic.openGL_gpu;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;

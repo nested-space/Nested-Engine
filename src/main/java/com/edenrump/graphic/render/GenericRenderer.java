@@ -1,4 +1,4 @@
-package com.edenrump.graphic.render.renderers;
+package com.edenrump.graphic.render;
 
 
 public interface GenericRenderer {

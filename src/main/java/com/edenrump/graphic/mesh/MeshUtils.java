@@ -24,30 +24,30 @@
  *
  */
 
-package com.edenrump.graphic.util;
+package com.edenrump.graphic.mesh;
 
-import com.edenrump.graphic.data.Attribute;
-import com.edenrump.graphic.data.Texture;
-import com.edenrump.graphic.data.VertexBufferObject;
+import com.edenrump.graphic.openGL_gpu.Attribute;
+import com.edenrump.graphic.openGL_gpu.Texture;
+import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
 import com.edenrump.math.util.DataUtils;
-import com.edenrump.graphic.mesh.Mesh;
 
 import static org.lwjgl.opengl.GL15.*;
 
 /**
  * This class provides methods for creating simple objects in OpenGL.
  */
-public class VAOEasyLoader {
+public class MeshUtils {
 
     /**
      * Method to create a simple textured indexed mesh without any complex things like multiple-scale-models or mip-mapping
-     * @param positions the positions of the vertices as a float array
-     * @param indices the indices of the vertices as an int array
+     *
+     * @param positions     the positions of the vertices as a float array
+     * @param indices       the indices of the vertices as an int array
      * @param textureCoords the texture coordinates of the mesh as a float array
-     * @param textureFile the file location of the texture to be used for this mesh
+     * @param textureFile   the file location of the texture to be used for this mesh
      * @return a new TextureIndexMesh created from the inputs.
      */
-    public static Mesh loadTexturedMesh(float[] positions, int[] indices, float[] textureCoords, String textureFile){
+    public static Mesh loadTexturedMesh(float[] positions, int[] indices, float[] textureCoords, String textureFile) {
 
         Mesh tm = new Mesh();
         tm.getVao().bind();

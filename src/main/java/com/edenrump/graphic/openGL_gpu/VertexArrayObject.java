@@ -1,4 +1,4 @@
-package com.edenrump.graphic.data;
+package com.edenrump.graphic.openGL_gpu;
 
 import static org.lwjgl.opengl.GL30.*;
 

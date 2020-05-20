@@ -46,7 +46,7 @@ public class SquareMatrixTest {
 
     @Test
     public void subtractTest() {
-        Assert.assertEquals(squareMatrix_n2_1.subtract(squareMatrix_n2_1), new SquareMatrix(2));
+        Assert.assertEquals(squareMatrix_n2_1.subtract(squareMatrix_n2_1), new SquareMatrix(new float[]{0, 0, 0, 0}));
         Assert.assertEquals(squareMatrix_n2_2.subtract(squareMatrix_n2_1), new SquareMatrix(new float[]{1, 2, 3, 4}));
         Assert.assertEquals(squareMatrix_n3_2.subtract(squareMatrix_n3_1), squareMatrix_n3_1);
     }

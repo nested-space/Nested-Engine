@@ -1,8 +1,8 @@
-package com.edenrump.graphic.render.renderers;
+package com.edenrump.graphic.render;
 
-import com.edenrump.graphic.data.Attribute;
-import com.edenrump.graphic.data.VertexArrayObject;
 import com.edenrump.graphic.mesh.Mesh;
+import com.edenrump.graphic.openGL_gpu.Attribute;
+import com.edenrump.graphic.openGL_gpu.VertexArrayObject;
 import com.edenrump.graphic.shaders.ShaderProgram;
 
 import java.util.ArrayList;

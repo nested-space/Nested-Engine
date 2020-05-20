@@ -1,4 +1,4 @@
-package com.edenrump.graphic.data;
+package com.edenrump.graphic.openGL_gpu;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;

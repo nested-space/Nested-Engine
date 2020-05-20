@@ -1,4 +1,4 @@
-package com.edenrump.graphic.data;
+package com.edenrump.graphic.openGL_gpu;
 
 import static com.edenrump.graphic.mesh.MeshVariables.*;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;

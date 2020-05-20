@@ -1,12 +1,12 @@
 package gizmos;
 
-import com.edenrump.graphic.data.VertexBufferObject;
+import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
+import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.math.util.DataUtils;
 import com.edenrump.graphic.mesh.Mesh;
-import com.edenrump.graphic.render.renderers.Renderer;
-import com.edenrump.graphic.shaders.DefaultShaderPrograms;
+import com.edenrump.graphic.render.Renderer;
 import com.edenrump.graphic.time.Time;
-import com.edenrump.graphic.util.VAOEasyLoader;
+import com.edenrump.graphic.mesh.MeshUtils;
 import com.edenrump.graphic.viewport.Window;
 
 import java.awt.*;
@@ -49,9 +49,9 @@ public class SimpleAttributeTest {
 
             gameTime = Time.getInstance();
 
-            GUI = VAOEasyLoader.loadTexturedMesh(positions, indices, textureCoords, "res/textures/256_256_4-bit-noise.png");
+            GUI = MeshUtils.loadTexturedMesh(positions, indices, textureCoords, "res/textures/256_256_4-bit-noise.png");
 
-            Renderer renderer = new Renderer(DefaultShaderPrograms.getDefaultTextureShader());
+            Renderer renderer = new Renderer(ShaderProgram.simpleTextureShaderProgram());
             renderer.addMesh(GUI);
 
             while (!window.isCloseRequested()) {

@@ -1,8 +1,6 @@
-package com.edenrump.graphic.geom.parts;
+package com.edenrump.graphic.geom;
 
 import com.edenrump.math.arrays.ColumnVector;
-
-import static com.edenrump.graphic.geom.parts.LineDefaults.*;
 
 /**
  * This class represents a line between two points.
@@ -12,6 +10,11 @@ import static com.edenrump.graphic.geom.parts.LineDefaults.*;
  * @author Ed Eden-Rump
  */
 public class LineSegment2D {
+
+    public static final float LINE_WIDTH_DEFAULT = 0.01f;
+    public static final boolean SUBDIVIDED_DEFAULT = false;
+    public static final float DEFAULT_SEGMENT_LENGTH = 0.01f;
+
 
     private boolean isSubDividedForAnimation = SUBDIVIDED_DEFAULT;
     private ColumnVector start;

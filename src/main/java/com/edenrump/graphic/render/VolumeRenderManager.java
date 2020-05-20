@@ -1,12 +1,10 @@
 package com.edenrump.graphic.render;
 
 import com.edenrump.graphic.mesh.Mesh;
-import com.edenrump.graphic.render.renderers.Renderer;
-import com.edenrump.graphic.shaders.DefaultShaderPrograms;
+import com.edenrump.graphic.shaders.ShaderProgram;
 
 import java.util.HashMap;
 import java.util.Map;
-import static com.edenrump.graphic.render.MeshTypes.RIGID_TEXTURED_MESH;
 
 /**
  * This class manages the 3-dimensional entities that should be rendered in a world.
@@ -20,6 +18,9 @@ import static com.edenrump.graphic.render.MeshTypes.RIGID_TEXTURED_MESH;
  * TODO: animated coloured mesh
  */
 public class VolumeRenderManager {
+
+    public static final int RIGID_TEXTURED_MESH = 0x1;
+    public static final int COLOUR_MESH = 0X2;
 
     /**
      * Map to store the supported mesh types and the renderers used to render them
@@ -38,7 +39,7 @@ public class VolumeRenderManager {
      * Method to set up the textured mesh renderer with the required parameters
      */
     private void inflateDefaultRenderers() {
-        meshTypeRendererMap.put(RIGID_TEXTURED_MESH, new Renderer(DefaultShaderPrograms.getDefaultTextureShader()));
+        meshTypeRendererMap.put(RIGID_TEXTURED_MESH, new Renderer(ShaderProgram.simpleTextureShaderProgram()));
     }
 
     /**

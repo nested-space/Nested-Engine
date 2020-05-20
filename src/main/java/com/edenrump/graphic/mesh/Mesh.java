@@ -26,10 +26,10 @@
 
 package com.edenrump.graphic.mesh;
 
-import com.edenrump.graphic.data.Attribute;
-import com.edenrump.graphic.data.Texture;
-import com.edenrump.graphic.data.VertexArrayObject;
-import com.edenrump.graphic.data.VertexBufferObject;
+import com.edenrump.graphic.openGL_gpu.Attribute;
+import com.edenrump.graphic.openGL_gpu.Texture;
+import com.edenrump.graphic.openGL_gpu.VertexArrayObject;
+import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 /**
  * This class represents how a mesh should be created and stored in the application
@@ -167,4 +167,5 @@ public class Mesh {
             attribute.disableVertexAttribute();
         }
     }
+
 }

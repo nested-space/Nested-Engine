@@ -7,7 +7,6 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.system.MemoryStack;
 
 import java.awt.*;
 import java.io.PrintStream;
@@ -16,7 +15,6 @@ import java.nio.IntBuffer;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.stackPush;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 /**
@@ -28,11 +26,10 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Window {
 
     private long windowID;
-
     private Time gameTime = Time.getInstance();
     private double widthProportion, heighProportion;
     private String applicationName;
-    private Color defaultBackground = Color.LIGHT_GRAY;
+    private Color defaultBackground;
 
     /**
      * Creates a GLFW display with basic settings:
@@ -82,18 +79,18 @@ public class Window {
         if (!glfwInit())
             throw new IllegalStateException("Unable to initialize GLFW");
 
-        // Get the resolution of the primary monitor
         GLFWVidMode primaryScreenResolution = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        if (primaryScreenResolution == null)
+            throw new RuntimeException("Could not calculate primary screen resolution. Program must exit");
 
         // Configure GLFW
-        glfwDefaultWindowHints(); // optional, the current window hints are already the default
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will not be resizable
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
         int width = (int) Math.round(widthProportion * primaryScreenResolution.width());
         int height = (int) Math.round(heighProportion * primaryScreenResolution.height());
 
-        // Create the window
         windowID = glfwCreateWindow(
                 width,
                 height,
@@ -102,32 +99,19 @@ public class Window {
         if (windowID == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
-        // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(windowID, (windowID, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                glfwSetWindowShouldClose(windowID, true); // We will detect this in the rendering loop
-        });
-
         glfwSetWindowSizeCallback(windowID, recalculateSize());
 
-        // Get the thread stack and push a new frame
-        try (MemoryStack stack = stackPush()) {
-            IntBuffer pWidth = stack.mallocInt(1); // int*
-            IntBuffer pHeight = stack.mallocInt(1); // int*
+        IntBuffer pWidth = BufferUtils.createIntBuffer(1);
+        IntBuffer pHeight = BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(windowID, pWidth, pHeight);
+        glfwSetWindowPos(
+                windowID,
+                (primaryScreenResolution.width() - pWidth.get(0)) / 2,
+                (primaryScreenResolution.height() - pHeight.get(0)) / 2
+        );
 
-            // Get the window size passed to glfwCreateWindow
-            glfwGetWindowSize(windowID, pWidth, pHeight);
-
-            // Center the window
-            glfwSetWindowPos(
-                    windowID,
-                    (primaryScreenResolution.width() - pWidth.get(0)) / 2,
-                    (primaryScreenResolution.height() - pHeight.get(0)) / 2
-            );
-        } // the stack frame is popped automatically
-
-        // Make the OpenGL context current
         glfwMakeContextCurrent(windowID);
+
         // Enable v-sync
         glfwSwapInterval(2);
 
@@ -141,11 +125,7 @@ public class Window {
         prepareForRender();
     }
 
-    /**
-     * Shows the window for this Window
-     */
     public void show() {
-        // Make the window visible
         glfwShowWindow(windowID);
     }
 
@@ -153,37 +133,16 @@ public class Window {
      * Closes the window for this Window and clears up callbacks.
      */
     public void terminate() {
-        // Free the window callbacks and destroy the window
         glfwFreeCallbacks(windowID);
         glfwDestroyWindow(windowID);
-
-        // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
     }
 
-    /* ****************************************************************************************************************
-     * Static Methods - Helpers and Info
-     * ****************************************************************************************************************/
-
-    /**
-     * Exposes glfwWindowShouldClose(windowID) to calling class
-     *
-     * @return glfwWindowShouldClose(windowID)
-     */
     public boolean isCloseRequested() {
         return glfwWindowShouldClose(windowID);
     }
 
-    /* ****************************************************************************************************************
-     * Window Defaults
-     * ****************************************************************************************************************/
-
-    /**
-     * Gets elapsed time since last display refresh
-     *
-     * @return difference between glfwGetTime() at last frame and current frame
-     */
     public double getFrameTimeSeconds() {
         return gameTime.getDeltaTime();
     }
@@ -204,13 +163,8 @@ public class Window {
                 0.0f);
     }
 
-    /**
-     * Clears the framebuffer and swaps back buffer to front
-     * Stores the current frame time and updates delta to time since last frame
-     * Calls pollEvents to update keyboard and mouse handling
-     */
     public void transferBuffersAfterRender() {
-        glfwSwapBuffers(windowID); // swap the color buffers
+        glfwSwapBuffers(windowID);
     }
 
     public void updateWindowTitle() {

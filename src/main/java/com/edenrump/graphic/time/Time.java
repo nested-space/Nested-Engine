@@ -27,10 +27,6 @@ public class Time {
      * This should be done every frame from the game loop.
      */
     private double delta;
-    /**
-     * The current time (or the time in milliseconds at which Time was last updated)
-     */
-    private double currentTime;
 
     private Time() {
     }
@@ -49,7 +45,10 @@ public class Time {
      * class was last updated.
      */
     public void updateTime() {
-        currentTime = glfwGetTime();
+        /**
+         * The current time (or the time in milliseconds at which Time was last updated)
+         */
+        double currentTime = glfwGetTime();
         delta = (currentTime - lastFrameTime) / 1000f;
         lastFrameTime = currentTime;
     }

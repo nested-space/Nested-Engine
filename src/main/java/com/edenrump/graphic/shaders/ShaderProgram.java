@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL30.glBindFragDataLocation;
 
 /**
@@ -38,10 +40,27 @@ public class ShaderProgram {
 
     private Map<String, Integer> uniformNameLocationMap = new HashMap<>();
 
+    public static ShaderProgram simpleTextureShaderProgram() {
+        //files required for this shader
+        final String VERTEX_FILE_LOCATION = "res/shaderCode/flat_texture.vert";
+        final String FRAGMENT_FILE_LOCATION = "res/shaderCode/flat_texture.frag";
+
+        ShaderProgram entityShaderProgram;
+        Shader v = Shader.loadShader(GL_VERTEX_SHADER, VERTEX_FILE_LOCATION);
+        Shader f = Shader.loadShader(GL_FRAGMENT_SHADER, FRAGMENT_FILE_LOCATION);
+        entityShaderProgram = new ShaderProgram();
+        entityShaderProgram.attachShaders(v, f);
+        entityShaderProgram.link();
+        v.delete();
+        f.delete();
+
+        return entityShaderProgram;
+    }
+
     /**
      * Method to add a uniform to the ShaderProgram where the location of the uniform is now known
      */
-    public void addUniform(String uniformName){
+    public void addUniform(String uniformName) {
         uniformNameLocationMap.put(uniformName, getUniformLocation(uniformName));
     }
 
