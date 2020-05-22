@@ -61,16 +61,13 @@ public class UniformBufferObject {
      * Method to update data already present in the buffer
      *
      * @param buffer data to be transferred to the GPU
-     * @param length number of bytes - get this with Float.BYTES * number of floats
+     * @param length number of bytes
      */
     public void updateData(FloatBuffer buffer, int length) {
         glBindBuffer(GL_UNIFORM_BUFFER, id);
         ByteBuffer mappedBuffer = glMapBuffer(GL_UNIFORM_BUFFER, GL_READ_WRITE, length, null);
         Objects.requireNonNull(mappedBuffer).clear();
         mappedBuffer.asFloatBuffer().put(buffer);
-//        for (int i = 0; i < length / Float.BYTES; i++) {
-//            mappedBuffer.putFloat(buffer.get(i));
-//        }
         mappedBuffer.flip();
         glUnmapBuffer(GL_UNIFORM_BUFFER);
     }
@@ -85,11 +82,7 @@ public class UniformBufferObject {
         glBindBuffer(GL_UNIFORM_BUFFER, id);
         ByteBuffer mappedBuffer = glMapBuffer(GL_UNIFORM_BUFFER, GL_READ_WRITE, length, null);
         Objects.requireNonNull(mappedBuffer).clear();
-
         mappedBuffer.asIntBuffer().put(buffer);
-//        for (int i = 0; i < length / Float.BYTES; i++) {
-//            mappedBuffer.putFloat(buffer.get(i));
-//        }
         mappedBuffer.flip();
         glUnmapBuffer(GL_UNIFORM_BUFFER);
     }
