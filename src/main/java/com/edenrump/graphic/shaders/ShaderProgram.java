@@ -39,6 +39,7 @@ import static org.lwjgl.opengl.GL30.glBindFragDataLocation;
 public class ShaderProgram {
 
     private Map<String, Integer> uniformNameLocationMap = new HashMap<>();
+
     public static ShaderProgram simpleTextureShaderProgram() {
         //files required for this shader
         final String VERTEX_FILE_LOCATION = "res/shaderCode/flat_texture.vert";
@@ -154,5 +155,9 @@ public class ShaderProgram {
      */
     public void delete() {
         glDeleteProgram(id);
+    }
+
+    public int getId(){
+        return id;
     }
 }
