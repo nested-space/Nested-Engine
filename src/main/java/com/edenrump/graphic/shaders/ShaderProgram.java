@@ -43,7 +43,6 @@ public class ShaderProgram {
      * Stores the handle of the program.
      */
     private final int id;
-    private Map<String, Integer> uniformNameLocationMap = new HashMap<>();
 
     /**
      * Creates a shader program.
@@ -54,13 +53,12 @@ public class ShaderProgram {
 
     public static ShaderProgram simpleTextureShaderProgram() {
         //files required for this shader
-        final String VERTEX_FILE_LOCATION = "res/shaderCode/flat_texture.vert";
-        final String FRAGMENT_FILE_LOCATION = "res/shaderCode/flat_texture.frag";
+        final String VERTEX_FILE_LOCATION = "src/resources/shaderCode/flat_texture.vert";
+        final String FRAGMENT_FILE_LOCATION = "src/resources/shaderCode/flat_texture.frag";
 
-        ShaderProgram entityShaderProgram;
         Shader v = Shader.loadShader(GL_VERTEX_SHADER, VERTEX_FILE_LOCATION);
         Shader f = Shader.loadShader(GL_FRAGMENT_SHADER, FRAGMENT_FILE_LOCATION);
-        entityShaderProgram = new ShaderProgram();
+        ShaderProgram entityShaderProgram = new ShaderProgram();
         entityShaderProgram.attachShaders(v, f);
         entityShaderProgram.link();
         v.delete();
@@ -76,23 +74,6 @@ public class ShaderProgram {
                 glGetUniformBlockIndex(id, blockName),
                 bufferBlockBinding);
         glUseProgram(0);
-    }
-
-    /**
-     * Method to add a uniform to the ShaderProgram where the location of the uniform is now known
-     */
-    public void addUniform(String uniformName) {
-        uniformNameLocationMap.put(uniformName, getUniformLocation(uniformName));
-    }
-
-    /**
-     * Method to add a uniform to the ShaderProgram where the uniform location is already known
-     *
-     * @param uniformName     name of the uniform
-     * @param uniformLocation location of the uniform
-     */
-    public void addUniform(String uniformName, int uniformLocation) {
-        uniformNameLocationMap.put(uniformName, uniformLocation);
     }
 
     /**
