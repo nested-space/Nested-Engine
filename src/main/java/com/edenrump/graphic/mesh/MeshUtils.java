@@ -102,4 +102,23 @@ public class MeshUtils {
 
         return mesh;
     }
+
+    public static Mesh loadMesh2D(float[] positions, int[] indices){
+        Mesh mesh = new Mesh(indices.length);
+        mesh.setDrawType(GL_TRIANGLES);
+        mesh.getVao().bind();
+
+        VertexBufferObject positionVBO = new VertexBufferObject();
+        positionVBO.bind(GL_ARRAY_BUFFER);
+        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
+        Attribute positionsAttribute = Attribute.getDefault2DPositionsAttribute(positionVBO.getID());
+        positionsAttribute.enableVertexAttribute();
+        mesh.associateAttribute(positionsAttribute);
+
+        VertexBufferObject indexVBO = new VertexBufferObject();
+        indexVBO.bind(GL_ELEMENT_ARRAY_BUFFER);
+        VertexBufferObject.uploadData(GL_ELEMENT_ARRAY_BUFFER, DataUtils.storeDataInBuffer(indices), GL_STATIC_DRAW);
+
+        return mesh;
+    }
 }
