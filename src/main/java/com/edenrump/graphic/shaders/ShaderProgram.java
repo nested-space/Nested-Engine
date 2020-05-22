@@ -30,6 +30,8 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL30.glBindFragDataLocation;
+import static org.lwjgl.opengl.GL31.glGetUniformBlockIndex;
+import static org.lwjgl.opengl.GL31.glUniformBlockBinding;
 
 /**
  * This class represents a shader program.
@@ -55,6 +57,15 @@ public class ShaderProgram {
         f.delete();
 
         return entityShaderProgram;
+    }
+
+    public void bindUniformBlock(String blockName, int bufferBlockBinding){
+        glUseProgram(id);
+        glUniformBlockBinding(
+                id,
+                glGetUniformBlockIndex(id, blockName),
+                bufferBlockBinding);
+        glUseProgram(0);
     }
 
     /**
@@ -143,7 +154,7 @@ public class ShaderProgram {
     /**
      * Checks if the program was linked successfully.
      */
-    public void checkStatus() {
+    private void checkStatus() {
         int status = glGetProgrami(id, GL_LINK_STATUS);
         if (status != GL_TRUE) {
             throw new RuntimeException(glGetProgramInfoLog(id));
