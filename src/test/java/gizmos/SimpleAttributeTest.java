@@ -44,7 +44,7 @@ public class SimpleAttributeTest {
 
             gameTime = Time.getInstance();
 
-            GUI = MeshUtils.loadTexturedMesh2D(positions, indices, "res/textures/256_256_4-bit-noise.png");
+            GUI = MeshUtils.loadTexturedMesh2D(positions, indices, "src/test/resources/textures/256_256_4-bit-noise.png");
 
             FlatRenderer flatRenderer = new FlatRenderer(ShaderProgram.simpleTextureShaderProgram());
             flatRenderer.addMesh(GUI);
@@ -55,9 +55,7 @@ public class SimpleAttributeTest {
                 updateGUI();
 
                 window.prepareForRender();
-
                 flatRenderer.render();
-
                 window.transferBuffersAfterRender();
             }
 
