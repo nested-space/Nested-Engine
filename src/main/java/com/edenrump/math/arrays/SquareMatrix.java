@@ -60,7 +60,7 @@ public class SquareMatrix {
         return dimensions;
     }
 
-    private float[] getValues() {
+    public float[] getValues() {
         return values;
     }
 
@@ -186,7 +186,6 @@ public class SquareMatrix {
         for (float value : values) {
             buffer.put(value);
         }
-        buffer.flip();
     }
 
     @Override

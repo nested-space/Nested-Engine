@@ -107,7 +107,6 @@ public class ColumnVectorTest {
             tooFewDimensions = stack.mallocFloat(1);
 
             manuallyCalculatedFloatBuffer.put(1).put(1);
-            manuallyCalculatedFloatBuffer.flip();
         }
         one.storeCoordinatesInBuffer(testFloatBuffer);
         Assert.assertEquals(testFloatBuffer, manuallyCalculatedFloatBuffer);

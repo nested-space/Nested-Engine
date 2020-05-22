@@ -165,13 +165,12 @@ public class ColumnVector {
     public void storeCoordinatesInBuffer(FloatBuffer buffer) {
         if (buffer == null)
             throw new IllegalArgumentException("Buffer storage not possible when buffer is null. Aborting.");
-        if (buffer.capacity() - buffer.position() < dimensions)
+        if (buffer.remaining() < dimensions)
             throw new IllegalArgumentException("Buffer does not have sufficient space for this operation. Aborted.");
 
         for (int i = 0; i < dimensions; i++) {
             buffer.put(values[i]);
         }
-        buffer.flip();
     }
 
     public float getSquareDistanceToOther(ColumnVector other) {

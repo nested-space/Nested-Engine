@@ -90,12 +90,10 @@ public class SquareMatrixTest {
             tooFewDimensions = stack.mallocFloat(3);
 
             n2_manuallyCalculatedFloatBuffer.put(1).put(2).put(3).put(4);
-            n2_manuallyCalculatedFloatBuffer.flip();
 
             n3_manuallyCalculatedFloatBuffer.put(1).put(2).put(3);
             n3_manuallyCalculatedFloatBuffer.put(4).put(5).put(6);
             n3_manuallyCalculatedFloatBuffer.put(7).put(8).put(9);
-            n3_manuallyCalculatedFloatBuffer.flip();
         }
         squareMatrix_n2_1.storeMatrixInBuffer(n2_testFloatBuffer);
         Assert.assertEquals(n2_testFloatBuffer, n2_manuallyCalculatedFloatBuffer);
