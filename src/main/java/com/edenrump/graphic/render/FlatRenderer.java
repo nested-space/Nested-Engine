@@ -1,7 +1,6 @@
 package com.edenrump.graphic.render;
 
 import com.edenrump.graphic.mesh.Drawable;
-import com.edenrump.graphic.openGL_gpu.VertexArrayObject;
 import com.edenrump.graphic.shaders.ShaderProgram;
 
 import java.util.ArrayList;
@@ -9,7 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.glDrawElements;
 
 /**
  * This class holds all the information required to render a mesh onto screen in OpenGL
@@ -23,15 +23,22 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class FlatRenderer implements GenericRenderer {
 
+    private final ShaderProgram shaderProgram;
+    private final Map<Integer, List<Drawable>> vaoIDMeshMap = new HashMap<>();
+
+    public FlatRenderer(ShaderProgram shaderProgram) {
+        this.shaderProgram = shaderProgram;
+    }
+
     @Override
     public void render() {
         prepare();
-        for(Integer id : vaoIDMeshMap.keySet()) {
+        for (Integer id : vaoIDMeshMap.keySet()) {
             List<Drawable> allMeshInstances = vaoIDMeshMap.get(id);
             allMeshInstances.get(0).bindVAO();
             for (Drawable currentMesh : allMeshInstances) {
                 currentMesh.enableAttributes();
-                glDrawElements(currentMesh.getDrawType(), currentMesh.getVertexCount(), GL_UNSIGNED_INT, 0 );
+                glDrawElements(currentMesh.getDrawType(), currentMesh.getVertexCount(), GL_UNSIGNED_INT, 0);
                 currentMesh.disableAttributes();
             }
             Drawable.unbind();
@@ -48,16 +55,8 @@ public class FlatRenderer implements GenericRenderer {
         shaderProgram.delete();
     }
 
-    private final ShaderProgram shaderProgram;
-
-    private final Map<Integer, List<Drawable>> vaoIDMeshMap = new HashMap<>();
-
-    public FlatRenderer(ShaderProgram shaderProgram){
-        this.shaderProgram = shaderProgram;
-    }
-
     public void addMesh(Drawable mesh) {
-        if(!vaoIDMeshMap.containsKey(mesh.getVAO_ID())){
+        if (!vaoIDMeshMap.containsKey(mesh.getVAO_ID())) {
             List<Drawable> newMeshList = new ArrayList<>();
             vaoIDMeshMap.put(
                     mesh.getVAO_ID(),

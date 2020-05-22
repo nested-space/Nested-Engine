@@ -71,7 +71,7 @@ public class HyperVolume {
      */
     public static SquareMatrix perspective(float fovy, float aspect, float near, float far) {
         float f = (float) (1f / Math.tan(Math.toRadians(fovy) / 2f));
-        ColumnVector c0 = new ColumnVector(f/aspect, 0, 0, 0);
+        ColumnVector c0 = new ColumnVector(f / aspect, 0, 0, 0);
         ColumnVector c1 = new ColumnVector(0, f, 0, 0);
         ColumnVector c2 = new ColumnVector(0, 0, (far + near) / (near - far), -1f);
         ColumnVector c3 = new ColumnVector(0, 0, (2f * far * near) / (near - far), 0f);
@@ -163,6 +163,6 @@ public class HyperVolume {
                 translation.getValues()[0],
                 translation.getValues()[1],
                 translation.getValues()[2]
-                );
+        );
     }
 }

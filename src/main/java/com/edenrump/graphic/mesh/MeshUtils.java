@@ -48,7 +48,7 @@ public class MeshUtils {
      * @return a new TextureIndexMesh created from the inputs.
      */
     public static Mesh loadTexturedIndexMesh3D(float[] positions, int[] indices, float[] textureCoords, String textureFile) {
-        Mesh mesh = new Mesh(positions.length/3);
+        Mesh mesh = new Mesh(positions.length / 3);
         mesh.setDrawType(GL_TRIANGLES);
         mesh.getVao().bind();
 
@@ -76,7 +76,7 @@ public class MeshUtils {
         return mesh;
     }
 
-    public static Mesh loadTexturedMesh2D(float[] positions, int[] indices, String textureFile){
+    public static Mesh loadTexturedMesh2D(float[] positions, int[] indices, String textureFile) {
         Mesh mesh = new Mesh(indices.length);
         mesh.setDrawType(GL_TRIANGLES);
         mesh.getVao().bind();
@@ -103,7 +103,7 @@ public class MeshUtils {
         return mesh;
     }
 
-    public static Mesh loadMesh2D(float[] positions, int[] indices){
+    public static Mesh loadMesh2D(float[] positions, int[] indices) {
         Mesh mesh = new Mesh(indices.length);
         mesh.setDrawType(GL_TRIANGLES);
         mesh.getVao().bind();

@@ -1,9 +1,9 @@
 package com.edenrump.math.arrays;
 
+import org.lwjgl.system.MemoryStack;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import org.lwjgl.system.MemoryStack;
 import java.nio.FloatBuffer;
 
 public class SquareMatrixTest {
@@ -23,7 +23,7 @@ public class SquareMatrixTest {
     }
 
     @Test
-    public void identityTest(){
+    public void identityTest() {
         Assert.assertEquals(SquareMatrix.getIdentityMatrix(2), new SquareMatrix(new float[]{1, 0, 0, 1}));
         Assert.assertEquals(SquareMatrix.getIdentityMatrix(3), new SquareMatrix(new float[]{1, 0, 0, 0, 1, 0, 0, 0, 1}));
     }

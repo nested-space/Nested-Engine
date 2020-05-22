@@ -1,6 +1,5 @@
 package com.edenrump.graphic.math;
 
-import com.edenrump.math.arrays.ColumnVector;
 import org.lwjgl.system.MemoryStack;
 import org.testng.Assert;
 import org.testng.annotations.Test;

@@ -29,7 +29,6 @@ import java.util.Map;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
-import static org.lwjgl.opengl.GL30.glBindFragDataLocation;
 import static org.lwjgl.opengl.GL31.glGetUniformBlockIndex;
 import static org.lwjgl.opengl.GL31.glUniformBlockBinding;
 
@@ -40,7 +39,18 @@ import static org.lwjgl.opengl.GL31.glUniformBlockBinding;
  */
 public class ShaderProgram {
 
+    /**
+     * Stores the handle of the program.
+     */
+    private final int id;
     private Map<String, Integer> uniformNameLocationMap = new HashMap<>();
+
+    /**
+     * Creates a shader program.
+     */
+    public ShaderProgram() {
+        id = glCreateProgram();
+    }
 
     public static ShaderProgram simpleTextureShaderProgram() {
         //files required for this shader
@@ -59,7 +69,7 @@ public class ShaderProgram {
         return entityShaderProgram;
     }
 
-    public void bindUniformBlock(String blockName, int bufferBlockBinding){
+    public void bindUniformBlock(String blockName, int bufferBlockBinding) {
         glUseProgram(id);
         glUniformBlockBinding(
                 id,
@@ -77,23 +87,12 @@ public class ShaderProgram {
 
     /**
      * Method to add a uniform to the ShaderProgram where the uniform location is already known
-     * @param uniformName name of the uniform
+     *
+     * @param uniformName     name of the uniform
      * @param uniformLocation location of the uniform
      */
-    public void addUniform(String uniformName, int uniformLocation){
+    public void addUniform(String uniformName, int uniformLocation) {
         uniformNameLocationMap.put(uniformName, uniformLocation);
-    }
-
-    /**
-     * Stores the handle of the program.
-     */
-    private final int id;
-
-    /**
-     * Creates a shader program.
-     */
-    public ShaderProgram() {
-        id = glCreateProgram();
     }
 
     /**
@@ -168,7 +167,7 @@ public class ShaderProgram {
         glDeleteProgram(id);
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 }

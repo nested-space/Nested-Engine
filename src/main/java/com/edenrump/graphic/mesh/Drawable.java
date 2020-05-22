@@ -6,15 +6,15 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public interface Drawable {
 
+    static void unbind() {
+        glBindVertexArray(0);
+    }
+
     void associateAttribute(Attribute attribute);
 
     int getVAO_ID();
 
     void bindVAO();
-
-    static void unbind(){
-        glBindVertexArray(0);
-    };
 
     void enableAttributes();
 

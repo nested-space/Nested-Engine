@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL31.GL_UNIFORM_BUFFER;
 
 public class UniformBufferObject extends UniformBuffer {
 
-    public UniformBufferObject(){
+    public UniformBufferObject() {
         super();
     }
 
@@ -23,6 +23,5 @@ public class UniformBufferObject extends UniformBuffer {
     public void unbind() {
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
-
 
 }

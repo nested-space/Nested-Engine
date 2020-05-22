@@ -177,7 +177,7 @@ public class Attribute {
         return location;
     }
 
-    public int getVBOId(){
+    public int getVBOId() {
         return vboID;
     }
 

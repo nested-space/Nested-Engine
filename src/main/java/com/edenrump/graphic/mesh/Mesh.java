@@ -29,7 +29,6 @@ package com.edenrump.graphic.mesh;
 import com.edenrump.graphic.openGL_gpu.Attribute;
 import com.edenrump.graphic.openGL_gpu.Texture;
 import com.edenrump.graphic.openGL_gpu.VertexArrayObject;
-import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +98,7 @@ public class Mesh implements Drawable {
 
     public Attribute getAttribute(String attributeName) {
         for (Attribute attribute : attributes) {
-            if(attribute.getName().equals(attributeName)) return attribute;
+            if (attribute.getName().equals(attributeName)) return attribute;
         }
         return null;
     }
@@ -115,6 +114,7 @@ public class Mesh implements Drawable {
 
     /**
      * Method to set whether mesh is textured or not
+     *
      * @param textured whether mesh is textured or not
      */
     public void setTextured(boolean textured) {
@@ -123,6 +123,7 @@ public class Mesh implements Drawable {
 
     /**
      * Method to get the texture of this texturedIndexMesh
+     *
      * @return the texture
      */
     public Texture getTexture() {
@@ -131,6 +132,7 @@ public class Mesh implements Drawable {
 
     /**
      * Method to set the texture of the this mesh
+     *
      * @param texture the texture to be used to model this mesh
      */
     public void setTexture(Texture texture) {
@@ -143,11 +145,11 @@ public class Mesh implements Drawable {
      */
     @Override
     public void enableAttributes() {
-        for(Attribute attribute : attributes){
+        for (Attribute attribute : attributes) {
             attribute.enableVertexAttribute();
         }
 
-        if(isTextured){
+        if (isTextured) {
             glActiveTexture(GL_TEXTURE);
             glBindTexture(GL_TEXTURE_2D, getTexture().getId());
         }

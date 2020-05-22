@@ -6,14 +6,13 @@ import java.nio.IntBuffer;
 import java.util.Objects;
 
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL15.glUnmapBuffer;
 import static org.lwjgl.opengl.GL31.GL_UNIFORM_BUFFER;
 
 public abstract class UniformBuffer {
 
     private int id;
 
-    UniformBuffer(){
+    UniformBuffer() {
         id = glGenBuffers();
     }
 

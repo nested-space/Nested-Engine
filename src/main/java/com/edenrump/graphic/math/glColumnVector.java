@@ -17,7 +17,7 @@ public class glColumnVector extends ColumnVector implements Std140Compatible {
         }
     }
 
-    public glColumnVector(float... values){
+    public glColumnVector(float... values) {
         super(values);
         if (values.length < 2 || values.length > 4) {
             throw new IllegalArgumentException("Square matrices of " + getDimensions() + " dimensions are not compatible with" +

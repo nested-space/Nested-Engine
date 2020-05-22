@@ -29,20 +29,9 @@ public class LineSegment2D {
 
         float[] mesh = createCacheMeshLineCoordinates(isSubDividedForAnimation, start, end);
 
-        for(int i=0; i<mesh.length-1; i=i+2){
-            System.out.println("Coordinate | x: " + mesh[i] + "\t\t\ty: " + mesh[i+1]);
+        for (int i = 0; i < mesh.length - 1; i = i + 2) {
+            System.out.println("Coordinate | x: " + mesh[i] + "\t\t\ty: " + mesh[i + 1]);
         }
-    }
-
-    /**
-     * This method sets the lineWidth in OpenGL coordinates (i.e. 1 is half the width or height of the screen)
-     * <p>
-     * TODO: normalise to ensure line's aren't wider than they are long, like the screen is! (i.e. remove coordinate bias)
-     *
-     * @param lineWidth the width of the line in OpenGL coordinates
-     */
-    public void setLineWidth(float lineWidth) {
-        this.lineWidth = lineWidth;
     }
 
     /**
@@ -85,10 +74,10 @@ public class LineSegment2D {
                 ColumnVector[] pprCoords = getPerpendicularCoordinate(
                         ndv,
                         lineCentreCoordinates[i]);
-                coordinates[4*i] =      pprCoords[0].getValues()[0];        //ccVec
-                coordinates[4*i+1] =    pprCoords[0].getValues()[1];
-                coordinates[4*i+2] =    pprCoords[1].getValues()[0];        //cVec
-                coordinates[4*i+3] =    pprCoords[1].getValues()[1];
+                coordinates[4 * i] = pprCoords[0].getValues()[0];        //ccVec
+                coordinates[4 * i + 1] = pprCoords[0].getValues()[1];
+                coordinates[4 * i + 2] = pprCoords[1].getValues()[0];        //cVec
+                coordinates[4 * i + 3] = pprCoords[1].getValues()[1];
             }
         } else {
             coordinates = new float[8];
@@ -143,6 +132,7 @@ public class LineSegment2D {
 
     /**
      * Gets the start coordinate of the line segment
+     *
      * @return coordinates of line beginning
      */
     public ColumnVector getStart() {
@@ -151,6 +141,7 @@ public class LineSegment2D {
 
     /**
      * Gets the end coordinate of the line segment
+     *
      * @return coordinates of line end
      */
     public ColumnVector getEnd() {
@@ -165,6 +156,17 @@ public class LineSegment2D {
      */
     public float getLineWidth() {
         return lineWidth;
+    }
+
+    /**
+     * This method sets the lineWidth in OpenGL coordinates (i.e. 1 is half the width or height of the screen)
+     * <p>
+     * TODO: normalise to ensure line's aren't wider than they are long, like the screen is! (i.e. remove coordinate bias)
+     *
+     * @param lineWidth the width of the line in OpenGL coordinates
+     */
+    public void setLineWidth(float lineWidth) {
+        this.lineWidth = lineWidth;
     }
 
 

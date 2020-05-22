@@ -47,15 +47,7 @@ public class VertexBufferObject {
         id = glGenBuffers();
     }
 
-    /**
-     * Binds this VertexBufferObject with specified target.
-     * @param target Target to bind
-     */
-    public void bind(int target) {
-        glBindBuffer(target, id);
-    }
-
-    public static void bind(int id, int target){
+    public static void bind(int id, int target) {
         glBindBuffer(target, id);
     }
 
@@ -130,6 +122,15 @@ public class VertexBufferObject {
      */
     public static void uploadData(int target, IntBuffer data, int usage) {
         glBufferData(target, data, usage);
+    }
+
+    /**
+     * Binds this VertexBufferObject with specified target.
+     *
+     * @param target Target to bind
+     */
+    public void bind(int target) {
+        glBindBuffer(target, id);
     }
 
     /**

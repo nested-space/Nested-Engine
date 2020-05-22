@@ -6,7 +6,6 @@ import com.edenrump.graphic.math.glSquareMatrix;
 import com.edenrump.graphic.mesh.Mesh;
 import com.edenrump.graphic.mesh.MeshUtils;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
-import com.edenrump.graphic.openGL_gpu.UniformBuffer;
 import com.edenrump.graphic.render.FlatRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
@@ -17,12 +16,14 @@ import org.lwjgl.BufferUtils;
 import java.awt.*;
 import java.nio.FloatBuffer;
 
-import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 
 public class UniformBufferObjectTest {
 
+    //files required for this shader
+    final static String VERTEX_FILE_LOCATION = "src/test/resources/shaders/UniformBufferObjectTestShader.vert";
+    final static String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/UniformBufferObjectTestShader.frag";
     static float[] positions = {
             -0.5f, 0.5f,//v0
             -0.5f, -0.5f,//v1
@@ -33,11 +34,6 @@ public class UniformBufferObjectTest {
             0, 1, 3,//top left triangle (v0, v1, v3)
             3, 1, 2//bottom right triangle (v3, v1, v2)
     };
-
-    //files required for this shader
-    final static String VERTEX_FILE_LOCATION = "src/test/resources/shaders/UniformBufferObjectTestShader.vert";
-    final static String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/UniformBufferObjectTestShader.frag";
-
     static Mesh GUI;
     private static Window window;
     private static Time gameTime;

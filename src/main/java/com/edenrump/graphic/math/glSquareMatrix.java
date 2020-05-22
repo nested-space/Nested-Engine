@@ -1,13 +1,12 @@
 package com.edenrump.graphic.math;
 
-import com.edenrump.math.arrays.ColumnVector;
 import com.edenrump.math.arrays.SquareMatrix;
 
 import java.nio.FloatBuffer;
 
 public class glSquareMatrix extends SquareMatrix implements Std140Compatible {
 
-    public glSquareMatrix(int dimensions){
+    public glSquareMatrix(int dimensions) {
         super(dimensions);
         if (dimensions < 2 || dimensions > 4) {
             throw new IllegalArgumentException("Vectors of " + getDimensions() + " dimensions are not compatible with" +

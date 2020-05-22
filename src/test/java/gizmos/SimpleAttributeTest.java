@@ -1,18 +1,19 @@
 package gizmos;
 
-import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
-import com.edenrump.graphic.shaders.ShaderProgram;
-import com.edenrump.math.util.DataUtils;
 import com.edenrump.graphic.mesh.Mesh;
-import com.edenrump.graphic.render.FlatRenderer;
-import com.edenrump.graphic.time.Time;
 import com.edenrump.graphic.mesh.MeshUtils;
+import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
+import com.edenrump.graphic.render.FlatRenderer;
+import com.edenrump.graphic.shaders.ShaderProgram;
+import com.edenrump.graphic.time.Time;
 import com.edenrump.graphic.viewport.Window;
+import com.edenrump.math.util.DataUtils;
 
 import java.awt.*;
 
 import static com.edenrump.graphic.openGL_gpu.Attribute.POSITIONS_ATTRIB_NAME;
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL20.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL20.GL_STATIC_DRAW;
 
 public class SimpleAttributeTest {
 
@@ -64,7 +65,7 @@ public class SimpleAttributeTest {
         };
     }
 
-    private static void updateGUI(){
+    private static void updateGUI() {
         float heightFraction = 0.2f;
         float widthFraction = heightFraction / 2 * window.getAspectRatio();
         float[] positions = {

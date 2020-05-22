@@ -96,7 +96,8 @@ public class Texture {
      */
     public static Texture loadTexture(String path) {
         File file = new File(path);
-        if(!file.exists()) throw new IllegalArgumentException("Texture file does not exist: " + file.getAbsolutePath());
+        if (!file.exists())
+            throw new IllegalArgumentException("Texture file does not exist: " + file.getAbsolutePath());
 
         ByteBuffer image;
         int width, height;
