@@ -23,6 +23,8 @@
  */
 package com.edenrump.graphic.shaders;
 
+import com.edenrump.graphic.openGL_gpu.Uniform;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,9 +46,8 @@ public class ShaderProgram {
      */
     private final int id;
 
-    /**
-     * Creates a shader program.
-     */
+    private Map<CharSequence, Uniform> uniformLocationMap;
+
     public ShaderProgram() {
         id = glCreateProgram();
     }
@@ -76,64 +77,58 @@ public class ShaderProgram {
         glUseProgram(0);
     }
 
-    /**
-     * Attach a shader to this program.
-     *
-     * @param shader Shader to get attached
-     */
     public void attachShader(Shader shader) {
         glAttachShader(id, shader.getID());
     }
 
-    /**
-     * Attach several shaders to this program.
-     *
-     * @param shaders Array of shader to get attached
-     */
     public void attachShaders(Shader... shaders) {
         for (Shader shader : shaders) {
             attachShader(shader);
         }
     }
 
-    /**
-     * Link this program and check it's status afterwards.
-     */
     public void link() {
         glLinkProgram(id);
         checkStatus();
     }
 
-    /**
-     * Gets the location of an attribute variable with specified name.
-     *
-     * @param name Attribute name
-     * @return Location of the attribute
-     */
     public int getAttributeLocation(CharSequence name) {
         return glGetAttribLocation(id, name);
     }
 
-    /**
-     * Gets the location of an uniform variable with specified name.
-     *
-     * @param name Uniform name
-     * @return Location of the uniform
-     */
-    public int getUniformLocation(CharSequence name) {
+    public void addUniforms(String[] uniforms) {
+        if (uniformLocationMap == null) uniformLocationMap = new HashMap<>();
+
+        use();
+        for (String uniformName : uniforms) {
+            int location = glGetUniformLocation(id, uniformName);
+
+            if (location == -1)
+                throw new RuntimeException("Shader Program " + id + " does not contain uniform " + uniformName);
+
+            Uniform uniform = new Uniform(id, location, uniformName);
+            uniformLocationMap.put(uniformName, uniform);
+        }
+    }
+
+    public Uniform getUniform(CharSequence name) {
+        if (uniformLocationMap == null) uniformLocationMap = new HashMap<>();
+
+        if (uniformLocationMap.get(name) == null)
+            uniformLocationMap.put(name, new Uniform(id, getUniformLocation(name), name));
+
+        return uniformLocationMap.get(name);
+    }
+
+    private int getUniformLocation(CharSequence name){
+        use();
         return glGetUniformLocation(id, name);
     }
 
-    /**
-     * Use this shader program.
-     */
     public void use() {
         glUseProgram(id);
     }
 
-    /**
-     * Checks if the program was linked successfully.
-     */
     private void checkStatus() {
         int status = glGetProgrami(id, GL_LINK_STATUS);
         if (status != GL_TRUE) {
@@ -141,14 +136,7 @@ public class ShaderProgram {
         }
     }
 
-    /**
-     * Deletes the shader program.
-     */
     public void delete() {
         glDeleteProgram(id);
-    }
-
-    public int getId() {
-        return id;
     }
 }

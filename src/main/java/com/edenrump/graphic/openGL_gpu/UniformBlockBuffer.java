@@ -1,6 +1,9 @@
 package com.edenrump.graphic.openGL_gpu;
 
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.Objects;
 
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.glBindBufferBase;
@@ -11,13 +14,19 @@ import static org.lwjgl.opengl.GL31.GL_UNIFORM_BUFFER;
  *
  * @author Ed Eden-Rump
  */
-public class UniformBlockBuffer extends UniformBuffer {
+public class UniformBlockBuffer {
+
+    private final int id;
+
+    public int getId() {
+        return id;
+    }
 
     /**
      * Constructor creates buffer in OpenGL and saves id handle as id
      */
     public UniformBlockBuffer() {
-        super();
+        id = glGenBuffers();
     }
 
     /**
@@ -52,5 +61,65 @@ public class UniformBlockBuffer extends UniformBuffer {
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
 
+    /**
+     * Method to update data already present in the buffer
+     *
+     * @param buffer data to be transferred to the GPU
+     */
+    public void updateBuffer(FloatBuffer buffer) {
+        glBindBuffer(GL_UNIFORM_BUFFER, id);
+        ByteBuffer mappedBuffer = glMapBuffer(GL_UNIFORM_BUFFER, GL_READ_WRITE, buffer.limit() * Float.BYTES, null);
+        Objects.requireNonNull(mappedBuffer).clear();
+        mappedBuffer.asFloatBuffer().put(buffer);
+        mappedBuffer.flip();
+        glUnmapBuffer(GL_UNIFORM_BUFFER);
+    }
 
+    /**
+     * Method to update data already present in the buffer
+     *
+     * @param buffer data to be transferred to the GPU
+     */
+    public void updateBuffer(ByteBuffer buffer) {
+        glBindBuffer(GL_UNIFORM_BUFFER, id);
+        ByteBuffer mappedBuffer = glMapBuffer(GL_UNIFORM_BUFFER, GL_READ_WRITE, buffer.limit() * Float.BYTES, null);
+        Objects.requireNonNull(mappedBuffer).clear();
+        mappedBuffer.put(buffer);
+        mappedBuffer.flip();
+        glUnmapBuffer(GL_UNIFORM_BUFFER);
+    }
+
+    /**
+     * Method to update data already present in the buffer
+     *
+     * @param buffer data to be transferred to the GPU
+     */
+    public void updateBuffer(IntBuffer buffer) {
+        glBindBuffer(GL_UNIFORM_BUFFER, id);
+        ByteBuffer mappedBuffer = glMapBuffer(GL_UNIFORM_BUFFER, GL_READ_WRITE, buffer.remaining() * Integer.BYTES, null);
+        Objects.requireNonNull(mappedBuffer).clear();
+        mappedBuffer.asIntBuffer().put(buffer);
+        mappedBuffer.flip();
+        glUnmapBuffer(GL_UNIFORM_BUFFER);
+    }
+
+    /**
+     * Method to allocate data on the GPU in the buffer created at init
+     *
+     * @param bytes number of bytes to be allocated
+     */
+    public void allocate(int bytes) {
+        glBindBuffer(GL_UNIFORM_BUFFER, id);
+        glBufferData(GL_UNIFORM_BUFFER, bytes, GL_DYNAMIC_DRAW);
+    }
+
+    /**
+     * Method to add data to the allocated buffer in the form of a float array.
+     *
+     * @param buffer data to be transferred to the GPU
+     */
+    public void reallocateAndUpload(FloatBuffer buffer) {
+        glBindBuffer(GL_UNIFORM_BUFFER, id);
+        glBufferData(GL_UNIFORM_BUFFER, buffer, GL_DYNAMIC_DRAW);
+    }
 }

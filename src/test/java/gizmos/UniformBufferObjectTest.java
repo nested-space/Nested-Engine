@@ -4,7 +4,6 @@ import com.edenrump.graphic.math.Std140Compatible;
 import com.edenrump.graphic.math.glColumnVector;
 import com.edenrump.graphic.math.glSquareMatrix;
 import com.edenrump.graphic.mesh.Static_FlatMesh;
-import com.edenrump.graphic.mesh.contracts.Drawable;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
 import com.edenrump.graphic.render.FlatRenderer;
 import com.edenrump.graphic.shaders.Shader;
@@ -65,7 +64,7 @@ public class UniformBufferObjectTest {
 
             Std140Compatible mat4Padding = new glSquareMatrix(4);
             Std140Compatible vec3ColorY = new glColumnVector(0.7f, 1f, 0.4f);
-            ubo.updateData(Std140Compatible.putAllInBuffer(mat4Padding, vec3ColorY));
+            ubo.updateBuffer(Std140Compatible.putAllInBuffer(mat4Padding, vec3ColorY));
 
             rectangle = new Static_FlatMesh();
             rectangle.setPositions(positions, indices);
