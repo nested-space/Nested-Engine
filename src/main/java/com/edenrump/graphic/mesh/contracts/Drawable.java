@@ -21,6 +21,4 @@ public interface Drawable {
     int getDrawType();
 
     void setDrawType(int glDrawType);
-
-    void setPositions(float[] positions, int[] indices);
 }

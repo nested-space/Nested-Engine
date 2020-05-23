@@ -32,7 +32,7 @@ public class UniformBufferObjectTest {
             0, 1, 3,//top left triangle (v0, v1, v3)
             3, 1, 2//bottom right triangle (v3, v1, v2)
     };
-    static Drawable rectangle;
+    static Static_FlatMesh rectangle;
     private static Window window;
     private static Time gameTime;
 

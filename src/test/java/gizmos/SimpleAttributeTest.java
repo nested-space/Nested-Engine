@@ -1,6 +1,7 @@
 package gizmos;
 
 import com.edenrump.graphic.mesh.Dynamic_TexturedMesh3D;
+import com.edenrump.graphic.openGL_gpu.Texture;
 import com.edenrump.graphic.render.FlatRenderer;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
@@ -41,7 +42,7 @@ public class SimpleAttributeTest {
             String textureFile = "src/test/resources/textures/256_256_4-bit-noise.png";
             rectangle = new Dynamic_TexturedMesh3D();
             rectangle.setPositions(positions, indices);
-            rectangle.setTexture(new float[]{0, 0, 0, 1, 1, 1, 1, 0}, textureFile);
+            rectangle.setTexture(new float[]{0, 0, 0, 1, 1, 1, 1, 0}, Texture.loadTexture(textureFile));
 
             FlatRenderer flatRenderer = new FlatRenderer(ShaderProgram.simpleTextureShaderProgram());
             flatRenderer.addMesh(rectangle);
