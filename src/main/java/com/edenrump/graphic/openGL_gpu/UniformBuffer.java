@@ -29,6 +29,19 @@ public abstract class UniformBuffer {
         mappedBuffer.flip();
         glUnmapBuffer(GL_UNIFORM_BUFFER);
     }
+    /**
+     * Method to update data already present in the buffer
+     *
+     * @param buffer data to be transferred to the GPU
+     */
+    public void updateData(ByteBuffer buffer) {
+        glBindBuffer(GL_UNIFORM_BUFFER, id);
+        ByteBuffer mappedBuffer = glMapBuffer(GL_UNIFORM_BUFFER, GL_READ_WRITE, buffer.limit() * Float.BYTES, null);
+        Objects.requireNonNull(mappedBuffer).clear();
+        mappedBuffer.put(buffer);
+        mappedBuffer.flip();
+        glUnmapBuffer(GL_UNIFORM_BUFFER);
+    }
 
     /**
      * Method to update data already present in the buffer

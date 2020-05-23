@@ -66,12 +66,8 @@ public class UniformBufferObjectTest {
             uniformBufferTestShader.bindUniformBlock(uniformBlockName, bufferBlockBinding);
 
             Std140Compatible mat4Padding = new glSquareMatrix(4);
-            Std140Compatible vec3ColorY = new glColumnVector(0.7f, 0.1f, 0.1f);
-            FloatBuffer buffer = BufferUtils.createFloatBuffer(80);
-            mat4Padding.storeStd140DataInBuffer(buffer);
-            vec3ColorY.storeStd140DataInBuffer(buffer);
-            buffer.flip();
-            ubo.updateData(buffer);
+            Std140Compatible vec3ColorY = new glColumnVector(0.7f, 1f, 0.4f);
+            ubo.updateData(Std140Compatible.putAllInBuffer(mat4Padding, vec3ColorY));
 
             GUI = MeshUtils.loadMesh2D(positions, indices);
             FlatRenderer flatRenderer = new FlatRenderer(uniformBufferTestShader);
