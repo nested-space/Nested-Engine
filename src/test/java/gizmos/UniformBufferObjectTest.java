@@ -3,18 +3,16 @@ package gizmos;
 import com.edenrump.graphic.math.Std140Compatible;
 import com.edenrump.graphic.math.glColumnVector;
 import com.edenrump.graphic.math.glSquareMatrix;
-import com.edenrump.graphic.mesh.Mesh;
-import com.edenrump.graphic.mesh.MeshUtils;
+import com.edenrump.graphic.mesh.Static_FlatMesh;
+import com.edenrump.graphic.mesh.contracts.Drawable;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
 import com.edenrump.graphic.render.FlatRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
 import com.edenrump.graphic.viewport.Window;
-import org.lwjgl.BufferUtils;
 
 import java.awt.*;
-import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
@@ -34,7 +32,7 @@ public class UniformBufferObjectTest {
             0, 1, 3,//top left triangle (v0, v1, v3)
             3, 1, 2//bottom right triangle (v3, v1, v2)
     };
-    static Mesh GUI;
+    static Drawable rectangle;
     private static Window window;
     private static Time gameTime;
 
@@ -69,9 +67,11 @@ public class UniformBufferObjectTest {
             Std140Compatible vec3ColorY = new glColumnVector(0.7f, 1f, 0.4f);
             ubo.updateData(Std140Compatible.putAllInBuffer(mat4Padding, vec3ColorY));
 
-            GUI = MeshUtils.loadMesh2D(positions, indices);
+            rectangle = new Static_FlatMesh();
+            rectangle.setPositions(positions, indices);
+
             FlatRenderer flatRenderer = new FlatRenderer(uniformBufferTestShader);
-            flatRenderer.addMesh(GUI);
+            flatRenderer.addMesh(rectangle);
 
             while (!window.isCloseRequested()) {
                 gameTime.updateTime();

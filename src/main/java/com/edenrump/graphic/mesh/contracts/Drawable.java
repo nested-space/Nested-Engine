@@ -1,6 +1,4 @@
-package com.edenrump.graphic.mesh;
-
-import com.edenrump.graphic.openGL_gpu.Attribute;
+package com.edenrump.graphic.mesh.contracts;
 
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
@@ -10,8 +8,6 @@ public interface Drawable {
         glBindVertexArray(0);
     }
 
-    void associateAttribute(Attribute attribute);
-
     int getVAO_ID();
 
     void bindVAO();
@@ -20,11 +16,11 @@ public interface Drawable {
 
     void disableAttributes();
 
-    int getVertexCount();
-
-    void setVertexCount(int vertexCount);
+    int getElements();
 
     int getDrawType();
 
     void setDrawType(int glDrawType);
+
+    void setPositions(float[] positions, int[] indices);
 }

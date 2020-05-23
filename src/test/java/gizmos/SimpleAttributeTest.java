@@ -1,19 +1,12 @@
 package gizmos;
 
-import com.edenrump.graphic.mesh.Mesh;
-import com.edenrump.graphic.mesh.MeshUtils;
-import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
+import com.edenrump.graphic.mesh.Dynamic_TexturedMesh3D;
 import com.edenrump.graphic.render.FlatRenderer;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
 import com.edenrump.graphic.viewport.Window;
-import com.edenrump.math.util.DataUtils;
 
 import java.awt.*;
-
-import static com.edenrump.graphic.openGL_gpu.Attribute.POSITIONS_ATTRIB_NAME;
-import static org.lwjgl.opengl.GL20.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL20.GL_STATIC_DRAW;
 
 public class SimpleAttributeTest {
 
@@ -28,7 +21,7 @@ public class SimpleAttributeTest {
             3, 1, 2//bottom right triangle (v3, v1, v2)
     };
 
-    static Mesh GUI;
+    static Dynamic_TexturedMesh3D rectangle;
     private static Window window;
     private static Time gameTime;
 
@@ -45,10 +38,13 @@ public class SimpleAttributeTest {
 
             gameTime = Time.getInstance();
 
-            GUI = MeshUtils.loadTexturedMesh2D(positions, indices, "src/test/resources/textures/256_256_4-bit-noise.png");
+            String textureFile = "src/test/resources/textures/256_256_4-bit-noise.png";
+            rectangle = new Dynamic_TexturedMesh3D();
+            rectangle.setPositions(positions, indices);
+            rectangle.setTexture(new float[]{0, 0, 0, 1, 1, 1, 1, 0}, textureFile);
 
             FlatRenderer flatRenderer = new FlatRenderer(ShaderProgram.simpleTextureShaderProgram());
-            flatRenderer.addMesh(GUI);
+            flatRenderer.addMesh(rectangle);
 
             while (!window.isCloseRequested()) {
                 gameTime.updateTime();
@@ -75,8 +71,6 @@ public class SimpleAttributeTest {
                 widthFraction, heightFraction,//v3
         };
 
-        int positionVBO = GUI.getAttribute(POSITIONS_ATTRIB_NAME).getVBOId();
-        VertexBufferObject.bind(positionVBO, GL_ARRAY_BUFFER);
-        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
+        rectangle.updatePositions(positions);
     }
 }

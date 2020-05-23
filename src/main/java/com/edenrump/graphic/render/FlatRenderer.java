@@ -1,6 +1,6 @@
 package com.edenrump.graphic.render;
 
-import com.edenrump.graphic.mesh.Drawable;
+import com.edenrump.graphic.mesh.contracts.Drawable;
 import com.edenrump.graphic.shaders.ShaderProgram;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class FlatRenderer implements GenericRenderer {
             allMeshInstances.get(0).bindVAO();
             for (Drawable currentMesh : allMeshInstances) {
                 currentMesh.enableAttributes();
-                glDrawElements(currentMesh.getDrawType(), currentMesh.getVertexCount(), GL_UNSIGNED_INT, 0);
+                glDrawElements(currentMesh.getDrawType(), currentMesh.getElements(), GL_UNSIGNED_INT, 0);
                 currentMesh.disableAttributes();
             }
             Drawable.unbind();
