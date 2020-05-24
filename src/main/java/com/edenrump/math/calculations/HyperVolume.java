@@ -89,10 +89,10 @@ public class HyperVolume {
      */
     public static SquareMatrix translate(float x, float y, float z) {
         return new SquareMatrix(new float[]{
-                0, 0, 0, 0,
-                0f, 0, 0, 0,
-                0, 0, 0, 0,
-                x, y, z, 0});
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                x, y, z, 1});
     }
 
     /**
@@ -137,7 +137,7 @@ public class HyperVolume {
                 0
         );
 
-        ColumnVector c3 = new ColumnVector(0, 0, 0, 0);
+        ColumnVector c3 = new ColumnVector(0, 0, 0, 1);
         return new SquareMatrix(c0, c1, c2, c3);
     }
 
@@ -154,7 +154,7 @@ public class HyperVolume {
                 x, 0, 0, 0,
                 0, y, 0, 0,
                 0, 0, z, 0,
-                0, 0, 0, 0
+                0, 0, 0, 1
         });
     }
 

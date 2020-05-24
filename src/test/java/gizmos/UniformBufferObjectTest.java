@@ -3,7 +3,7 @@ package gizmos;
 import com.edenrump.graphic.math.Std140Compatible;
 import com.edenrump.graphic.math.glColumnVector;
 import com.edenrump.graphic.math.glSquareMatrix;
-import com.edenrump.graphic.mesh.Static_FlatMesh;
+import com.edenrump.graphic.mesh.Flat_StaticMesh;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
 import com.edenrump.graphic.render.FlatRenderer;
 import com.edenrump.graphic.shaders.Shader;
@@ -31,7 +31,7 @@ public class UniformBufferObjectTest {
             0, 1, 3,//top left triangle (v0, v1, v3)
             3, 1, 2//bottom right triangle (v3, v1, v2)
     };
-    static Static_FlatMesh rectangle;
+    static Flat_StaticMesh rectangle;
     private static Window window;
     private static Time gameTime;
 
@@ -66,7 +66,7 @@ public class UniformBufferObjectTest {
             Std140Compatible vec3ColorY = new glColumnVector(0.7f, 1f, 0.4f);
             ubo.updateBuffer(Std140Compatible.putAllInBuffer(mat4Padding, vec3ColorY));
 
-            rectangle = new Static_FlatMesh();
+            rectangle = new Flat_StaticMesh();
             rectangle.setPositions(positions, indices);
 
             FlatRenderer flatRenderer = new FlatRenderer(uniformBufferTestShader);

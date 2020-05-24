@@ -65,6 +65,9 @@ public class ColumnVector {
      */
     public ColumnVector add(ColumnVector other) {
         if (other == null) return this;
+        if(other.getDimensions() != this.getDimensions())
+            throw new IllegalArgumentException("Incorrect number of dimensions provided. Expected " + getDimensions() +
+                    " but got " + other.getDimensions());
 
         float[] addedValues = new float[other.dimensions];
         for (int i = 0; i < dimensions; i++) {

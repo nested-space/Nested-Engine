@@ -183,9 +183,7 @@ public class SquareMatrix {
         if (buffer.capacity() - buffer.position() < values.length)
             throw new IllegalArgumentException("Buffer does not have sufficient space for this operation. Aborted.");
 
-        for (float value : values) {
-            buffer.put(value);
-        }
+        buffer.put(values);
     }
 
     @Override

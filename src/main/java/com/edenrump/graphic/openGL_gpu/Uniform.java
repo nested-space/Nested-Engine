@@ -39,7 +39,7 @@ public class Uniform {
         return new UniformInt(shaderProgramID, location, name);
     }
 
-    UniformMatrixFloat asUniformMatrix() {
+    public UniformMatrixFloat asUniformMatrix() {
         return new UniformMatrixFloat(shaderProgramID, location, name);
     }
 }

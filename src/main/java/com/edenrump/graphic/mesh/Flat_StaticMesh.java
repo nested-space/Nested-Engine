@@ -8,7 +8,7 @@ import com.edenrump.math.util.DataUtils;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL15.*;
 
-public class Static_FlatMesh extends Mesh implements Drawable {
+public class Flat_StaticMesh extends Mesh implements Drawable {
 
     int glDrawType = GL_TRIANGLES;
 

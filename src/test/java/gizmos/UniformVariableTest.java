@@ -1,6 +1,6 @@
 package gizmos;
 
-import com.edenrump.graphic.mesh.Static_FlatMesh;
+import com.edenrump.graphic.mesh.Flat_StaticMesh;
 import com.edenrump.graphic.openGL_gpu.Uniform;
 import com.edenrump.graphic.openGL_gpu.UniformFloat;
 import com.edenrump.graphic.render.FlatRenderer;
@@ -47,7 +47,7 @@ public class UniformVariableTest {
             Uniform uf = uniformColorTestShader.getUniform("color");
             uf.asUniformFloat().update3values(1, 0.5f, 0);
 
-            Static_FlatMesh rectangle = new Static_FlatMesh();
+            Flat_StaticMesh rectangle = new Flat_StaticMesh();
             rectangle.setPositions(new float[]{
                             0.75f, 0.6f,//v0
                             -0.75f, 0.6f,//v1
@@ -59,7 +59,7 @@ public class UniformVariableTest {
                             3, 1, 2//bottom right triangle (v3, v1, v2)
                     });
 
-            Static_FlatMesh rect2 = new Static_FlatMesh();
+            Flat_StaticMesh rect2 = new Flat_StaticMesh();
             rect2.setPositions(
                     new float[]{
                             0.75f, 0f,//v0
