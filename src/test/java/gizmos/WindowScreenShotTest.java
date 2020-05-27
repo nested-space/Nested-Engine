@@ -9,19 +9,12 @@ import com.edenrump.graphic.render.GUI_StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
+import com.edenrump.graphic.viewport.Screenshot;
 import com.edenrump.graphic.viewport.Window;
-import com.edenrump.math.arrays.ColumnVector;
-import org.lwjgl.BufferUtils;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.GL11.GL_FRONT;
-import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 
@@ -91,13 +84,13 @@ public class WindowScreenShotTest {
                 int width = window.getWidth();
                 int height = window.getHeight();
                 int bpp = 4; // Assuming a 32-bit display with a byte each for red, green, blue, and alpha.
-                ByteBuffer screenData = getWindowPixelData(width, height, bpp);
-                saveScreenDataToFile(
+                ByteBuffer screenData = Screenshot.getWindowPixelData(width, height, bpp);
+                Screenshot.saveScreenDataToFile(
                         screenData,
                         window.getWidth(),
                         window.getHeight(),
                         bpp,
-                        gameTime.getCurrentTimeMillis());
+                        String.valueOf(gameTime.getCurrentTimeMillis()));
             }
 
             flatRenderer.cleanUp();
@@ -115,34 +108,6 @@ public class WindowScreenShotTest {
 
         Std140Compatible vec2 = new std140ColumnVector(window.getWidth(), window.getHeight());
         ubo.updateBuffer(Std140Compatible.putAllInBuffer(vec2));
-    }
-
-    private static void saveScreenDataToFile(ByteBuffer screenData, int width, int height, int bytesPerPixel, double currentTimeMillis) {
-        File file = new File(currentTimeMillis + ".png");
-        String format = "PNG";
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                int i = (x + (width * y)) * bytesPerPixel;
-                int r = screenData.get(i) & 0xFF;
-                int g = screenData.get(i + 1) & 0xFF;
-                int b = screenData.get(i + 2) & 0xFF;
-                image.setRGB(x, height - (y + 1), (0xFF << 24) | (r << 16) | (g << 8) | b);
-            }
-        }
-
-        try {
-            ImageIO.write(image, format, file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static ByteBuffer getWindowPixelData(int width, int height, int bytesPerPixel) {
-        glReadBuffer(GL_FRONT);
-        ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bytesPerPixel);
-        glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-        return buffer;
     }
 
     public static GUI_StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram) {
