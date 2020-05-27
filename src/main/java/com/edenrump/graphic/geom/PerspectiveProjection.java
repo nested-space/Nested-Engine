@@ -26,7 +26,7 @@ public class PerspectiveProjection implements Projection{
         createProjectionMatrix();
     }
 
-    public PerspectiveProjection defineByOrthogonalPlanes(float left, float right, float bottom, float top, float near, float far){
+    public static PerspectiveProjection defineByOrthogonalPlanes(float left, float right, float bottom, float top, float near, float far){
         float width = right - left;
         float height = top - bottom;
         float horizontalBias = (right + left) / (right - left);
@@ -34,7 +34,7 @@ public class PerspectiveProjection implements Projection{
         return new PerspectiveProjection(width, height, near, far, horizontalBias, verticalBias);
     }
 
-    public PerspectiveProjection defineByFieldOfView(float fov, float aspect, float near, float far){
+    public static PerspectiveProjection defineByFieldOfView(float fov, float aspect, float near, float far){
         float height = 2f * near * (float) Math.tan(Math.toRadians(fov / 2f));
         float width = aspect * height;
         return new PerspectiveProjection(width, height, near, far, 0, 0);

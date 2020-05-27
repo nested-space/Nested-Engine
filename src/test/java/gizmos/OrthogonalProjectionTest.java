@@ -2,6 +2,7 @@ package gizmos;
 
 import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.geom.OrthographicProjection;
+import com.edenrump.graphic.geom.PerspectiveProjection;
 import com.edenrump.graphic.geom.Projection;
 import com.edenrump.graphic.mesh.GUI_StaticMesh;
 import com.edenrump.graphic.openGL_gpu.Uniform;
@@ -30,13 +31,13 @@ public class OrthogonalProjectionTest {
     private static Runnable gameLoop() {
 
         return () -> {
-            window = new Window(0.3, 0.3 * 16 / 9, "Attribute Test", Color.YELLOW);
+            window = new Window(0.3, 0.3, "Attribute Test", Color.YELLOW);
             window.create(false);
             window.show();
             gameTime = Time.getInstance();
 
-            String VERTEX_FILE_LOCATION = "src/test/resources/shaders/OrthographicProjectionTestShader.vert";
-            String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/OrthographicProjectionTestShader.frag";
+            String VERTEX_FILE_LOCATION = "src/test/resources/shaders/ProjectionTestShader.vert";
+            String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/ProjectionTestShader.frag";
             ShaderProgram shaderProgram = new ShaderProgram();
             Shader v = Shader.loadShader(GL_VERTEX_SHADER, VERTEX_FILE_LOCATION);
             Shader f = Shader.loadShader(GL_FRAGMENT_SHADER, FRAGMENT_FILE_LOCATION);
@@ -45,7 +46,9 @@ public class OrthogonalProjectionTest {
             v.delete();
             f.delete();
 
-            Projection orthographicProjection = new OrthographicProjection(-2, 2, -2, 2, 0.1f, 1000);
+
+            PerspectiveProjection orthographicProjection = PerspectiveProjection.defineByFieldOfView(70, (float)  16 / 9, 0.1f, 1000);
+            System.out.println(orthographicProjection.getProjectionMatrix());
             Uniform uf = shaderProgram.getUniform("projectionMatrix");
             FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
             orthographicProjection.getProjectionMatrix().storeMatrixInBuffer(buffer);
@@ -53,12 +56,13 @@ public class OrthogonalProjectionTest {
             uf.asUniformMatrix().update_4x4(buffer);
 
             GUI_StaticEntity r1 = getEntity(shaderProgram);
-            r1.scale(0.5f, 0.5f, 1);
+            r1.scale(0.5f, 0.5f, -2);
             GUI_StaticRenderer flatRenderer = new GUI_StaticRenderer(shaderProgram);
             flatRenderer.addMesh(r1);
 
             while (!window.isCloseRequested()) {
                 r1.rotate(0, 0, 1);
+                r1.translate(0, 0, -0.01f);
                 gameTime.updateTime();
                 window.update();
                 window.prepareForRender();
@@ -73,10 +77,10 @@ public class OrthogonalProjectionTest {
 
     public static GUI_StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram) {
         float[] positions = new float[]{
-                -1f, 1f, 0f,      //v0
-                -1f, -1f, 0f,   //v1
-                1f, -1f, 0f,   //v2
-                1f, 1f, 0f     //v3
+                -1f, 1f, 1f,      //v0
+                -1f, -1f, 1f,   //v1
+                1f, -1f, 1f,   //v2
+                1f, 1f, 1f     //v3
         };
         int[] indices = new int[]{
                 0, 1, 3,//top left triangle (v0, v1, v3)
