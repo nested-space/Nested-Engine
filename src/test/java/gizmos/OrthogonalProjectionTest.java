@@ -1,9 +1,7 @@
 package gizmos;
 
 import com.edenrump.graphic.entities.GUI_StaticEntity;
-import com.edenrump.graphic.geom.OrthographicProjection;
 import com.edenrump.graphic.geom.PerspectiveProjection;
-import com.edenrump.graphic.geom.Projection;
 import com.edenrump.graphic.mesh.GUI_StaticMesh;
 import com.edenrump.graphic.openGL_gpu.Uniform;
 import com.edenrump.graphic.render.GUI_StaticRenderer;
@@ -46,12 +44,10 @@ public class OrthogonalProjectionTest {
             v.delete();
             f.delete();
 
-
-            PerspectiveProjection orthographicProjection = PerspectiveProjection.defineByFieldOfView(70, (float)  16 / 9, 0.1f, 1000);
-            System.out.println(orthographicProjection.getProjectionMatrix());
+            PerspectiveProjection projection = PerspectiveProjection.defineByFieldOfView(70, (float) 16 / 9, 0.1f, 1000);
             Uniform uf = shaderProgram.getUniform("projectionMatrix");
             FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
-            orthographicProjection.getProjectionMatrix().storeMatrixInBuffer(buffer);
+            projection.getProjectionMatrix().storeMatrixInBuffer(buffer);
             buffer.flip();
             uf.asUniformMatrix().update_4x4(buffer);
 
@@ -61,8 +57,8 @@ public class OrthogonalProjectionTest {
             flatRenderer.addMesh(r1);
 
             while (!window.isCloseRequested()) {
-                r1.rotate(0, 0, 1);
-                r1.translate(0, 0, -0.01f);
+                r1.rotate(0, 0, 3);
+                r1.translate(0, 0, -0.03f);
                 gameTime.updateTime();
                 window.update();
                 window.prepareForRender();

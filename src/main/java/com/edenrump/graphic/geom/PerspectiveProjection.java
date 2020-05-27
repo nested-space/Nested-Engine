@@ -3,7 +3,7 @@ package com.edenrump.graphic.geom;
 import com.edenrump.math.arrays.ColumnVector;
 import com.edenrump.math.arrays.SquareMatrix;
 
-public class PerspectiveProjection implements Projection{
+public class PerspectiveProjection{
 
     private float width;
     private float height;
@@ -52,7 +52,6 @@ public class PerspectiveProjection implements Projection{
         this.cacheProjectionMatrix = new SquareMatrix(c0, c1, c2, c3);
     }
 
-    @Override
     public SquareMatrix getProjectionMatrix() {
         return cacheProjectionMatrix;
     }
