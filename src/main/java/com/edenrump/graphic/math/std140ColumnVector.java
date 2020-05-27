@@ -4,12 +4,12 @@ import com.edenrump.math.arrays.ColumnVector;
 
 import java.nio.FloatBuffer;
 
-public class glColumnVector extends ColumnVector implements Std140Compatible {
+public class std140ColumnVector extends ColumnVector implements Std140Compatible {
 
-    private glColumnVector() {
+    private std140ColumnVector() {
     }
 
-    public glColumnVector(int size) {
+    public std140ColumnVector(int size) {
         super(size);
         if (size < 2 || size > 4) {
             throw new IllegalArgumentException("Vectors of " + getDimensions() + " dimensions are not compatible with" +
@@ -17,7 +17,7 @@ public class glColumnVector extends ColumnVector implements Std140Compatible {
         }
     }
 
-    public glColumnVector(float... values) {
+    public std140ColumnVector(float... values) {
         super(values);
         if (values.length < 2 || values.length > 4) {
             throw new IllegalArgumentException("Square matrices of " + getDimensions() + " dimensions are not compatible with" +

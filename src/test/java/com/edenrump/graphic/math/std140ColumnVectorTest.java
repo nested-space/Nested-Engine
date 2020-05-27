@@ -6,19 +6,19 @@ import org.testng.annotations.Test;
 
 import java.nio.FloatBuffer;
 
-public class glColumnVectorTest {
+public class std140ColumnVectorTest {
 
-    Std140Compatible v2 = new glColumnVector(1, 0);
-    Std140Compatible v3 = new glColumnVector(1, 2, 3);
-    Std140Compatible v4 = new glColumnVector(1, 2, 3, 4);
+    Std140Compatible v2 = new std140ColumnVector(1, 0);
+    Std140Compatible v3 = new std140ColumnVector(1, 2, 3);
+    Std140Compatible v4 = new std140ColumnVector(1, 2, 3, 4);
 
     @Test
     public void constructorTest() {
-        Assert.assertThrows(IllegalArgumentException.class, () -> new glColumnVector(1));
-        Assert.assertThrows(IllegalArgumentException.class, () -> new glColumnVector(5));
-        Assert.assertThrows(IllegalArgumentException.class, glColumnVector::new);
-        Assert.assertThrows(IllegalArgumentException.class, () -> new glColumnVector(1));
-        Assert.assertThrows(IllegalArgumentException.class, () -> new glColumnVector(1, 2, 3, 4, 5));
+        Assert.assertThrows(IllegalArgumentException.class, () -> new std140ColumnVector(1));
+        Assert.assertThrows(IllegalArgumentException.class, () -> new std140ColumnVector(5));
+        Assert.assertThrows(IllegalArgumentException.class, std140ColumnVector::new);
+        Assert.assertThrows(IllegalArgumentException.class, () -> new std140ColumnVector(1));
+        Assert.assertThrows(IllegalArgumentException.class, () -> new std140ColumnVector(1, 2, 3, 4, 5));
     }
 
     @Test

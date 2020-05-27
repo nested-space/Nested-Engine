@@ -6,25 +6,25 @@ import org.testng.annotations.Test;
 
 import java.nio.FloatBuffer;
 
-public class glSquareMatrixTest {
+public class std140SquareMatrixTest {
 
-    Std140Compatible m2 = new glSquareMatrix(2);
-    Std140Compatible m3 = new glSquareMatrix(3);
-    Std140Compatible m4 = new glSquareMatrix(4);
+    Std140Compatible m2 = new std140SquareMatrix(2);
+    Std140Compatible m3 = new std140SquareMatrix(3);
+    Std140Compatible m4 = new std140SquareMatrix(4);
 
-    Std140Compatible m4Square = new glSquareMatrix(
-            new glColumnVector(1, 0, 0),
-            new glColumnVector(0, 1, 0),
-            new glColumnVector(0, 0, 1)
+    Std140Compatible m4Square = new std140SquareMatrix(
+            new std140ColumnVector(1, 0, 0),
+            new std140ColumnVector(0, 1, 0),
+            new std140ColumnVector(0, 0, 1)
     );
 
     @Test
     public void constructorTest() {
-        Assert.assertThrows(IllegalArgumentException.class, () -> new glSquareMatrix(1));
-        Assert.assertThrows(IllegalArgumentException.class, () -> new glSquareMatrix(5));
-        Assert.assertThrows(IllegalArgumentException.class, glSquareMatrix::new);
+        Assert.assertThrows(IllegalArgumentException.class, () -> new std140SquareMatrix(1));
+        Assert.assertThrows(IllegalArgumentException.class, () -> new std140SquareMatrix(5));
+        Assert.assertThrows(IllegalArgumentException.class, std140SquareMatrix::new);
 
-        Assert.assertEquals(m4Square, glSquareMatrix.getIdentityMatrix(3));
+        Assert.assertEquals(m4Square, std140SquareMatrix.getIdentityMatrix(3));
     }
 
     @Test

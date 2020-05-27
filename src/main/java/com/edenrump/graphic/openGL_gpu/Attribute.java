@@ -76,11 +76,11 @@ public class Attribute {
      * Method to get type-safe attribute for referencing a standard location and
      * name for vertex positions
      */
-    public static Attribute getDefault3DPositionsAttribute(int vboID) {
+    public static Attribute getDefaultPositionsAttribute(int vboID, int dimensionsPerVertex) {
         return new Attribute(
                 POSITION_COORDINATE_ATTRIB,
                 POSITIONS_ATTRIB_NAME,
-                3, 0, 0,
+                dimensionsPerVertex, 0, 0,
                 vboID);
     }
 

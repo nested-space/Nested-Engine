@@ -17,6 +17,7 @@ public abstract class Mesh {
     private final List<Attribute> attributes = new ArrayList<>();
     int elements;
     VertexBufferObject indexBuffer;
+    int dimensionsPerVertex = 3;
 
     Mesh() {
         vao = new VertexArrayObject();
@@ -43,12 +44,13 @@ public abstract class Mesh {
 
     public void setPositions(float[] positions, int[] indices){
         elements = indices.length;
+        System.out.println("Dimensions: " + dimensionsPerVertex);
         vao.bind();
 
         VertexBufferObject positionVBO = new VertexBufferObject();
         positionVBO.bind(GL_ARRAY_BUFFER);
         VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
-        Attribute positionsAttrib = Attribute.getDefault2DPositionsAttribute(positionVBO.getID());
+        Attribute positionsAttrib = Attribute.getDefaultPositionsAttribute(positionVBO.getID(), dimensionsPerVertex);
         this.associateAttribute(positionsAttrib);
 
         indexBuffer = new VertexBufferObject();

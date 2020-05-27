@@ -2,13 +2,10 @@ package com.edenrump.graphic.mesh;
 
 import com.edenrump.graphic.mesh.contracts.Drawable;
 import com.edenrump.graphic.openGL_gpu.Attribute;
-import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
-import com.edenrump.math.util.DataUtils;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL15.*;
 
-public class Flat_StaticMesh extends Mesh implements Drawable {
+public class GUI_StaticMesh extends Mesh implements Drawable {
 
     int glDrawType = GL_TRIANGLES;
 

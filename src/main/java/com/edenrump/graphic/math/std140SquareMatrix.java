@@ -4,9 +4,9 @@ import com.edenrump.math.arrays.SquareMatrix;
 
 import java.nio.FloatBuffer;
 
-public class glSquareMatrix extends SquareMatrix implements Std140Compatible {
+public class std140SquareMatrix extends SquareMatrix implements Std140Compatible {
 
-    public glSquareMatrix(int dimensions) {
+    public std140SquareMatrix(int dimensions) {
         super(dimensions);
         if (dimensions < 2 || dimensions > 4) {
             throw new IllegalArgumentException("Vectors of " + getDimensions() + " dimensions are not compatible with" +
@@ -14,7 +14,7 @@ public class glSquareMatrix extends SquareMatrix implements Std140Compatible {
         }
     }
 
-    public glSquareMatrix(glColumnVector... columns) {
+    public std140SquareMatrix(std140ColumnVector... columns) {
         super(columns);
         if (columns.length < 2 || columns.length > 4) {
             throw new IllegalArgumentException("Square matrices of " + getDimensions() + " dimensions are not compatible with" +

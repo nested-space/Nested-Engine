@@ -21,12 +21,12 @@ import static org.lwjgl.opengl.GL11.glDrawElements;
  * <p>
  * It can handle drawing with and without texture coordinates.
  */
-public class Flat_StaticRenderer implements GenericRenderer {
+public class GUI_StaticRenderer implements GenericRenderer {
 
     private final ShaderProgram shaderProgram;
     private final Map<Integer, List<Renderable>> vaoIDMeshMap = new HashMap<>();
 
-    public Flat_StaticRenderer(ShaderProgram shaderProgram) {
+    public GUI_StaticRenderer(ShaderProgram shaderProgram) {
         this.shaderProgram = shaderProgram;
     }
 

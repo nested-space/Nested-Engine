@@ -32,7 +32,7 @@ public class Transform {
     }
 
     public void rotate(float x, float y, float z) {
-        rotation = rotation.add(new ColumnVector(x, y, z));
+        rotation = rotation.add(new ColumnVector(x, y, z, 0));
     }
 
     protected void rotateX(float x) {
@@ -54,7 +54,6 @@ public class Transform {
                 y * oldScale[1],
                 z * oldScale[2],
                 1);
-//        scale = scale.add(new ColumnVector(x, y, z, 0));
     }
 
     protected void scaleX(float x) {
@@ -89,16 +88,11 @@ public class Transform {
         SquareMatrix transformationMatrix = new SquareMatrix(4);
 
         SquareMatrix txyz = HyperVolume.translate(translation);
-
-        //rotate about each cartesian axis
-        SquareMatrix rx = HyperVolume.rotate((float) Math.toRadians(rotation.getValues()[0]), 1, 0, 0);
-        SquareMatrix ry = HyperVolume.rotate((float) Math.toRadians(rotation.getValues()[1]), 0, 1, 0);
-        SquareMatrix rz = HyperVolume.rotate((float) Math.toRadians(rotation.getValues()[2]), 0, 0, 1);
-
-        transformationMatrix = transformationMatrix.multiply(txyz).multiply(rx).multiply(ry).multiply(rz);
-
-        //scale
-        transformationMatrix = transformationMatrix.multiply(HyperVolume.scale(scale.getValues()[0], scale.getValues()[1], scale.getValues()[3]));
+        SquareMatrix rx = HyperVolume.rotate(rotation.getValues()[0], 1, 0, 0);
+        SquareMatrix ry = HyperVolume.rotate(rotation.getValues()[1], 0, 1, 0);
+        SquareMatrix rz = HyperVolume.rotate(rotation.getValues()[2], 0, 0, 1);
+        SquareMatrix s = HyperVolume.scale(scale.getValues()[0], scale.getValues()[1], scale.getValues()[2]);
+        transformationMatrix = transformationMatrix.multiply(s).multiply(rx).multiply(ry).multiply(rz).multiply(txyz);
 
         FloatBuffer buffer = BufferUtils.createFloatBuffer(16);
         transformationMatrix.storeMatrixInBuffer(buffer);

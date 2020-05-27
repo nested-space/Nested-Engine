@@ -1,6 +1,5 @@
 package com.edenrump.graphic.openGL_gpu;
 
-import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
 public class Uniform {
@@ -15,11 +14,15 @@ public class Uniform {
         this.name = name;
     }
 
+    public CharSequence getName() {
+        return name;
+    }
+
     public int getShaderProgramID() {
         return shaderProgramID;
     }
 
-    int getLocation() {
+    public int getLocation() {
         return location;
     }
 
@@ -42,4 +45,5 @@ public class Uniform {
     public UniformMatrixFloat asUniformMatrix() {
         return new UniformMatrixFloat(shaderProgramID, location, name);
     }
+
 }

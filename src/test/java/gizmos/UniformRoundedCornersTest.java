@@ -1,13 +1,11 @@
 package gizmos;
 
-import com.edenrump.graphic.entities.Flat_StaticEntity;
+import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.math.Std140Compatible;
-import com.edenrump.graphic.math.glColumnVector;
-import com.edenrump.graphic.math.glSquareMatrix;
-import com.edenrump.graphic.mesh.Flat_StaticMesh;
-import com.edenrump.graphic.openGL_gpu.Uniform;
+import com.edenrump.graphic.math.std140ColumnVector;
+import com.edenrump.graphic.mesh.GUI_StaticMesh;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
-import com.edenrump.graphic.render.Flat_StaticRenderer;
+import com.edenrump.graphic.render.GUI_StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
@@ -21,10 +19,10 @@ import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 public class UniformRoundedCornersTest {
 
     static float[] positions = new float[]{
-            1f, 1f,//v0
-            -1f, 1f,//v1
-            -1f, -1f,//v2
-            1f, -1f,//v3
+            1f, 1f, 0,//v0
+            -1f, 1f, 0,//v1
+            -1f, -1f, 0,//v2
+            1f, -1f, 0//v3
     };
     static int[] indices = new int[]{
             0, 1, 3,//top left triangle (v0, v1, v3)
@@ -41,7 +39,7 @@ public class UniformRoundedCornersTest {
     private static Runnable gameLoop() {
 
         return () -> {
-            window = new Window(0.5, 0.5, "Attribute Test", Color.YELLOW);
+            window = new Window(0.5, 0.5 * 16 / 9, "Attribute Test", Color.YELLOW);
             window.create(false);
             window.show();
             gameTime = Time.getInstance();
@@ -56,15 +54,17 @@ public class UniformRoundedCornersTest {
             v.delete();
             f.delete();
 
-            roundedCornersShaderProgram.getUniform("radiusPixels").asUniformFloat().update(15);
+            roundedCornersShaderProgram.getUniform("radiusPixels").asUniformFloat().update(50);
+            setUpWindowBuffer(roundedCornersShaderProgram, window);
 
-            Flat_StaticEntity r1 = getEntity(roundedCornersShaderProgram);
-            r1.scale(0.5f, 0.5f, 1);
-            r1.translate(0.5f, 0.5f, 0);
-            Flat_StaticRenderer flatRenderer = new Flat_StaticRenderer(roundedCornersShaderProgram);
+            GUI_StaticEntity r1 = getEntity(roundedCornersShaderProgram);
+            r1.scale(0.5f, 0.5f, 0);
+            r1.rotate(0, 0, 45);
+            GUI_StaticRenderer flatRenderer = new GUI_StaticRenderer(roundedCornersShaderProgram);
             flatRenderer.addMesh(r1);
 
             while (!window.isCloseRequested()) {
+                r1.rotate(0, 0, 1);
                 gameTime.updateTime();
                 window.update();
                 window.prepareForRender();
@@ -85,15 +85,15 @@ public class UniformRoundedCornersTest {
         ubo.blockBind(bufferBlockBinding);
         shader.bindUniformBlock(uniformBlockName, bufferBlockBinding);
 
-        Std140Compatible vec2 = new glColumnVector(window.getWidth(), window.getHeight());
+        Std140Compatible vec2 = new std140ColumnVector(window.getWidth(), window.getHeight());
         ubo.updateBuffer(Std140Compatible.putAllInBuffer(vec2));
     }
 
-    public static Flat_StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram){
-        Flat_StaticMesh mesh = new Flat_StaticMesh();
+    public static GUI_StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram) {
+        GUI_StaticMesh mesh = new GUI_StaticMesh();
         mesh.setPositions(positions, indices);
-        Flat_StaticEntity r1 = new Flat_StaticEntity(mesh);
-        r1.setTransformationUniform(roundedCornersShaderProgram.getUniform("transformationMatrix"));
+        GUI_StaticEntity r1 = new GUI_StaticEntity(mesh);
+        r1.setTransformationUniform(roundedCornersShaderProgram.getUniform("modelMatrix"));
         return r1;
     }
 

@@ -1,16 +1,17 @@
 package com.edenrump.graphic.entities;
 
 import com.edenrump.graphic.geom.Transform;
-import com.edenrump.graphic.mesh.Flat_StaticMesh;
+import com.edenrump.graphic.mesh.GUI_StaticMesh;
 import com.edenrump.graphic.openGL_gpu.Uniform;
+import com.edenrump.math.arrays.ColumnVector;
 
-public class Flat_StaticEntity implements Renderable {
+public class GUI_StaticEntity implements Renderable {
 
-    Flat_StaticMesh mesh;
+    GUI_StaticMesh mesh;
     Transform transform;
     Uniform transformationMatrix = new Uniform(0, 0, "null");
 
-    public Flat_StaticEntity(Flat_StaticMesh mesh) {
+    public GUI_StaticEntity(GUI_StaticMesh mesh) {
         this.mesh = mesh;
         transform = new Transform();
     }
@@ -32,7 +33,11 @@ public class Flat_StaticEntity implements Renderable {
     @Override
     public void update() {
         mesh.enableAttributes();
-        transformationMatrix.asUniformMatrix().update_4x4(transform.getTransformationMatrix());
+        if(transformationMatrix.getName()!="null"){
+            transformationMatrix.asUniformMatrix().update_4x4(transform.getTransformationMatrix());
+        }
+
+
     }
 
     @Override
@@ -56,5 +61,21 @@ public class Flat_StaticEntity implements Renderable {
 
     public void translate(float x, float y, float z) {
         transform.translate(x, y, z);
+    }
+
+    public void rotate(float x, float y, float z) {
+        transform.rotate(x, y, z);
+    }
+
+    public float[] getScale() {
+        return transform.getScale().getValues();
+    }
+
+    public float[] getTranslation(){
+        return transform.getTranslation().getValues();
+    }
+
+    public float[] getRotation(){
+        return transform.getRotation().getValues();
     }
 }

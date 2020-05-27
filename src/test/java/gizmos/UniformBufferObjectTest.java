@@ -1,11 +1,12 @@
 package gizmos;
 
+import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.math.Std140Compatible;
-import com.edenrump.graphic.math.glColumnVector;
-import com.edenrump.graphic.math.glSquareMatrix;
-import com.edenrump.graphic.mesh.Flat_StaticMesh;
+import com.edenrump.graphic.math.std140ColumnVector;
+import com.edenrump.graphic.math.std140SquareMatrix;
+import com.edenrump.graphic.mesh.GUI_StaticMesh;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
-import com.edenrump.graphic.render.FlatRenderer;
+import com.edenrump.graphic.render.GUI_StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
@@ -22,16 +23,16 @@ public class UniformBufferObjectTest {
     final static String VERTEX_FILE_LOCATION = "src/test/resources/shaders/UniformBufferObjectTestShader.vert";
     final static String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/UniformBufferObjectTestShader.frag";
     static float[] positions = {
-            -0.5f, 0.5f,//v0
-            -0.5f, -0.5f,//v1
-            0.5f, -0.5f,//v2
-            0.5f, 0.5f,//v3
+            -0.5f, 0.5f, 0,//v0
+            -0.5f, -0.5f, 0,//v1
+            0.5f, -0.5f, 0,//v2
+            0.5f, 0.5f, 0,//v3
     };
     static int[] indices = {
             0, 1, 3,//top left triangle (v0, v1, v3)
             3, 1, 2//bottom right triangle (v3, v1, v2)
     };
-    static Flat_StaticMesh rectangle;
+    static GUI_StaticMesh rectangle;
     private static Window window;
     private static Time gameTime;
 
@@ -62,15 +63,17 @@ public class UniformBufferObjectTest {
             ubo.blockBind(bufferBlockBinding);
             uniformBufferTestShader.bindUniformBlock(uniformBlockName, bufferBlockBinding);
 
-            Std140Compatible mat4Padding = new glSquareMatrix(4);
-            Std140Compatible vec3ColorY = new glColumnVector(0.7f, 1f, 0.4f);
+            Std140Compatible mat4Padding = new std140SquareMatrix(4);
+            Std140Compatible vec3ColorY = new std140ColumnVector(0.7f, 1f, 0.4f);
             ubo.updateBuffer(Std140Compatible.putAllInBuffer(mat4Padding, vec3ColorY));
 
-            rectangle = new Flat_StaticMesh();
+            rectangle = new GUI_StaticMesh();
             rectangle.setPositions(positions, indices);
 
-            FlatRenderer flatRenderer = new FlatRenderer(uniformBufferTestShader);
-            flatRenderer.addMesh(rectangle);
+            GUI_StaticEntity rectEntity = new GUI_StaticEntity(rectangle);
+
+            GUI_StaticRenderer flatRenderer = new GUI_StaticRenderer(uniformBufferTestShader);
+            flatRenderer.addMesh(rectEntity);
 
             while (!window.isCloseRequested()) {
                 gameTime.updateTime();

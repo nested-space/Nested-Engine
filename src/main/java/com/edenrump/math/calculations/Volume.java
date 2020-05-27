@@ -88,9 +88,9 @@ public class Volume {
         transformationMatrix = transformationMatrix.multiply(translationMatrix);
 
         //rotate about each cartesian axis
-        transformationMatrix = transformationMatrix.multiply(HyperVolume.rotate((float) Math.toRadians(rotation.getValues()[0]), 1, 0, 0));
-        transformationMatrix = transformationMatrix.multiply(HyperVolume.rotate((float) Math.toRadians(rotation.getValues()[1]), 0, 1, 0));
-        transformationMatrix = transformationMatrix.multiply(HyperVolume.rotate((float) Math.toRadians(rotation.getValues()[2]), 0, 0, 1));
+        transformationMatrix = transformationMatrix.multiply(HyperVolume.rotate(rotation.getValues()[0], 1, 0, 0));
+        transformationMatrix = transformationMatrix.multiply(HyperVolume.rotate(rotation.getValues()[1], 0, 1, 0));
+        transformationMatrix = transformationMatrix.multiply(HyperVolume.rotate(rotation.getValues()[2], 0, 0, 1));
 
         //scale
         transformationMatrix = transformationMatrix.multiply(HyperVolume.scale(scale.getValues()[0], scale.getValues()[1], scale.getValues()[3]));

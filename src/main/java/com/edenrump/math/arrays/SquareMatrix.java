@@ -1,8 +1,11 @@
 package com.edenrump.math.arrays;
 
+import org.lwjgl.BufferUtils;
+
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
-public class SquareMatrix {
+public class SquareMatrix{
 
     private int dimensions;
     private float[] values;
@@ -227,6 +230,4 @@ public class SquareMatrix {
         }
         return super.equals(obj);
     }
-
-
 }
