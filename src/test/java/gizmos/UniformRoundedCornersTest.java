@@ -3,7 +3,7 @@ package gizmos;
 import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.math.Std140Compatible;
 import com.edenrump.graphic.math.std140ColumnVector;
-import com.edenrump.graphic.mesh.GUI_StaticMesh;
+import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
 import com.edenrump.graphic.render.GUI_StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
@@ -90,7 +90,7 @@ public class UniformRoundedCornersTest {
     }
 
     public static GUI_StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram) {
-        GUI_StaticMesh mesh = new GUI_StaticMesh();
+        Mesh mesh = new Mesh();
         mesh.setPositions(positions, indices);
         GUI_StaticEntity r1 = new GUI_StaticEntity(mesh);
         r1.setTransformationUniform(roundedCornersShaderProgram.getUniform("modelMatrix"));

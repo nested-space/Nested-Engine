@@ -1,7 +1,7 @@
 package gizmos;
 
 import com.edenrump.graphic.entities.GUI_StaticEntity;
-import com.edenrump.graphic.mesh.GUI_StaticMesh;
+import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.Uniform;
 import com.edenrump.graphic.render.GUI_StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
@@ -46,7 +46,7 @@ public class UniformVariableTest {
             Uniform uf = uniformColorTestShader.getUniform("color");
             uf.asUniformFloat().update3values(1, 0.5f, 0);
 
-            GUI_StaticMesh mesh1 = new GUI_StaticMesh();
+            Mesh mesh1 = new Mesh();
             mesh1.setPositions(new float[]{
                             0.75f, 0.6f, 0,//v0
                             -0.75f, 0.6f, 0,//v1
@@ -58,7 +58,7 @@ public class UniformVariableTest {
                             3, 1, 2//bottom right triangle (v3, v1, v2)
                     });
 
-            GUI_StaticMesh mesh2 = new GUI_StaticMesh();
+            Mesh mesh2 = new Mesh();
             mesh2.setPositions(
                     new float[]{
                             0.75f, 0f, 0f,//v0

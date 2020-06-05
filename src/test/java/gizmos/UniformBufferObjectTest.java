@@ -4,7 +4,7 @@ import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.math.Std140Compatible;
 import com.edenrump.graphic.math.std140ColumnVector;
 import com.edenrump.graphic.math.std140SquareMatrix;
-import com.edenrump.graphic.mesh.GUI_StaticMesh;
+import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
 import com.edenrump.graphic.render.GUI_StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
@@ -32,7 +32,7 @@ public class UniformBufferObjectTest {
             0, 1, 3,//top left triangle (v0, v1, v3)
             3, 1, 2//bottom right triangle (v3, v1, v2)
     };
-    static GUI_StaticMesh rectangle;
+    static Mesh rectangle;
     private static Window window;
     private static Time gameTime;
 
@@ -67,7 +67,7 @@ public class UniformBufferObjectTest {
             Std140Compatible vec3ColorY = new std140ColumnVector(0.7f, 1f, 0.4f);
             ubo.updateBuffer(Std140Compatible.putAllInBuffer(mat4Padding, vec3ColorY));
 
-            rectangle = new GUI_StaticMesh();
+            rectangle = new Mesh();
             rectangle.setPositions(positions, indices);
 
             GUI_StaticEntity rectEntity = new GUI_StaticEntity(rectangle);

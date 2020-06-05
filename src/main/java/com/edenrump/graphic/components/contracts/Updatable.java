@@ -1,4 +1,4 @@
-package com.edenrump.graphic.mesh.contracts;
+package com.edenrump.graphic.components.contracts;
 
 public interface Updatable {
 

@@ -1,17 +1,16 @@
 package com.edenrump.graphic.entities;
 
 import com.edenrump.graphic.geom.Transform;
-import com.edenrump.graphic.mesh.GUI_StaticMesh;
+import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.Uniform;
-import com.edenrump.math.arrays.ColumnVector;
 
 public class GUI_StaticEntity implements Renderable {
 
-    GUI_StaticMesh mesh;
+    Mesh mesh;
     Transform transform;
     Uniform transformationMatrix = new Uniform(0, 0, "null");
 
-    public GUI_StaticEntity(GUI_StaticMesh mesh) {
+    public GUI_StaticEntity(Mesh mesh) {
         this.mesh = mesh;
         transform = new Transform();
     }
@@ -36,8 +35,6 @@ public class GUI_StaticEntity implements Renderable {
         if(transformationMatrix.getName()!="null"){
             transformationMatrix.asUniformMatrix().update_4x4(transform.getTransformationMatrix());
         }
-
-
     }
 
     @Override

@@ -24,16 +24,13 @@
  *
  */
 
-package com.edenrump.graphic.mesh;
+package com.edenrump.graphic.components;
 
-import com.edenrump.graphic.mesh.contracts.Drawable;
-import com.edenrump.graphic.mesh.contracts.Updatable;
 import com.edenrump.graphic.openGL_gpu.Attribute;
 import com.edenrump.graphic.openGL_gpu.Texture;
 import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
 import com.edenrump.math.util.DataUtils;
 
-import static com.edenrump.graphic.openGL_gpu.Attribute.POSITIONS_ATTRIB_NAME;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL15.*;
@@ -41,9 +38,8 @@ import static org.lwjgl.opengl.GL15.*;
 /**
  * This class represents how a mesh should be created and stored in the application
  */
-public class Dynamic_TexturedMesh3D extends Mesh implements Drawable, Updatable {
+public class TexturedMesh extends Mesh {
 
-    private int glDrawType = GL_TRIANGLES;
     private Texture texture;
 
     @Override
@@ -65,54 +61,6 @@ public class Dynamic_TexturedMesh3D extends Mesh implements Drawable, Updatable 
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-    @Override
-    public int getElements() {
-        return elements;
-    }
-
-    @Override
-    public int getDrawType() {
-        return this.glDrawType;
-    }
-
-    @Override
-    public void setDrawType(int glDrawType) {
-        this.glDrawType = glDrawType;
-    }
-
-    @Override
-    public int getVAO_ID() {
-        return getVao().getID();
-    }
-
-    @Override
-    public void bindVAO() {
-        getVao().bind();
-    }
-
-    @Override
-    public void updatePositions(float[] positions) {
-        int positionVBO = this.getAttribute(POSITIONS_ATTRIB_NAME).getVBOId();
-        VertexBufferObject.bind(positionVBO, GL_ARRAY_BUFFER);
-        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
-    }
-
-    @Override
-    public void updateIndices(int[] indices) {
-        if (indexBuffer == null) {
-            setIndices(indices);
-        } else {
-            indexBuffer.bind(GL_ELEMENT_ARRAY_BUFFER);
-            VertexBufferObject.uploadData(GL_ELEMENT_ARRAY_BUFFER, DataUtils.storeDataInBuffer(indices), GL_STATIC_DRAW);
-        }
-    }
-
-    private void setIndices(int[] indices) {
-        indexBuffer = new VertexBufferObject();
-        indexBuffer.bind(GL_ELEMENT_ARRAY_BUFFER);
-        VertexBufferObject.uploadData(GL_ELEMENT_ARRAY_BUFFER, DataUtils.storeDataInBuffer(indices), GL_STATIC_DRAW);
-    }
-
     public void setTexture(float[] textureCoords, Texture texture) {
         bindVAO();
 
@@ -121,10 +69,10 @@ public class Dynamic_TexturedMesh3D extends Mesh implements Drawable, Updatable 
         VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(textureCoords), GL_STATIC_DRAW);
         Attribute textureAttrib = Attribute.getDefaultTextureCoordsAttribute(textureVBO.getID());
         textureAttrib.enableVertexAttribute();
-        this.associateAttribute(textureAttrib);
+        this.addAttribute(textureAttrib);
         this.texture = texture;
 
-        Drawable.unbind();
+        this.unbind();
     }
 
     public Texture getTexture() {
