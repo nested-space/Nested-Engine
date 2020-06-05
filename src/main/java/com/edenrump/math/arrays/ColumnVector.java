@@ -156,6 +156,13 @@ public class ColumnVector {
         return false;
     }
 
+    public float getValue(int dimension){
+        if(dimension>getDimensions())
+            throw new IllegalArgumentException("Cannot get dimension " +
+                    dimension + " for vector of length " + dimensions);
+        return getValues()[dimension];
+    }
+
     public float[] getValues() {
         return values;
     }
