@@ -6,7 +6,7 @@ import com.edenrump.graphic.math.std140ColumnVector;
 import com.edenrump.graphic.math.std140SquareMatrix;
 import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
-import com.edenrump.graphic.render.GUI_StaticRenderer;
+import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
@@ -72,7 +72,7 @@ public class UniformBufferObjectTest {
 
             GUI_StaticEntity rectEntity = new GUI_StaticEntity(rectangle);
 
-            GUI_StaticRenderer flatRenderer = new GUI_StaticRenderer(uniformBufferTestShader);
+            StaticRenderer flatRenderer = new StaticRenderer(uniformBufferTestShader);
             flatRenderer.addMesh(rectEntity);
 
             while (!window.isCloseRequested()) {

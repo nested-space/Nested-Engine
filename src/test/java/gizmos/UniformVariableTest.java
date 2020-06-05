@@ -3,7 +3,7 @@ package gizmos;
 import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.Uniform;
-import com.edenrump.graphic.render.GUI_StaticRenderer;
+import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
@@ -73,7 +73,7 @@ public class UniformVariableTest {
 
             GUI_StaticEntity r1 = new GUI_StaticEntity(mesh1);
             GUI_StaticEntity r2 = new GUI_StaticEntity(mesh2);
-            GUI_StaticRenderer flatRenderer = new GUI_StaticRenderer(uniformColorTestShader);
+            StaticRenderer flatRenderer = new StaticRenderer(uniformColorTestShader);
             flatRenderer.addMesh(r1);
             flatRenderer.addMesh(r2);
 

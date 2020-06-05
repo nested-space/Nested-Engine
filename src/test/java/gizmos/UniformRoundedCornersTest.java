@@ -5,7 +5,7 @@ import com.edenrump.graphic.math.Std140Compatible;
 import com.edenrump.graphic.math.std140ColumnVector;
 import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
-import com.edenrump.graphic.render.GUI_StaticRenderer;
+import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
@@ -60,7 +60,7 @@ public class UniformRoundedCornersTest {
             GUI_StaticEntity r1 = getEntity(roundedCornersShaderProgram);
             r1.scale(0.5f, 0.5f, 0);
             r1.rotate(0, 0, 45);
-            GUI_StaticRenderer flatRenderer = new GUI_StaticRenderer(roundedCornersShaderProgram);
+            StaticRenderer flatRenderer = new StaticRenderer(roundedCornersShaderProgram);
             flatRenderer.addMesh(r1);
 
             while (!window.isCloseRequested()) {

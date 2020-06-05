@@ -5,7 +5,7 @@ import com.edenrump.graphic.math.Std140Compatible;
 import com.edenrump.graphic.math.std140ColumnVector;
 import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
-import com.edenrump.graphic.render.GUI_StaticRenderer;
+import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
@@ -65,7 +65,7 @@ public class WindowScreenShotTest {
 
             GUI_StaticEntity r1 = getEntity(shaderProgram);
             r1.scale(0.5f, 0.5f, 1);
-            GUI_StaticRenderer flatRenderer = new GUI_StaticRenderer(shaderProgram);
+            StaticRenderer flatRenderer = new StaticRenderer(shaderProgram);
             flatRenderer.addMesh(r1);
 
             shaderProgram.getUniform("scale").asUniformFloat().update2values(r1.getScale()[0], r1.getScale()[1]);

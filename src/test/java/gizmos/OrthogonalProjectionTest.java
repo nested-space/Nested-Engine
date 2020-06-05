@@ -4,7 +4,7 @@ import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.geom.PerspectiveProjection;
 import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.Uniform;
-import com.edenrump.graphic.render.GUI_StaticRenderer;
+import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
@@ -53,7 +53,7 @@ public class OrthogonalProjectionTest {
 
             GUI_StaticEntity r1 = getEntity(shaderProgram);
             r1.scale(0.5f, 0.5f, -2);
-            GUI_StaticRenderer flatRenderer = new GUI_StaticRenderer(shaderProgram);
+            StaticRenderer flatRenderer = new StaticRenderer(shaderProgram);
             flatRenderer.addMesh(r1);
 
             while (!window.isCloseRequested()) {
