@@ -3,6 +3,8 @@ package com.edenrump.math.shape.mesh;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class EdgeTest {
@@ -29,6 +31,18 @@ public class EdgeTest {
     @Test
     public void hashcodeTest() {
         Assert.assertEquals(edge1.hashCode(), edge2.hashCode());
+    }
+
+    @Test
+    public void mapTest(){
+        Map<Edge, Integer> edges = new HashMap<>();
+        edges.put(edge1, 1);
+        edges.put(edge2, 2);
+        Assert.assertTrue(edges.containsKey(edge1));
+        Assert.assertTrue(edges.containsKey(edge2));
+
+        Edge backwardsEdge = new Edge(edge1.v2, edge1.v1);
+        Assert.assertTrue(edges.containsKey(backwardsEdge));
     }
 
 }

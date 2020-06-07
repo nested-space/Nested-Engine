@@ -25,14 +25,15 @@ public class Edge {
     public boolean equals(Object obj) {
         if (obj instanceof Edge) {
             Edge other = (Edge) obj;
-            return this.getV1().equals(other.getV1()) && this.getV2().equals(other.getV2());
+            return this.getV1().equals(other.getV1()) && this.getV2().equals(other.getV2()) ||
+                    this.getV2().equals(other.getV1()) && this.getV1().equals(other.getV2() );
         }
         return super.equals(obj);
     }
 
     @Override
     public int hashCode() {
-        return v1.hashCode() * 29 + v2.hashCode() * 31;
+        return v1.hashCode() * 29 + v2.hashCode() * 29;
     }
 
     @Override
