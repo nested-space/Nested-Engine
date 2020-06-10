@@ -83,10 +83,18 @@ public class GeometricConstruct {
         return this.vertexPositions.indexOf(vp);
     }
 
+    public ColumnVector getVertexPosition(int vertexPositionIndex) {
+        return vertexPositions.get(vertexPositionIndex);
+    }
+
     public int addVertexNormal(float x, float y, float z) {
         ColumnVector vn = new ColumnVector(x, y, z);
         this.vertexNormals.add(vn);
         return this.vertexNormals.indexOf(vn);
+    }
+
+    public ColumnVector getVertexNormal(int vertexNormalIndex) {
+        return vertexNormals.get(vertexNormalIndex);
     }
 
     public int addVertex(Vertex vertex) {
@@ -192,7 +200,7 @@ public class GeometricConstruct {
         this.coordinateType = POLAR;
     }
 
-    private ColumnVector convertCartesianCoordinateToPolar(ColumnVector cartesianCoordinates) {
+    public static ColumnVector convertCartesianCoordinateToPolar(ColumnVector cartesianCoordinates) {
         float x = cartesianCoordinates.getValue(0);
         float y = cartesianCoordinates.getValue(1);
         float z = cartesianCoordinates.getValue(2);
@@ -202,7 +210,7 @@ public class GeometricConstruct {
         return new ColumnVector(r, inclination, azimuth);
     }
 
-    private ColumnVector convertPolarCoordinateToCartesian(ColumnVector polarCoordinates) {
+    public static ColumnVector convertPolarCoordinateToCartesian(ColumnVector polarCoordinates) {
         float r = polarCoordinates.getValue(0);
         float inclinationAngle = polarCoordinates.getValue(1);
         float azimuthAngle = polarCoordinates.getValue(2);
@@ -231,5 +239,9 @@ public class GeometricConstruct {
             this.addFace(getVertexIndex(v2), v5, v4);
             this.addFace(v3, v4, v5);
         }
+    }
+
+    public List<Face> getFaces() {
+        return new ArrayList<>(faces);
     }
 }

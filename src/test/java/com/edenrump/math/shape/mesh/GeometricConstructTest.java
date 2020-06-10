@@ -167,7 +167,7 @@ public class GeometricConstructTest {
         Assert.assertEquals(square.getNumberOfFaces(), 32);
     }
 
-    private GeometricConstruct getTestSquare() {
+    public GeometricConstruct getTestSquare() {
         float[][] points = squarePoints();
 
         GeometricConstruct square = new GeometricConstruct(POLAR);
