@@ -25,7 +25,7 @@ public class EdgeTest {
     @Test
     public void equalsTest() {
         Assert.assertEquals(edge1, edge2);
-        Assert.assertNotEquals(edge1, new Edge(v2, v1));
+        Assert.assertEquals(edge1, new Edge(v2, v1)); //edges are meant to be direction-independent
     }
 
     @Test
