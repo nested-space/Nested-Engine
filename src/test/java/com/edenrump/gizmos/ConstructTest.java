@@ -6,7 +6,7 @@ import com.edenrump.graphic.data.std140SquareMatrix;
 import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.gpu.UniformBlockBuffer;
 import com.edenrump.graphic.mesh.GPUMesh;
-import com.edenrump.graphic.mesh.MeshFactory;
+import com.edenrump.graphic.mesh.ConstructConverter;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
@@ -62,7 +62,7 @@ public class ConstructTest {
 
             GeometricConstruct construct = GeometricConstructTest.getTestSquare();
             construct.setCoordinateType(GeometricConstruct.CARTESIAN);
-            rectangle = MeshFactory.convertConstructToMesh(construct).commitToGPU();
+            rectangle = ConstructConverter.convertConstructToMesh(construct).commitToGPU();
 
             GUI_StaticEntity rectEntity = new GUI_StaticEntity(rectangle);
 

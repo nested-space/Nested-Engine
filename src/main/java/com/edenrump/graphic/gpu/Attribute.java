@@ -13,10 +13,11 @@ public class Attribute {
     public static final int VOLUME_COORDS_VERTEX_SIZE = 0x3;
 
     public static final String POSITIONS_ATTRIB_NAME = "positions";
+    public static final String NORMALS_ATTRIB_NAME = "normals";
     public static final String TEXTURE_COORDS_ATTRIB_NAME = "textureCoordinates";
     public static final String COLOURS_ATTRIB_NAME = "colours";
 
-    public static final int POSITION_COORDINATE_ATTRIB = 0x0;
+    public static final int POSITION_ATTRIB = 0x0;
     public static final int NORMALS_ATTRIB = 0x1;
     public static final int TEXTURE_COORDS_ATTRIB = 0x2;
     public static final int COLOURS_ATTRIB = 0x2;
@@ -72,13 +73,17 @@ public class Attribute {
         pointVertexAttribute();
     }
 
+    public Attribute(int location, String name, int size, int vboID){
+        this(location, name, size, 0, 0, vboID);
+    }
+
     /**
      * Method to get type-safe attribute for referencing a standard location and
      * name for vertex positions
      */
     public static Attribute getDefaultPositionsAttribute(int vboID, int dimensionsPerVertex) {
         return new Attribute(
-                POSITION_COORDINATE_ATTRIB,
+                POSITION_ATTRIB,
                 POSITIONS_ATTRIB_NAME,
                 dimensionsPerVertex, 0, 0,
                 vboID);
@@ -88,11 +93,11 @@ public class Attribute {
      * Method to get type-safe attribute for referencing a standard location and
      * name for vertex positions
      */
-    public static Attribute getDefault2DPositionsAttribute(int vboID) {
+    public static Attribute getDefaultNormalsAttribute(int vboID) {
         return new Attribute(
-                POSITION_COORDINATE_ATTRIB,
-                POSITIONS_ATTRIB_NAME,
-                2, 0, 0,
+                NORMALS_ATTRIB,
+                NORMALS_ATTRIB_NAME,
+                3, 0, 0,
                 vboID);
     }
 

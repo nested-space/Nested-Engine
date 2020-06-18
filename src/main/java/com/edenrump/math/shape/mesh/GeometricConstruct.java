@@ -13,6 +13,7 @@ public class GeometricConstruct {
     public static final int CARTESIAN = 0x0;
     public static final int POLAR = 0x1;
     protected int coordinateType = -1;
+    protected int dimensions;
 
     protected List<ColumnVector> vertexPositions = new ArrayList<>();
     protected List<ColumnVector> vertexNormals = new ArrayList<>();
@@ -21,6 +22,7 @@ public class GeometricConstruct {
 
     public GeometricConstruct(int coordinateType) {
         setCoordinateType(coordinateType);
+        dimensions = 3;
     }
 
     public int getCoordinateType() {
@@ -232,5 +234,9 @@ public class GeometricConstruct {
 
     public Face getFace(int i) {
         return faces.get(i);
+    }
+
+    public int getDimensions() {
+        return dimensions;
     }
 }

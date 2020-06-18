@@ -167,7 +167,7 @@ public class GeometricConstructTest {
         Assert.assertEquals(square.getNumberOfFaces(), 32);
     }
 
-    public GeometricConstruct getTestSquare() {
+    public static GeometricConstruct getTestSquare() {
         float[][] points = squarePoints();
 
         GeometricConstruct square = new GeometricConstruct(POLAR);
@@ -192,7 +192,7 @@ public class GeometricConstructTest {
         return square;
     }
 
-    private float[][] squarePoints() {
+    private static float[][] squarePoints() {
         //  0-----2
         //  |  o  |    o origin, n = point; all points in the XY plane so inclination angle is 90° (π/2)
         //  1-----3
