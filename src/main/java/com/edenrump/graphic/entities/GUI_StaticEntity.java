@@ -1,16 +1,16 @@
 package com.edenrump.graphic.entities;
 
 import com.edenrump.graphic.geom.Transform;
-import com.edenrump.graphic.components.Mesh;
+import com.edenrump.graphic.gpu.GPUMesh;
 import com.edenrump.graphic.gpu.Uniform;
 
 public class GUI_StaticEntity implements Renderable {
 
-    Mesh mesh;
+    GPUMesh mesh;
     Transform transform;
     Uniform transformationMatrix = new Uniform(0, 0, "null");
 
-    public GUI_StaticEntity(Mesh mesh) {
+    public GUI_StaticEntity(GPUMesh mesh) {
         this.mesh = mesh;
         transform = new Transform();
     }

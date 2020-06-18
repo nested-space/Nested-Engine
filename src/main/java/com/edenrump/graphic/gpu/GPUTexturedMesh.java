@@ -24,11 +24,8 @@
  *
  */
 
-package com.edenrump.graphic.components;
+package com.edenrump.graphic.gpu;
 
-import com.edenrump.graphic.gpu.Attribute;
-import com.edenrump.graphic.gpu.Texture;
-import com.edenrump.graphic.gpu.VertexBufferObject;
 import com.edenrump.math.util.DataUtils;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -38,7 +35,7 @@ import static org.lwjgl.opengl.GL15.*;
 /**
  * This class represents how a mesh should be created and stored in the application
  */
-public class TexturedMesh extends Mesh {
+public class GPUTexturedMesh extends GPUMesh {
 
     private Texture texture;
 

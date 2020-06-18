@@ -2,7 +2,7 @@ package gizmos;
 
 import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.geom.PerspectiveProjection;
-import com.edenrump.graphic.components.Mesh;
+import com.edenrump.graphic.gpu.GPUMesh;
 import com.edenrump.graphic.gpu.Uniform;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
@@ -83,7 +83,7 @@ public class OrthogonalProjectionTest {
                 3, 1, 2//bottom right triangle (v3, v1, v2)
         };
 
-        Mesh mesh = new Mesh();
+        GPUMesh mesh = new GPUMesh();
         mesh.setPositions(positions, indices);
         GUI_StaticEntity r1 = new GUI_StaticEntity(mesh);
         r1.setTransformationUniform(roundedCornersShaderProgram.getUniform("modelMatrix"));

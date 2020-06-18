@@ -1,8 +1,5 @@
-package com.edenrump.graphic.components;
+package com.edenrump.graphic.gpu;
 
-import com.edenrump.graphic.gpu.Attribute;
-import com.edenrump.graphic.gpu.VertexArrayObject;
-import com.edenrump.graphic.gpu.VertexBufferObject;
 import com.edenrump.math.util.DataUtils;
 
 import java.util.ArrayList;
@@ -12,7 +9,7 @@ import static com.edenrump.graphic.gpu.Attribute.POSITIONS_ATTRIB_NAME;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public class Mesh {
+public class GPUMesh {
 
     int elements;
     int dimensionsPerVertex = 3;
@@ -55,7 +52,7 @@ public class Mesh {
         this.glDrawType = glDrawType;
     }
 
-    public Mesh() {
+    public GPUMesh() {
         vao = new VertexArrayObject();
     }
 
