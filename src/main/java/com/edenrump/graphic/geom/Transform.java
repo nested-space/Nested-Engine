@@ -2,7 +2,7 @@ package com.edenrump.graphic.geom;
 
 import com.edenrump.math.arrays.ColumnVector;
 import com.edenrump.math.arrays.SquareMatrix;
-import com.edenrump.math.calculations.HyperVolume;
+import com.edenrump.math.calculations.Volume;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -87,11 +87,11 @@ public class Transform {
     public FloatBuffer getTransformationMatrix() {
         SquareMatrix transformationMatrix = new SquareMatrix(4);
 
-        SquareMatrix txyz = HyperVolume.translate(translation);
-        SquareMatrix rx = HyperVolume.rotate(rotation.getValues()[0], 1, 0, 0);
-        SquareMatrix ry = HyperVolume.rotate(rotation.getValues()[1], 0, 1, 0);
-        SquareMatrix rz = HyperVolume.rotate(rotation.getValues()[2], 0, 0, 1);
-        SquareMatrix s = HyperVolume.scale(scale.getValues()[0], scale.getValues()[1], scale.getValues()[2]);
+        SquareMatrix txyz = Volume.createTranslationMatrix(translation);
+        SquareMatrix rx = Volume.createRotationMatrix(rotation.getValues()[0], 1, 0, 0);
+        SquareMatrix ry = Volume.createRotationMatrix(rotation.getValues()[1], 0, 1, 0);
+        SquareMatrix rz = Volume.createRotationMatrix(rotation.getValues()[2], 0, 0, 1);
+        SquareMatrix s = Volume.createScaleMatrix(scale.getValues()[0], scale.getValues()[1], scale.getValues()[2]);
         transformationMatrix = transformationMatrix.multiply(s).multiply(rx).multiply(ry).multiply(rz).multiply(txyz);
 
         FloatBuffer buffer = BufferUtils.createFloatBuffer(16);

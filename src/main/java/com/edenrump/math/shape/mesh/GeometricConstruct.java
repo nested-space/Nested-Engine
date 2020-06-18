@@ -1,6 +1,7 @@
 package com.edenrump.math.shape.mesh;
 
 import com.edenrump.math.arrays.ColumnVector;
+import com.edenrump.math.calculations.Volume;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -169,13 +170,13 @@ public class GeometricConstruct {
 
         List<ColumnVector> cartesianCoordinates = new ArrayList<>();
         for (ColumnVector polar : vertexPositions) {
-            cartesianCoordinates.add(convertPolarCoordinateToCartesian(polar));
+            cartesianCoordinates.add(Volume.convertPolarCoordinateToCartesian(polar));
         }
         vertexPositions = cartesianCoordinates;
 
         List<ColumnVector> cartesianNormals = new ArrayList<>();
         for (ColumnVector polar : vertexNormals) {
-            cartesianNormals.add(convertPolarCoordinateToCartesian(polar));
+            cartesianNormals.add(Volume.convertPolarCoordinateToCartesian(polar));
         }
         vertexNormals = cartesianNormals;
 
@@ -187,37 +188,17 @@ public class GeometricConstruct {
 
         List<ColumnVector> cartesianPositions = new ArrayList<>();
         for (ColumnVector polar : vertexPositions) {
-            cartesianPositions.add(convertCartesianCoordinateToPolar(polar));
+            cartesianPositions.add(Volume.convertCartesianCoordinateToPolar(polar));
         }
         vertexPositions = cartesianPositions;
 
         List<ColumnVector> cartesianNormals = new ArrayList<>();
         for (ColumnVector polar : vertexNormals) {
-            cartesianNormals.add(convertCartesianCoordinateToPolar(polar));
+            cartesianNormals.add(Volume.convertCartesianCoordinateToPolar(polar));
         }
         vertexNormals = cartesianNormals;
 
         this.coordinateType = POLAR;
-    }
-
-    public static ColumnVector convertCartesianCoordinateToPolar(ColumnVector cartesianCoordinates) {
-        float x = cartesianCoordinates.getValue(0);
-        float y = cartesianCoordinates.getValue(1);
-        float z = cartesianCoordinates.getValue(2);
-        float r = cartesianCoordinates.length();
-        float azimuth = (float) Math.atan(y / x);
-        float inclination = (float) Math.acos(z / r);
-        return new ColumnVector(r, inclination, azimuth);
-    }
-
-    public static ColumnVector convertPolarCoordinateToCartesian(ColumnVector polarCoordinates) {
-        float r = polarCoordinates.getValue(0);
-        float inclinationAngle = polarCoordinates.getValue(1);
-        float azimuthAngle = polarCoordinates.getValue(2);
-        float x = (float) (r * Math.cos(azimuthAngle) * Math.sin(inclinationAngle));
-        float y = (float) (r * Math.sin(azimuthAngle) * Math.sin(inclinationAngle));
-        float z = (float) (r * Math.cos(inclinationAngle));
-        return new ColumnVector(x, y, z);
     }
 
     public void subdivideMesh() {
@@ -243,5 +224,13 @@ public class GeometricConstruct {
 
     public List<Face> getFaces() {
         return new ArrayList<>(faces);
+    }
+
+    public Vertex getVertex(int i) {
+        return vertices.get(i);
+    }
+
+    public Face getFace(int i) {
+        return faces.get(i);
     }
 }

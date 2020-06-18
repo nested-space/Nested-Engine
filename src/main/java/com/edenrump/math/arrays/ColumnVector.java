@@ -4,8 +4,8 @@ import java.nio.FloatBuffer;
 
 public class ColumnVector {
 
-    private int dimensions;
-    private float[] values;
+    private final int dimensions;
+    private final float[] values;
 
     public ColumnVector(int dimensions) {
         this.dimensions = dimensions;
@@ -218,7 +218,6 @@ public class ColumnVector {
 
         return new ColumnVector(a, b, c);
     }
-
 
     @Override
     public int hashCode() {

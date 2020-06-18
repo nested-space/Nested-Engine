@@ -1,4 +1,4 @@
-package com.edenrump.graphic.math;
+package com.edenrump.graphic.data;
 
 import org.lwjgl.system.MemoryStack;
 import org.testng.Assert;

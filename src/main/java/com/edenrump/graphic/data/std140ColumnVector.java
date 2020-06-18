@@ -1,4 +1,4 @@
-package com.edenrump.graphic.math;
+package com.edenrump.graphic.data;
 
 import com.edenrump.math.arrays.ColumnVector;
 

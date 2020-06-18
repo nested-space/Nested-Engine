@@ -1,6 +1,5 @@
-package com.edenrump.graphic.math;
+package com.edenrump.graphic.data;
 
-import com.edenrump.math.util.ByteUtils;
 import org.lwjgl.BufferUtils;
 
 import java.nio.ByteBuffer;

@@ -1,9 +1,9 @@
 package gizmos;
 
 import com.edenrump.graphic.entities.GUI_StaticEntity;
-import com.edenrump.graphic.math.Std140Compatible;
-import com.edenrump.graphic.math.std140ColumnVector;
-import com.edenrump.graphic.math.std140SquareMatrix;
+import com.edenrump.graphic.data.Std140Compatible;
+import com.edenrump.graphic.data.std140ColumnVector;
+import com.edenrump.graphic.data.std140SquareMatrix;
 import com.edenrump.graphic.components.Mesh;
 import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
 import com.edenrump.graphic.render.StaticRenderer;

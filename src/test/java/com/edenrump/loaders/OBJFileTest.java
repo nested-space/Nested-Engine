@@ -1,4 +1,4 @@
-package com.edenrump.loaders.format;
+package com.edenrump.loaders;
 
 import com.edenrump.loaders.OBJFile;
 import com.edenrump.math.shape.textured.WrappedConstruct;
@@ -27,7 +27,7 @@ public class OBJFileTest {
     }
 
     @Test(priority = 3)
-    public void voidMeshFormatTests() {
+    public void meshFormatTests() {
         Assert.assertThrows(RuntimeException.class, () -> //if lines contain text that's not a float, reject
                 new OBJFile("src/test/resources/models/Cube_BadlyFormatted_VertexPositions_NotFloats.obj"));
 

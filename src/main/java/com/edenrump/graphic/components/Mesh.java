@@ -102,6 +102,7 @@ public class Mesh {
         int positionVBO = this.getAttribute(POSITIONS_ATTRIB_NAME).getVBOId();
         VertexBufferObject.bind(positionVBO, GL_ARRAY_BUFFER);
         VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
+        //TODO: improve with map buffer;
     }
 
     public void updateIndices(int[] indices) {
@@ -112,8 +113,6 @@ public class Mesh {
             VertexBufferObject.uploadData(GL_ELEMENT_ARRAY_BUFFER, DataUtils.storeDataInBuffer(indices), GL_STATIC_DRAW);
         }
     }
-
-
 
     void unbind() {
         glBindVertexArray(0);
