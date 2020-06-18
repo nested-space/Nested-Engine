@@ -1,7 +1,7 @@
 package com.edenrump.graphic.entities;
 
 import com.edenrump.graphic.geom.Transform;
-import com.edenrump.graphic.gpu.GPUMesh;
+import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.gpu.Uniform;
 
 public class GUI_StaticEntity implements Renderable {

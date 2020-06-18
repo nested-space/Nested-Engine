@@ -24,8 +24,11 @@
  *
  */
 
-package com.edenrump.graphic.gpu;
+package com.edenrump.graphic.mesh;
 
+import com.edenrump.graphic.gpu.Attribute;
+import com.edenrump.graphic.gpu.Texture;
+import com.edenrump.graphic.gpu.VertexBufferObject;
 import com.edenrump.math.util.DataUtils;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -38,6 +41,10 @@ import static org.lwjgl.opengl.GL15.*;
 public class GPUTexturedMesh extends GPUMesh {
 
     private Texture texture;
+
+    public GPUTexturedMesh(int dimensionsPerVertex) {
+        super(dimensionsPerVertex);
+    }
 
     @Override
     public void enableAttributes() {

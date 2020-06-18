@@ -1,23 +1,32 @@
-package com.edenrump.graphic.gpu;
+package com.edenrump.graphic.mesh;
 
+import com.edenrump.graphic.gpu.Attribute;
+import com.edenrump.graphic.gpu.VertexArrayObject;
+import com.edenrump.graphic.gpu.VertexBufferObject;
 import com.edenrump.math.util.DataUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import static com.edenrump.graphic.gpu.Attribute.POSITIONS_ATTRIB_NAME;
+import static com.edenrump.graphic.gpu.Attribute.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public class GPUMesh {
 
-    int elements;
-    int dimensionsPerVertex = 3;
+    protected final VertexArrayObject vao;
+    private final Map<String, Attribute> attributes = new HashMap<>();
+    private final int dimensionsPerVertex;
+
+    protected VertexBufferObject indexBuffer;
+
+    private int elements;
     private int glDrawType = GL_TRIANGLES;
 
-    protected final VertexArrayObject vao;
-    protected VertexBufferObject indexBuffer;
-    private final List<Attribute> attributes = new ArrayList<>();
+    public GPUMesh(int dimensionsPerVertex) {
+        this.dimensionsPerVertex = dimensionsPerVertex;
+        vao = new VertexArrayObject();
+    }
 
     public void enableAttributes() {
         for (Attribute attribute : getAttributes()) {
@@ -52,51 +61,52 @@ public class GPUMesh {
         this.glDrawType = glDrawType;
     }
 
-    public GPUMesh() {
-        vao = new VertexArrayObject();
-    }
-
     void setIndices(int[] indices) {
         indexBuffer = new VertexBufferObject();
         indexBuffer.bind(GL_ELEMENT_ARRAY_BUFFER);
         VertexBufferObject.uploadData(GL_ELEMENT_ARRAY_BUFFER, DataUtils.storeDataInBuffer(indices), GL_STATIC_DRAW);
     }
 
-    List<Attribute> getAttributes() {
-        return attributes;
+    protected Attribute[] getAttributes() {
+        return attributes.values().toArray(Attribute[]::new);
     }
 
-    Attribute getAttribute(String attributeName) {
-        for (Attribute attribute : attributes) {
-            if (attribute.getName().equals(attributeName)) return attribute;
-        }
-        return null;
+    protected void addAttribute(Attribute attribute) {
+        attributes.put(attribute.getName(), attribute);
     }
 
-    void addAttribute(Attribute attribute) {
-        attributes.add(attribute);
+    protected void addAttribute(int location, String name, float[] values) {
+        VertexBufferObject vbo = new VertexBufferObject();
+        vbo.bind(GL_ARRAY_BUFFER);
+        VertexBufferObject.uploadData(
+                GL_ARRAY_BUFFER,
+                DataUtils.storeDataInBuffer(values),
+                GL_STATIC_DRAW
+        );
+        Attribute attribute = new Attribute(
+                location,
+                name,
+                dimensionsPerVertex,
+                vbo.getID());
+        this.addAttribute(attribute);
     }
 
-    public void setPositions(float[] positions, int[] indices){
+    protected void setNormals(float[] values) {
+        addAttribute(NORMALS_ATTRIB, NORMALS_ATTRIB_NAME, values);
+    }
+
+    public void setPositions(float[] positions, int[] indices) {
         elements = indices.length;
-        System.out.println("Dimensions: " + dimensionsPerVertex);
         vao.bind();
 
-        VertexBufferObject positionVBO = new VertexBufferObject();
-        positionVBO.bind(GL_ARRAY_BUFFER);
-        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
-        Attribute positionsAttrib = Attribute.getDefaultPositionsAttribute(positionVBO.getID(), dimensionsPerVertex);
-        this.addAttribute(positionsAttrib);
-
-        indexBuffer = new VertexBufferObject();
-        indexBuffer.bind(GL_ELEMENT_ARRAY_BUFFER);
-        VertexBufferObject.uploadData(GL_ELEMENT_ARRAY_BUFFER, DataUtils.storeDataInBuffer(indices), GL_STATIC_DRAW);
+        addAttribute(POSITION_ATTRIB, POSITIONS_ATTRIB_NAME, positions);
+        setIndices(indices);
 
         this.unbind();
     }
 
     public void updatePositions(float[] positions) {
-        int positionVBO = this.getAttribute(POSITIONS_ATTRIB_NAME).getVBOId();
+        int positionVBO = attributes.get(POSITIONS_ATTRIB_NAME).getVBOId();
         VertexBufferObject.bind(positionVBO, GL_ARRAY_BUFFER);
         VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(positions), GL_STATIC_DRAW);
         //TODO: improve with map buffer;
@@ -114,4 +124,5 @@ public class GPUMesh {
     void unbind() {
         glBindVertexArray(0);
     }
+
 }
