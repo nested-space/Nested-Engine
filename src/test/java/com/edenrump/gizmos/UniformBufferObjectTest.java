@@ -1,10 +1,10 @@
-package gizmos;
+package com.edenrump.gizmos;
 
 import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.data.Std140Compatible;
 import com.edenrump.graphic.data.std140ColumnVector;
 import com.edenrump.graphic.data.std140SquareMatrix;
-import com.edenrump.graphic.gpu.GPUMesh;
+import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.gpu.UniformBlockBuffer;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
@@ -67,7 +67,7 @@ public class UniformBufferObjectTest {
             Std140Compatible vec3ColorY = new std140ColumnVector(0.7f, 1f, 0.4f);
             ubo.updateBuffer(Std140Compatible.putAllInBuffer(mat4Padding, vec3ColorY));
 
-            rectangle = new GPUMesh();
+            rectangle = new GPUMesh(3);
             rectangle.setPositions(positions, indices);
 
             GUI_StaticEntity rectEntity = new GUI_StaticEntity(rectangle);

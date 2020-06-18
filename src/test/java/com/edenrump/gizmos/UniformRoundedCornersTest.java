@@ -1,9 +1,9 @@
-package gizmos;
+package com.edenrump.gizmos;
 
 import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.data.Std140Compatible;
 import com.edenrump.graphic.data.std140ColumnVector;
-import com.edenrump.graphic.gpu.GPUMesh;
+import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.gpu.UniformBlockBuffer;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
@@ -90,7 +90,7 @@ public class UniformRoundedCornersTest {
     }
 
     public static GUI_StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram) {
-        GPUMesh mesh = new GPUMesh();
+        GPUMesh mesh = new GPUMesh(3);
         mesh.setPositions(positions, indices);
         GUI_StaticEntity r1 = new GUI_StaticEntity(mesh);
         r1.setTransformationUniform(roundedCornersShaderProgram.getUniform("modelMatrix"));
