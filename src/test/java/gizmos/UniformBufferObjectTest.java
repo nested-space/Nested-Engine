@@ -5,7 +5,7 @@ import com.edenrump.graphic.data.Std140Compatible;
 import com.edenrump.graphic.data.std140ColumnVector;
 import com.edenrump.graphic.data.std140SquareMatrix;
 import com.edenrump.graphic.components.Mesh;
-import com.edenrump.graphic.openGL_gpu.UniformBlockBuffer;
+import com.edenrump.graphic.gpu.UniformBlockBuffer;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;

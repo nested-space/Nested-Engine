@@ -3,7 +3,7 @@ package gizmos;
 import com.edenrump.graphic.entities.GUI_StaticEntity;
 import com.edenrump.graphic.geom.PerspectiveProjection;
 import com.edenrump.graphic.components.Mesh;
-import com.edenrump.graphic.openGL_gpu.Uniform;
+import com.edenrump.graphic.gpu.Uniform;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;

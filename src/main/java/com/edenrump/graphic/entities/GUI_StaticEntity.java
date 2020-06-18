@@ -2,7 +2,7 @@ package com.edenrump.graphic.entities;
 
 import com.edenrump.graphic.geom.Transform;
 import com.edenrump.graphic.components.Mesh;
-import com.edenrump.graphic.openGL_gpu.Uniform;
+import com.edenrump.graphic.gpu.Uniform;
 
 public class GUI_StaticEntity implements Renderable {
 

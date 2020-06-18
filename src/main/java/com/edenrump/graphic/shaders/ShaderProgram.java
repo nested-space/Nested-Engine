@@ -23,7 +23,7 @@
  */
 package com.edenrump.graphic.shaders;
 
-import com.edenrump.graphic.openGL_gpu.Uniform;
+import com.edenrump.graphic.gpu.Uniform;
 
 import java.util.HashMap;
 import java.util.Map;

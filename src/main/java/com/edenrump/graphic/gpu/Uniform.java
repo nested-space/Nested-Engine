@@ -1,4 +1,4 @@
-package com.edenrump.graphic.openGL_gpu;
+package com.edenrump.graphic.gpu;
 
 import static org.lwjgl.opengl.GL20.glUseProgram;
 

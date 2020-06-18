@@ -1,14 +1,14 @@
 package com.edenrump.graphic.components;
 
-import com.edenrump.graphic.openGL_gpu.Attribute;
-import com.edenrump.graphic.openGL_gpu.VertexArrayObject;
-import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
+import com.edenrump.graphic.gpu.Attribute;
+import com.edenrump.graphic.gpu.VertexArrayObject;
+import com.edenrump.graphic.gpu.VertexBufferObject;
 import com.edenrump.math.util.DataUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.edenrump.graphic.openGL_gpu.Attribute.POSITIONS_ATTRIB_NAME;
+import static com.edenrump.graphic.gpu.Attribute.POSITIONS_ATTRIB_NAME;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 

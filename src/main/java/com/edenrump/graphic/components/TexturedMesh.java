@@ -26,9 +26,9 @@
 
 package com.edenrump.graphic.components;
 
-import com.edenrump.graphic.openGL_gpu.Attribute;
-import com.edenrump.graphic.openGL_gpu.Texture;
-import com.edenrump.graphic.openGL_gpu.VertexBufferObject;
+import com.edenrump.graphic.gpu.Attribute;
+import com.edenrump.graphic.gpu.Texture;
+import com.edenrump.graphic.gpu.VertexBufferObject;
 import com.edenrump.math.util.DataUtils;
 
 import static org.lwjgl.opengl.GL11.*;
