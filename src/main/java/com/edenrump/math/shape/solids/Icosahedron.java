@@ -80,7 +80,7 @@ public class Icosahedron {
         }
 
         for (Triangle face : getFaces()) {
-            geometricConstruct.addFace(face.v1, face.v2, face.v3);
+            geometricConstruct.addFace(face.v2, face.v1, face.v3);
         }
 
         return geometricConstruct;

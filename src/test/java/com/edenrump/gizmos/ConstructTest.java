@@ -14,6 +14,8 @@ import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
+import com.edenrump.graphic.viewport.GifSequenceWriter;
+import com.edenrump.graphic.viewport.Screenshot;
 import com.edenrump.graphic.viewport.Window;
 import com.edenrump.loaders.OBJFile;
 import com.edenrump.math.shape.mesh.GeometricConstruct;
@@ -22,9 +24,16 @@ import com.edenrump.math.shape.solids.Icosahedron;
 import com.edenrump.math.shape.textured.WrappedConstruct;
 import org.lwjgl.BufferUtils;
 
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
@@ -58,6 +67,9 @@ public class ConstructTest {
             v.delete();
             f.delete();
 
+            glEnable(GL_CULL_FACE);
+            glEnable(GL_DEPTH_TEST);
+
             int bufferBlockBinding = 0;
             String uniformBlockName = "TestBlock";
 
@@ -86,10 +98,19 @@ public class ConstructTest {
             rectEntity.translate(0, 0, -3f);
             rectEntity.rotate(90, 0, 0);
 
-            glEnable(GL_CULL_FACE);
-            glEnable(GL_DEPTH_TEST);
-            glCullFace(GL_BACK);
+            ImageOutputStream output = null;
+            GifSequenceWriter writer = null;
+            try {
+                File file = new File("src/test/resources/img/example.gif");
+                System.out.println(file.getAbsolutePath());
+                file.createNewFile();
+                output = new FileImageOutputStream(file);
+                writer = new GifSequenceWriter(output, TYPE_INT_RGB, 1000 / 30, true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+            int count=0;
             while (!window.isCloseRequested()) {
                 rectEntity.rotate(1f, 2f, 0);
                 gameTime.updateTime();
@@ -97,6 +118,31 @@ public class ConstructTest {
                 window.prepareForRender();
                 flatRenderer.render();
                 window.transferBuffersAfterRender();
+
+                int width = window.getWidth();
+                int height = window.getHeight();
+                int bpp = 4; // Assuming a 32-bit display with a byte each for red, green, blue, and alpha.
+                if(false && count < 90){
+                    ByteBuffer screenData = Screenshot.getWindowPixelData(width, height, bpp);
+                    BufferedImage frame = Screenshot.convertToBufferedImage(
+                            screenData,
+                            window.getWidth(),
+                            window.getHeight(),
+                            bpp);
+                    try {
+                        writer.writeToSequence(frame);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    count++;
+                }
+            }
+
+            try {
+                writer.close();
+                output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             flatRenderer.cleanUp();
@@ -111,14 +157,21 @@ public class ConstructTest {
         CPUMesh mesh = ConstructConverter.convertConstructToMesh(construct);
         GPUMesh committed = mesh.commitToGPU();
 
-//        OBJFile file = new OBJFile("src/test/resources/models/Icosahedron.obj");
-//        GeometricConstruct construct = file.getMesh();
-//        CPUMesh mesh = ConstructConverter.convertConstructToMesh(construct);
-//        GPUMesh committed = mesh.commitToGPU();
-
         StaticEntity r1 = new StaticEntity(committed);
         r1.setTransformationUniform(roundedCornersShaderProgram.getUniform("modelMatrix"));
         return r1;
+    }
+
+    private static void setUpWindowBuffer(ShaderProgram shader, Window window) {
+        int bufferBlockBinding = 0;
+        String uniformBlockName = "WindowProperties";
+
+        UniformBlockBuffer ubo = new UniformBlockBuffer();
+        ubo.blockBind(bufferBlockBinding);
+        shader.bindUniformBlock(uniformBlockName, bufferBlockBinding);
+
+        Std140Compatible vec2 = new std140ColumnVector(window.getWidth(), window.getHeight());
+        ubo.updateBuffer(Std140Compatible.putAllInBuffer(vec2));
     }
 
 }
