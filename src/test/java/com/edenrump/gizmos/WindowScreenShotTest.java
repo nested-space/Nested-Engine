@@ -1,6 +1,6 @@
 package com.edenrump.gizmos;
 
-import com.edenrump.graphic.entities.GUI_StaticEntity;
+import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.graphic.data.Std140Compatible;
 import com.edenrump.graphic.data.std140ColumnVector;
 import com.edenrump.graphic.mesh.GPUMesh;
@@ -63,7 +63,7 @@ public class WindowScreenShotTest {
 
             setUpWindowBuffer(shaderProgram, window);
 
-            GUI_StaticEntity r1 = getEntity(shaderProgram);
+            StaticEntity r1 = getEntity(shaderProgram);
             r1.scale(0.5f, 0.5f, 1);
             StaticRenderer flatRenderer = new StaticRenderer(shaderProgram);
             flatRenderer.addMesh(r1);
@@ -110,10 +110,10 @@ public class WindowScreenShotTest {
         ubo.updateBuffer(Std140Compatible.putAllInBuffer(vec2));
     }
 
-    public static GUI_StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram) {
+    public static StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram) {
         GPUMesh mesh = new GPUMesh(3);
         mesh.setPositions(positions, indices);
-        GUI_StaticEntity r1 = new GUI_StaticEntity(mesh);
+        StaticEntity r1 = new StaticEntity(mesh);
         r1.setTransformationUniform(roundedCornersShaderProgram.getUniform("modelMatrix"));
         return r1;
     }

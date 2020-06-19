@@ -1,6 +1,6 @@
 package com.edenrump.gizmos;
 
-import com.edenrump.graphic.entities.GUI_StaticEntity;
+import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.graphic.data.Std140Compatible;
 import com.edenrump.graphic.data.std140ColumnVector;
 import com.edenrump.graphic.data.std140SquareMatrix;
@@ -70,7 +70,7 @@ public class UniformBufferObjectTest {
             rectangle = new GPUMesh(3);
             rectangle.setPositions(positions, indices);
 
-            GUI_StaticEntity rectEntity = new GUI_StaticEntity(rectangle);
+            StaticEntity rectEntity = new StaticEntity(rectangle);
 
             StaticRenderer flatRenderer = new StaticRenderer(uniformBufferTestShader);
             flatRenderer.addMesh(rectEntity);

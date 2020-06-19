@@ -92,7 +92,9 @@ public class GPUMesh {
     }
 
     protected void setNormals(float[] values) {
+        vao.bind();
         addAttribute(NORMALS_ATTRIB, NORMALS_ATTRIB_NAME, values);
+        this.unbind();
     }
 
     public void setPositions(float[] positions, int[] indices) {

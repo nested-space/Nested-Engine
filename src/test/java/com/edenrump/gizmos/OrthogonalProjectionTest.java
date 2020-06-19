@@ -1,6 +1,6 @@
 package com.edenrump.gizmos;
 
-import com.edenrump.graphic.entities.GUI_StaticEntity;
+import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.graphic.geom.PerspectiveProjection;
 import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.gpu.Uniform;
@@ -51,7 +51,7 @@ public class OrthogonalProjectionTest {
             buffer.flip();
             uf.asUniformMatrix().update_4x4(buffer);
 
-            GUI_StaticEntity r1 = getEntity(shaderProgram);
+            StaticEntity r1 = getEntity(shaderProgram);
             r1.scale(0.5f, 0.5f, -2);
             StaticRenderer flatRenderer = new StaticRenderer(shaderProgram);
             flatRenderer.addMesh(r1);
@@ -71,7 +71,7 @@ public class OrthogonalProjectionTest {
         };
     }
 
-    public static GUI_StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram) {
+    public static StaticEntity getEntity(ShaderProgram roundedCornersShaderProgram) {
         float[] positions = new float[]{
                 -1f, 1f, 1f,      //v0
                 -1f, -1f, 1f,   //v1
@@ -85,7 +85,7 @@ public class OrthogonalProjectionTest {
 
         GPUMesh mesh = new GPUMesh(3);
         mesh.setPositions(positions, indices);
-        GUI_StaticEntity r1 = new GUI_StaticEntity(mesh);
+        StaticEntity r1 = new StaticEntity(mesh);
         r1.setTransformationUniform(roundedCornersShaderProgram.getUniform("modelMatrix"));
         return r1;
     }

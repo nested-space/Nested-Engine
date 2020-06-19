@@ -4,13 +4,13 @@ import com.edenrump.graphic.geom.Transform;
 import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.gpu.Uniform;
 
-public class GUI_StaticEntity implements Renderable {
+public class StaticEntity implements Renderable {
 
     GPUMesh mesh;
     Transform transform;
     Uniform transformationMatrix = new Uniform(0, 0, "null");
 
-    public GUI_StaticEntity(GPUMesh mesh) {
+    public StaticEntity(GPUMesh mesh) {
         this.mesh = mesh;
         transform = new Transform();
     }

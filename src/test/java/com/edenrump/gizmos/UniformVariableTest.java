@@ -1,6 +1,6 @@
 package com.edenrump.gizmos;
 
-import com.edenrump.graphic.entities.GUI_StaticEntity;
+import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.gpu.Uniform;
 import com.edenrump.graphic.render.StaticRenderer;
@@ -71,8 +71,8 @@ public class UniformVariableTest {
                             3, 1, 2//bottom right triangle (v3, v1, v2)
                     });
 
-            GUI_StaticEntity r1 = new GUI_StaticEntity(mesh1);
-            GUI_StaticEntity r2 = new GUI_StaticEntity(mesh2);
+            StaticEntity r1 = new StaticEntity(mesh1);
+            StaticEntity r2 = new StaticEntity(mesh2);
             StaticRenderer flatRenderer = new StaticRenderer(uniformColorTestShader);
             flatRenderer.addMesh(r1);
             flatRenderer.addMesh(r2);

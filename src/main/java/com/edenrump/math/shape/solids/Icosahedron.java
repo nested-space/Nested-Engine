@@ -96,7 +96,7 @@ public class Icosahedron {
             int v0 = geometricConstruct.addVertex(new Vertex(face.v1, faceIndex));
             int v1 = geometricConstruct.addVertex(new Vertex(face.v2, faceIndex));
             int v2 = geometricConstruct.addVertex(new Vertex(face.v3, faceIndex));
-            geometricConstruct.addFace(v0, v1, v2);
+            geometricConstruct.addFace(v1, v0, v2);
         }
         return geometricConstruct;
     }
@@ -104,22 +104,22 @@ public class Icosahedron {
     private List<ColumnVector> getVertexCoordinatesCartesian() {
         List<ColumnVector> vertexPositions = new ArrayList<>();
 
-        float t = (float) ((1.0 + Math.sqrt(5.0)) / 2.0);
+        float t = (float) ((1.0 + Math.sqrt(5.0)) / 2.0) * radius;
 
-        vertexPositions.add(new ColumnVector(-1, t, 0));
-        vertexPositions.add(new ColumnVector(1, t, 0));
-        vertexPositions.add(new ColumnVector(-1, -t, 0));
-        vertexPositions.add(new ColumnVector(1, -t, 0));
+        vertexPositions.add(new ColumnVector(-radius, t, 0));
+        vertexPositions.add(new ColumnVector(radius, t, 0));
+        vertexPositions.add(new ColumnVector(-radius, -t, 0));
+        vertexPositions.add(new ColumnVector(radius, -t, 0));
 
-        vertexPositions.add(new ColumnVector(0, -1, t));
-        vertexPositions.add(new ColumnVector(0, 1, t));
-        vertexPositions.add(new ColumnVector(0, -1, -t));
-        vertexPositions.add(new ColumnVector(0, 1, -t));
+        vertexPositions.add(new ColumnVector(0, -radius, t));
+        vertexPositions.add(new ColumnVector(0, radius, t));
+        vertexPositions.add(new ColumnVector(0, -radius, -t));
+        vertexPositions.add(new ColumnVector(0, radius, -t));
 
-        vertexPositions.add(new ColumnVector(t, 0, -1));
-        vertexPositions.add(new ColumnVector(t, 0, 1));
-        vertexPositions.add(new ColumnVector(-t, 0, -1));
-        vertexPositions.add(new ColumnVector(-t, 0, 1));
+        vertexPositions.add(new ColumnVector(t, 0, -radius));
+        vertexPositions.add(new ColumnVector(t, 0, radius));
+        vertexPositions.add(new ColumnVector(-t, 0, -radius));
+        vertexPositions.add(new ColumnVector(-t, 0, radius));
 
         return vertexPositions;
     }
@@ -129,7 +129,7 @@ public class Icosahedron {
         List<ColumnVector> faceNormals = new ArrayList<>();
 
         for (Triangle face : getFaces()) {
-            faceNormals.add(averageNormal(vn[face.v1], vn[face.v2], vn[face.v3]));
+            faceNormals.add(calculateNormal(vn[face.v1], vn[face.v2], vn[face.v3]));
         }
 
         return faceNormals;
@@ -139,38 +139,38 @@ public class Icosahedron {
         List<Triangle> faces = new ArrayList<>();
 
         // 5 faces around point 0
-        faces.add(new Triangle(0, 11, 5));
-        faces.add(new Triangle(0, 5, 1));
-        faces.add(new Triangle(0, 1, 7));
-        faces.add(new Triangle(0, 7, 10));
-        faces.add(new Triangle(0, 10, 11));
+        faces.add(new Triangle(11, 0, 5));
+        faces.add(new Triangle(5, 0, 1));
+        faces.add(new Triangle(1, 0, 7));
+        faces.add(new Triangle(7, 0, 10));
+        faces.add(new Triangle(10, 0, 11));
 
         // 5 adjacent faces
-        faces.add(new Triangle(1, 5, 9));
-        faces.add(new Triangle(5, 11, 4));
-        faces.add(new Triangle(11, 10, 2));
-        faces.add(new Triangle(10, 7, 6));
-        faces.add(new Triangle(7, 1, 8));
+        faces.add(new Triangle(5, 1, 9));
+        faces.add(new Triangle(11, 5, 4));
+        faces.add(new Triangle(10, 11, 2));
+        faces.add(new Triangle(7, 10, 6));
+        faces.add(new Triangle(1, 7, 8));
 
         // 5 faces around point 3
-        faces.add(new Triangle(3, 9, 4));
-        faces.add(new Triangle(3, 4, 2));
-        faces.add(new Triangle(3, 2, 6));
-        faces.add(new Triangle(3, 6, 8));
-        faces.add(new Triangle(3, 8, 9));
+        faces.add(new Triangle(9, 3, 4));
+        faces.add(new Triangle(4, 3, 2));
+        faces.add(new Triangle(2, 3, 6));
+        faces.add(new Triangle(6, 3, 8));
+        faces.add(new Triangle(8, 3, 9));
 
         // 5 adjacent faces
-        faces.add(new Triangle(4, 9, 5));
-        faces.add(new Triangle(2, 4, 11));
-        faces.add(new Triangle(6, 2, 10));
-        faces.add(new Triangle(8, 6, 7));
-        faces.add(new Triangle(9, 8, 1));
+        faces.add(new Triangle(9, 4, 5));
+        faces.add(new Triangle(4, 2, 11));
+        faces.add(new Triangle(2, 6, 10));
+        faces.add(new Triangle(6, 8, 7));
+        faces.add(new Triangle(8, 9, 1));
 
         return faces;
     }
 
-    private ColumnVector averageNormal(ColumnVector v1, ColumnVector v2, ColumnVector v3) {
-        return v1.add(v2).add(v3).scale(1f / 3f);
+    private ColumnVector calculateNormal(ColumnVector v1, ColumnVector v2, ColumnVector v3) {
+        return (v1.subtract(v2)).cross(v3.subtract(v2));
     }
 
     private static class Triangle {

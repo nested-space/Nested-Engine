@@ -12,8 +12,8 @@ public class Attribute {
     public static final int FLAT_COORDS_VERTEX_SIZE = 0x2;
     public static final int VOLUME_COORDS_VERTEX_SIZE = 0x3;
 
-    public static final String POSITIONS_ATTRIB_NAME = "positions";
-    public static final String NORMALS_ATTRIB_NAME = "normals";
+    public static final String POSITIONS_ATTRIB_NAME = "position";
+    public static final String NORMALS_ATTRIB_NAME = "normal";
     public static final String TEXTURE_COORDS_ATTRIB_NAME = "textureCoordinates";
     public static final String COLOURS_ATTRIB_NAME = "colours";
 
@@ -221,6 +221,8 @@ public class Attribute {
      * Method to point attribute in GPU memory using cached values of location, size, stride and offset
      */
     public void pointVertexAttribute() {
+        glBindBuffer(GL_ARRAY_BUFFER, vboID);
         glVertexAttribPointer(location, size, GL_FLOAT, false, stride, offset);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 }

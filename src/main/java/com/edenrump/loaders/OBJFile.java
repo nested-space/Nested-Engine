@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.edenrump.math.shape.mesh.GeometricConstruct.CARTESIAN;
 import static com.edenrump.math.shape.mesh.GeometricConstruct.POLAR;
 
 public class OBJFile {
@@ -52,7 +53,7 @@ public class OBJFile {
     }
 
     private WrappedConstruct createMesh() {
-        WrappedConstruct construct = new WrappedConstruct(POLAR);
+        WrappedConstruct construct = new WrappedConstruct(CARTESIAN);
         construct.setVertexPositions(getVertexPositions());
         construct.setVertexNormals(getVertexNormals());
 
