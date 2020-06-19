@@ -3,14 +3,12 @@
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 normal;
 
+uniform vec3 lightPosition;
 uniform mat4 projectionMatrix;
 uniform mat4 modelMatrix;
 
 out vec3 surfaceNormal;
 out vec3 toLight;
-out vec3 color;
-
-vec3 lightPosition = vec3(0, 0, 100);
 
 void main(void){
 
@@ -19,7 +17,4 @@ void main(void){
 
     surfaceNormal = (modelMatrix * vec4(normal, 0.0)).xyz;
     toLight = (lightPosition - worldPosition.xyz);
-
-    color = vec3(1, 0, 0);
-
 }

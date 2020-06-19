@@ -2,43 +2,32 @@ package com.edenrump.gizmos;
 
 import com.edenrump.graphic.data.Std140Compatible;
 import com.edenrump.graphic.data.std140ColumnVector;
-import com.edenrump.graphic.data.std140SquareMatrix;
 import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.graphic.geom.PerspectiveProjection;
 import com.edenrump.graphic.gpu.Uniform;
 import com.edenrump.graphic.gpu.UniformBlockBuffer;
 import com.edenrump.graphic.mesh.CPUMesh;
-import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.mesh.ConstructConverter;
+import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
-import com.edenrump.graphic.viewport.GifSequenceWriter;
-import com.edenrump.graphic.viewport.Screenshot;
 import com.edenrump.graphic.viewport.Window;
-import com.edenrump.loaders.OBJFile;
 import com.edenrump.math.shape.mesh.GeometricConstruct;
 import com.edenrump.math.shape.mesh.ShadingType;
 import com.edenrump.math.shape.solids.Icosahedron;
-import com.edenrump.math.shape.textured.WrappedConstruct;
 import org.lwjgl.BufferUtils;
 
-import javax.imageio.stream.FileImageOutputStream;
-import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
-import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
+import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_SRGB;
 
-public class ConstructTest {
+public class LightingTest {
 
     //files required for this shader
     private static Window window;
@@ -69,20 +58,7 @@ public class ConstructTest {
 
             glEnable(GL_CULL_FACE);
             glEnable(GL_DEPTH_TEST);
-
-            int bufferBlockBinding = 0;
-            String uniformBlockName = "TestBlock";
-
-            Uniform colorUniform = shaderProgram.getUniform("color");
-            colorUniform.asUniformFloat().update3values(1, 0.5f, 0);
-
-            UniformBlockBuffer ubo = new UniformBlockBuffer();
-            ubo.blockBind(bufferBlockBinding);
-            shaderProgram.bindUniformBlock(uniformBlockName, bufferBlockBinding);
-
-            Std140Compatible mat4Padding = new std140SquareMatrix(4);
-            Std140Compatible vec3ColorY = new std140ColumnVector(0.7f, 1f, 0.4f);
-            ubo.updateBuffer(Std140Compatible.putAllInBuffer(mat4Padding, vec3ColorY));
+            glEnable(GL_FRAMEBUFFER_SRGB);
 
             StaticEntity rectEntity = getEntity(shaderProgram);
 
@@ -93,24 +69,17 @@ public class ConstructTest {
             buffer.flip();
             uf.asUniformMatrix().update_4x4(buffer);
 
+            Uniform light = shaderProgram.getUniform("lightPosition");
+            light.asUniformFloat().update3values(0, 500, 0);
+
+            Uniform color = shaderProgram.getUniform("color");
+            color.asUniformFloat().update3values(0, 1, 0);
+
             StaticRenderer flatRenderer = new StaticRenderer(shaderProgram);
             flatRenderer.addMesh(rectEntity);
             rectEntity.translate(0, 0, -3f);
             rectEntity.rotate(90, 0, 0);
 
-            ImageOutputStream output = null;
-            GifSequenceWriter writer = null;
-            try {
-                File file = new File("src/test/resources/img/example.gif");
-                System.out.println(file.getAbsolutePath());
-                file.createNewFile();
-                output = new FileImageOutputStream(file);
-                writer = new GifSequenceWriter(output, TYPE_INT_RGB, 1000 / 30, true);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            int count=0;
             while (!window.isCloseRequested()) {
                 rectEntity.rotate(1f, 2f, 0);
                 gameTime.updateTime();
@@ -118,31 +87,6 @@ public class ConstructTest {
                 window.prepareForRender();
                 flatRenderer.render();
                 window.transferBuffersAfterRender();
-
-                int width = window.getWidth();
-                int height = window.getHeight();
-                int bpp = 4; // Assuming a 32-bit display with a byte each for red, green, blue, and alpha.
-                if(false && count < 90){
-                    ByteBuffer screenData = Screenshot.getWindowPixelData(width, height, bpp);
-                    BufferedImage frame = Screenshot.convertToBufferedImage(
-                            screenData,
-                            window.getWidth(),
-                            window.getHeight(),
-                            bpp);
-                    try {
-                        writer.writeToSequence(frame);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    count++;
-                }
-            }
-
-            try {
-                writer.close();
-                output.close();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
             flatRenderer.cleanUp();
