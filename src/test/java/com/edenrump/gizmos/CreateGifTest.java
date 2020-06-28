@@ -10,9 +10,10 @@ import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
-import com.edenrump.graphic.viewport.GifSequenceWriter;
-import com.edenrump.graphic.viewport.Screenshot;
-import com.edenrump.graphic.viewport.Window;
+import com.edenrump.graphic.viewport.display.Bounds;
+import com.edenrump.graphic.viewport.display.Window;
+import com.edenrump.graphic.viewport.window.GifSequenceWriter;
+import com.edenrump.graphic.viewport.window.Screenshot;
 import com.edenrump.math.shape.mesh.GeometricConstruct;
 import com.edenrump.math.shape.mesh.ShadingType;
 import com.edenrump.math.shape.solids.Icosahedron;
@@ -44,8 +45,9 @@ public class CreateGifTest {
     private static Runnable gameLoop() {
 
         return () -> {
-            window = new Window(0.5, 0.5, "Attribute Test", Color.YELLOW);
-            window.create(false);
+            window = new Window(300, 300);
+            window.setApplicationName("GIF Creator Test");
+            window.setDefaultBackground(Color.YELLOW);
             window.show();
             gameTime = Time.getInstance();
 
@@ -82,7 +84,6 @@ public class CreateGifTest {
             GifSequenceWriter writer = null;
             try {
                 File file = new File("src/test/resources/img/example.gif");
-                System.out.println(file.getAbsolutePath());
                 output = new FileImageOutputStream(file);
                 writer = new GifSequenceWriter(output, TYPE_INT_RGB, 1000 / 30, true);
             } catch (IOException e) {
@@ -98,15 +99,16 @@ public class CreateGifTest {
                 flatRenderer.render();
                 window.transferBuffersAfterRender();
 
-                int width = window.getWidth();
-                int height = window.getHeight();
+                Bounds bounds = window.getBounds();
+                int width = Math.round(bounds.getWidth());
+                int height = Math.round(bounds.getHeight());
                 int bpp = 4; // Assuming a 32-bit display with a byte each for red, green, blue, and alpha.
                 if (count < 360) {
                     ByteBuffer screenData = Screenshot.getWindowPixelData(width, height, bpp);
                     BufferedImage frame = Screenshot.convertToBufferedImage(
                             screenData,
-                            window.getWidth(),
-                            window.getHeight(),
+                            Math.round(bounds.getWidth()),
+                            Math.round(bounds.getHeight()),
                             bpp);
                     try {
                         writer.writeToSequence(frame);

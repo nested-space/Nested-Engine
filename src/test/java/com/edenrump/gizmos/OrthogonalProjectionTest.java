@@ -8,7 +8,7 @@ import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
-import com.edenrump.graphic.viewport.Window;
+import com.edenrump.graphic.viewport.display.Window;
 import org.lwjgl.BufferUtils;
 
 import java.awt.*;
@@ -26,8 +26,9 @@ public class OrthogonalProjectionTest {
     private static Runnable gameLoop() {
 
         return () -> {
-            window = new Window(0.3, 0.3, "Attribute Test", Color.YELLOW);
-            window.create(false);
+            window = new Window(300, 300);
+            window.setApplicationName("Projection Test");
+            window.setDefaultBackground(Color.YELLOW);
             window.show();
             gameTime = Time.getInstance();
 

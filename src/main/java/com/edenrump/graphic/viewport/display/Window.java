@@ -1,15 +1,13 @@
-package com.edenrump.graphic.viewport;
+package com.edenrump.graphic.viewport.display;
 
 import com.edenrump.graphic.time.Time;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 
 import java.awt.*;
-import java.io.PrintStream;
 import java.nio.IntBuffer;
 import java.util.Objects;
 
@@ -26,91 +24,66 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  */
 public class Window {
 
-    private long windowID;
     private final Time gameTime = Time.getInstance();
-    private final double widthProportion;
-    private final double heighProportion;
-    private String applicationName;
-    private Color defaultBackground;
+    private long windowID;
+    private int width;
+    private int height;
+    private int posX;
+    private int posY = 50;
+    private String applicationName = "NestedSpace LWJGL Engine - Test";
+    private boolean isFullscreen = false;
+    private boolean showFPS = false;
+    private boolean showSize = false;
+    private Color defaultBackground = Color.BLACK;
 
     /**
-     * Creates a GLFW display with basic settings:
-     * <p>
-     * Error callbacks are defaulted to System.err
-     * Window is resizeable, and will be invisible until explicitly shown
-     * glfwCallback set to close window on esc (for ease)
-     * new window is centered on primary scene
+     * Initializes a window ready to be created.
      *
-     * @param proportionalW widthProportion of display
-     * @param proportionalH heighProportion of display
-     * @param color         default pixel colour for buffer
-     * @param appTitle      header title for window
+     * @param width  widthProportion of display
+     * @param height heighProportion of display
      */
-    public Window(double proportionalW, double proportionalH, String appTitle, Color color) {
+    public Window(int width, int height) {
         // Setup an error callback. The default implementation will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
-        widthProportion = proportionalW;
-        heighProportion = proportionalH;
-        applicationName = appTitle;
-        defaultBackground = color;
-    }
-
-    /* ****************************************************************************************************************
-     * Timer functions
-     * ****************************************************************************************************************/
-
-    /**
-     * Helper method to print the current version of LWJGL being used to create this display.
-     *
-     * @param printStream printStream that will be used to print the version
-     */
-    public static void printVersion(PrintStream printStream) {
-        printStream.println("LWJGL " + Version.getVersion() + "!");
+        this.width = width;
+        this.height = height;
+        create();
     }
 
     /**
      * Creates a new window using current widthProportion, heighProportion, title and background colour
      * Does not take any arguments
      */
-    public void create(boolean fullscreen) {
+    private void create() {
 
-        if (widthProportion == 0 || heighProportion == 0 || applicationName == null)
+        if (width == 0 || height == 0 || applicationName == null)
             throw new IllegalStateException("Window heighProportion, widthProportion or title has not been initialised");
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
         if (!glfwInit())
             throw new IllegalStateException("Unable to initialize GLFW");
 
-        GLFWVidMode primaryScreenResolution = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        if (primaryScreenResolution == null)
-            throw new RuntimeException("Could not calculate primary screen resolution. Program must exit");
-
         // Configure GLFW
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        int width = (int) Math.round(widthProportion * primaryScreenResolution.width());
-        int height = (int) Math.round(heighProportion * primaryScreenResolution.height());
+        int width = this.width;
+        int height = this.height;
 
         windowID = glfwCreateWindow(
                 width,
                 height,
                 applicationName,
-                fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
+                isFullscreen ? glfwGetPrimaryMonitor() : NULL,
+                NULL);
+
         if (windowID == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
 
         glfwSetWindowSizeCallback(windowID, recalculateSize());
 
-        IntBuffer pWidth = BufferUtils.createIntBuffer(1);
-        IntBuffer pHeight = BufferUtils.createIntBuffer(1);
-        glfwGetWindowSize(windowID, pWidth, pHeight);
-        glfwSetWindowPos(
-                windowID,
-                (primaryScreenResolution.width() - pWidth.get(0)) / 2,
-                (primaryScreenResolution.height() - pHeight.get(0)) / 2
-        );
+        updateWindowPosition();
 
         glfwMakeContextCurrent(windowID);
 
@@ -125,6 +98,51 @@ public class Window {
         GL.createCapabilities();
 
         prepareForRender();
+    }
+
+    public void setFullScreen(boolean isFullscreen) {
+        if (this.isFullscreen == isFullscreen) return;
+
+        GLFWVidMode primary = getVidMode();
+        if (isFullscreen) {
+            glfwSetWindowMonitor(windowID, glfwGetPrimaryMonitor(),
+                    0, 0,
+                    primary.width(),
+                    primary.height(),
+                    primary.refreshRate());
+        } else {
+            glfwSetWindowMonitor(windowID, glfwGetPrimaryMonitor(),
+                    posX, posY,
+                    width,
+                    height,
+                    primary.refreshRate());
+        }
+        this.isFullscreen = isFullscreen;
+
+    }
+
+    private GLFWVidMode getVidMode() {
+        GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+        if (vidMode == null)
+            throw new RuntimeException("Could not get primary monitor GLFW window");
+
+        return vidMode;
+    }
+
+    public Bounds getBounds() {
+        IntBuffer w = BufferUtils.createIntBuffer(1);
+        IntBuffer h = BufferUtils.createIntBuffer(1);
+        glfwGetWindowSize(windowID, w, h);
+
+        IntBuffer x = BufferUtils.createIntBuffer(1);
+        IntBuffer y = BufferUtils.createIntBuffer(1);
+        glfwGetWindowPos(windowID, x, y);
+
+        return new Bounds(
+                x.get(0), x.get(0) + w.get(0),
+                y.get(0), y.get(0) + h.get(0));
+
     }
 
     public void show() {
@@ -169,9 +187,21 @@ public class Window {
         glfwSwapBuffers(windowID);
     }
 
-    public void updateWindowTitle() {
-        glfwSetWindowTitle(windowID, applicationName + "  |  FPS: " + Math.round(gameTime.getFrameRate()) +
-                "  |  Width: " + getWidth() + " Height: " + getHeight());
+    private void updateWindowTitle() {
+        String title = applicationName;
+
+        if (showFPS) title += "  |  FPS: " + Math.round(gameTime.getFrameRate());
+        if (showSize) title += " | " + getBounds();
+
+        glfwSetWindowTitle(windowID, title);
+    }
+
+    private void updateWindowSize() {
+        glfwSetWindowSize(windowID, width, height);
+    }
+
+    private void updateWindowPosition() {
+        glfwSetWindowPos(windowID, posX, posY);
     }
 
     public String getApplicationName() {
@@ -187,25 +217,31 @@ public class Window {
         this.defaultBackground = defaultBackground;
     }
 
-    public int getWidth() {
-        IntBuffer w = BufferUtils.createIntBuffer(1);
-        IntBuffer h = BufferUtils.createIntBuffer(1);
-        glfwGetWindowSize(windowID, w, h);
-        return w.get(0);
+    public void setPos(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
+        updateWindowPosition();
     }
 
-    public int getHeight() {
-        IntBuffer w = BufferUtils.createIntBuffer(1);
-        IntBuffer h = BufferUtils.createIntBuffer(1);
-        glfwGetWindowSize(windowID, w, h);
-        return h.get(0);
+    public void setShowFPS(boolean show) {
+        this.showFPS = show;
     }
 
-    public float getAspectRatio() {
-        IntBuffer w = BufferUtils.createIntBuffer(1);
-        IntBuffer h = BufferUtils.createIntBuffer(1);
-        glfwGetWindowSize(windowID, w, h);
-        return (float) h.get(0) / (float) w.get(0);
+    public void setShowSize(boolean showSize) {
+        this.showSize = showSize;
+    }
+
+    public void setSize(int width, int height) {
+        if (width <= 0 || height <= 0)
+            throw new IllegalArgumentException("Cannot resize window to negative or zero size");
+        this.width = width;
+        this.height = height;
+        updateWindowSize();
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+        updateWindowSize();
     }
 
     private GLFWWindowSizeCallback recalculateSize() {

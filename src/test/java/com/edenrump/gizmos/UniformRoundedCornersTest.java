@@ -9,7 +9,8 @@ import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
-import com.edenrump.graphic.viewport.Window;
+import com.edenrump.graphic.viewport.display.Bounds;
+import com.edenrump.graphic.viewport.display.Window;
 
 import java.awt.*;
 
@@ -36,8 +37,9 @@ public class UniformRoundedCornersTest {
     private static Runnable gameLoop() {
 
         return () -> {
-            window = new Window(0.5, 0.5 * 16 / 9, "Attribute Test", Color.YELLOW);
-            window.create(false);
+            window = new Window(300, 300 * 16 / 9);
+            window.setApplicationName( "Uniform Rounded Corners Test");
+            window.setDefaultBackground(Color.YELLOW);
             window.show();
             gameTime = Time.getInstance();
 
@@ -82,7 +84,8 @@ public class UniformRoundedCornersTest {
         ubo.blockBind(bufferBlockBinding);
         shader.bindUniformBlock(uniformBlockName, bufferBlockBinding);
 
-        Std140Compatible vec2 = new std140ColumnVector(window.getWidth(), window.getHeight());
+        Bounds bounds = window.getBounds();
+        Std140Compatible vec2 = new std140ColumnVector(bounds.getWidth(), bounds.getHeight());
         ubo.updateBuffer(Std140Compatible.putAllInBuffer(vec2));
     }
 

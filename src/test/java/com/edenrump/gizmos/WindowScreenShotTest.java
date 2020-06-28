@@ -10,8 +10,9 @@ import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
-import com.edenrump.graphic.viewport.Screenshot;
-import com.edenrump.graphic.viewport.Window;
+import com.edenrump.graphic.viewport.display.Bounds;
+import com.edenrump.graphic.viewport.window.Screenshot;
+import com.edenrump.graphic.viewport.display.Window;
 
 import java.awt.*;
 import java.nio.ByteBuffer;
@@ -40,8 +41,9 @@ public class WindowScreenShotTest {
 
 
         return () -> {
-            window = new Window(0.3, 0.3 * 16 / 9, "Attribute Test", Color.YELLOW);
-            window.create(false);
+            window = new Window(300, 300 * 16 / 9);
+            window.setApplicationName( "Window ScreenShot Test");
+            window.setDefaultBackground(Color.YELLOW);
             window.show();
             gameTime = Time.getInstance();
 
@@ -56,8 +58,6 @@ public class WindowScreenShotTest {
             f.delete();
 
             shaderProgram.getUniform("radiusPixels").asUniformFloat().update(15);
-
-            System.out.println(shaderProgram.getUniform("scale").getLocation());
 
             setUpWindowBuffer(shaderProgram, window);
 
@@ -80,14 +80,15 @@ public class WindowScreenShotTest {
                 flatRenderer.render();
                 window.transferBuffersAfterRender();
 
-                int width = window.getWidth();
-                int height = window.getHeight();
+                Bounds bounds = window.getBounds();
+                int width = Math.round(bounds.getWidth());
+                int height = Math.round(bounds.getHeight());
                 int bpp = 4; // Assuming a 32-bit display with a byte each for red, green, blue, and alpha.
                 ByteBuffer screenData = Screenshot.getWindowPixelData(width, height, bpp);
                 Screenshot.saveScreenDataToFile(
                         screenData,
-                        window.getWidth(),
-                        window.getHeight(),
+                        Math.round(bounds.getWidth()),
+                        Math.round(bounds.getHeight()),
                         bpp,
                         String.valueOf(gameTime.getCurrentTimeMillis()));
             }
@@ -105,7 +106,8 @@ public class WindowScreenShotTest {
         ubo.blockBind(bufferBlockBinding);
         shader.bindUniformBlock(uniformBlockName, bufferBlockBinding);
 
-        Std140Compatible vec2 = new std140ColumnVector(window.getWidth(), window.getHeight());
+        Bounds bounds = window.getBounds();
+        Std140Compatible vec2 = new std140ColumnVector(bounds.getWidth(), bounds.getHeight());
         ubo.updateBuffer(Std140Compatible.putAllInBuffer(vec2));
     }
 

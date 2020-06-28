@@ -10,7 +10,7 @@ import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
-import com.edenrump.graphic.viewport.Window;
+import com.edenrump.graphic.viewport.display.Window;
 import com.edenrump.math.shape.mesh.GeometricConstruct;
 import com.edenrump.math.shape.mesh.ShadingType;
 import com.edenrump.math.shape.solids.Icosahedron;
@@ -35,8 +35,9 @@ public class LightingTest {
     private static Runnable gameLoop() {
 
         return () -> {
-            window = new Window(0.5, 0.5, "Attribute Test", Color.YELLOW);
-            window.create(false);
+            window = new Window(800, 500);
+            window.setApplicationName( "Lighting Test");
+            window.setDefaultBackground(Color.BLUE);
             window.show();
             gameTime = Time.getInstance();
 
@@ -65,14 +66,14 @@ public class LightingTest {
             uf.asUniformMatrix().update_4x4(buffer);
 
             Uniform light = shaderProgram.getUniform("lightPosition");
-            light.asUniformFloat().update3values(0, 500, 0);
+            light.asUniformFloat().update3values(0, 1.0f, 0);
 
             Uniform color = shaderProgram.getUniform("color");
-            color.asUniformFloat().update3values(0, 1, 0);
+            color.asUniformFloat().update3values(0.5f, 0.5f, 0);
 
             StaticRenderer flatRenderer = new StaticRenderer(shaderProgram);
             flatRenderer.addMesh(rectEntity);
-            rectEntity.translate(0, 0, -3f);
+            rectEntity.translate(0, 0, -5f);
             rectEntity.rotate(90, 0, 0);
 
             while (window.closeNotRequested()) {

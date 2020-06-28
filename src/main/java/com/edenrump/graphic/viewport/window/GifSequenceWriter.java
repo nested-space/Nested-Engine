@@ -1,4 +1,4 @@
-package com.edenrump.graphic.viewport;
+package com.edenrump.graphic.viewport.window;
 
 import javax.imageio.*;
 import javax.imageio.metadata.IIOInvalidTreeException;
