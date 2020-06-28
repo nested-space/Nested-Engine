@@ -25,15 +25,17 @@ package com.edenrump.graphic.shaders;
 
 import java.io.*;
 
-import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL20.*;
 
 /**
- * This class represents a shader.
+ * This class represents a shader program.
  *
- * @author Heiko Brumme
+ * @author Ed Eden-Rump
  */
 public class Shader {
+
+    public static final int VERTEX = GL_VERTEX_SHADER;
+    public static final int FRAGMENT = GL_FRAGMENT_SHADER;
 
     /**
      * Stores the handle of the shader.
@@ -41,8 +43,7 @@ public class Shader {
     private final int id;
 
     /**
-     * Creates a shader with specified type. The type in the tutorial should be
-     * either <code>GL_VERTEX_SHADER</code> or <code>GL_FRAGMENT_SHADER</code>.
+     * Creates a shader with specified type.
      *
      * @param type Type of the shader
      */
@@ -104,7 +105,7 @@ public class Shader {
     }
 
     /**
-     * Compiles the shader and checks it's status afertwards.
+     * Compiles the shader and checks it's status afterwards.
      */
     public void compile() {
         glCompileShader(id);

@@ -7,14 +7,14 @@ import java.util.Random;
 
 public class WrappedVertexTest {
 
-    Random r = new Random(10258);
-    WrappedVertex wv1 =
+    final Random r = new Random(10258);
+    final WrappedVertex wv1 =
             new WrappedVertex(r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE));
-    WrappedVertex wv1a =
+    final WrappedVertex wv1a =
             new WrappedVertex(wv1.getVertexPositionIndex(), wv1.getVertexNormalIndex(), wv1.getVertexTextureCoordinate());
-    WrappedVertex wv2 =
+    final WrappedVertex wv2 =
             new WrappedVertex(r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE));
-    WrappedVertex wv3 =
+    final WrappedVertex wv3 =
             new WrappedVertex(r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE));
 
     @Test

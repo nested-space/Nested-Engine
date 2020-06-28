@@ -7,10 +7,10 @@ import org.testng.annotations.Test;
 import java.nio.FloatBuffer;
 
 public class SquareMatrixTest {
-    SquareMatrix squareMatrix_n2_1 = new SquareMatrix(new float[]{1, 2, 3, 4});
-    SquareMatrix squareMatrix_n2_2 = new SquareMatrix(new float[]{2, 4, 6, 8});
-    SquareMatrix squareMatrix_n3_1 = new SquareMatrix(new float[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
-    SquareMatrix squareMatrix_n3_2 = new SquareMatrix(new float[]{2, 4, 6, 8, 10, 12, 14, 16, 18});
+    final SquareMatrix squareMatrix_n2_1 = new SquareMatrix(new float[]{1, 2, 3, 4});
+    final SquareMatrix squareMatrix_n2_2 = new SquareMatrix(new float[]{2, 4, 6, 8});
+    final SquareMatrix squareMatrix_n3_1 = new SquareMatrix(new float[]{1, 2, 3, 4, 5, 6, 7, 8, 9});
+    final SquareMatrix squareMatrix_n3_2 = new SquareMatrix(new float[]{2, 4, 6, 8, 10, 12, 14, 16, 18});
 
     @Test
     public void constructorTest() {

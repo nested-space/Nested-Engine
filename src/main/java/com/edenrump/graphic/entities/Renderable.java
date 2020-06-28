@@ -14,7 +14,7 @@ public interface Renderable {
 
     int getDrawType();
 
-    int getElements();
+    int getNumberOfElements();
 
     static void unbind() {
         glBindVertexArray(0);

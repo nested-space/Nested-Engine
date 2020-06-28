@@ -5,7 +5,7 @@ package com.edenrump.observables;
  * <p>
  * It extends the ObservableNumber class and locks the generic value parameter to Integer.
  *
- * @author Ed Eden-Rump
+ * @author Ed EdenRump
  */
 
 public class ObservableInteger extends ObservableNumber<Integer> {
@@ -24,6 +24,5 @@ public class ObservableInteger extends ObservableNumber<Integer> {
      */
     public ObservableInteger() {
     }
-
 
 }

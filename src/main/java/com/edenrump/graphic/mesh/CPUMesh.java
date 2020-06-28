@@ -1,10 +1,12 @@
 package com.edenrump.graphic.mesh;
 
+import static com.edenrump.graphic.gpu.Attribute.NORMALS_ATTRIB;
+import static com.edenrump.graphic.gpu.Attribute.NORMALS_ATTRIB_NAME;
 import static org.lwjgl.opengl.GL11C.GL_TRIANGLES;
 
 public class CPUMesh {
 
-    private int floatsPerVertex;
+    private final int floatsPerVertex;
 
     private float[] vertexPositions;
     private float[] vertexNormals;
@@ -16,10 +18,6 @@ public class CPUMesh {
 
     public int getFloatsPerVertex() {
         return floatsPerVertex;
-    }
-
-    public void setFloatsPerVertex(int floatsPerVertex) {
-        this.floatsPerVertex = floatsPerVertex;
     }
 
     public float[] getVertexPositions() {
@@ -50,7 +48,7 @@ public class CPUMesh {
         GPUMesh gpuMesh = new GPUMesh(floatsPerVertex);
         gpuMesh.setDrawType(GL_TRIANGLES);
         gpuMesh.setPositions(vertexPositions, indices);
-        gpuMesh.setNormals(vertexNormals);
+        gpuMesh.addAttribute(NORMALS_ATTRIB, NORMALS_ATTRIB_NAME, vertexNormals);
         return gpuMesh;
     }
 }

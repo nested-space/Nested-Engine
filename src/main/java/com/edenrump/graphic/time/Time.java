@@ -17,7 +17,7 @@ public class Time {
      * Instance of time.
      * Currently does not support more than one context of GLFW (i.e. is a singleton).
      */
-    private static Time ourInstance = new Time();
+    private static final Time ourInstance = new Time();
     /**
      * The time in milliseconds of the last frame
      */
@@ -45,9 +45,6 @@ public class Time {
      * class was last updated.
      */
     public void updateTime() {
-        /**
-         * The current time (or the time in milliseconds at which Time was last updated)
-         */
         double currentTime = glfwGetTime();
         delta = (currentTime - lastFrameTime) / 1000f;
         lastFrameTime = currentTime;
@@ -85,14 +82,7 @@ public class Time {
      * @return nicely formatted string explaining the frame rate
      */
     public String getPrintFrameRate(int decimalPlaces) {
-
-        StringBuilder pattern = new StringBuilder("###.");
-
-        for (int i = 0; i < decimalPlaces; i++) {
-            pattern.append("#");
-        }
-
-        DecimalFormat decimalFormat = new DecimalFormat(pattern.toString());
+        DecimalFormat decimalFormat = new DecimalFormat("###." + "#".repeat(Math.max(0, decimalPlaces)));
         return decimalFormat.format(getFrameRate());
     }
 

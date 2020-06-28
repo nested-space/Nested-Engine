@@ -1,4 +1,4 @@
-package com.edenrump.math.calculations;
+package com.edenrump.math.util;
 
 import com.edenrump.math.arrays.ColumnVector;
 import com.edenrump.math.arrays.SquareMatrix;
@@ -32,13 +32,14 @@ public class Volume {
         u = axis.getValues()[0];
         v = axis.getValues()[1];
         w = axis.getValues()[2];
-        float xPrime = (float) (u * (u * x + v * y + w * z) * (1d - Math.cos(theta))
+        final double uxvywz = u * x + v * y + w * z;
+        float xPrime = (float) (u * uxvywz * (1d - Math.cos(theta))
                 + x * Math.cos(theta)
                 + (-w * y + v * z) * Math.sin(theta));
-        float yPrime = (float) (v * (u * x + v * y + w * z) * (1d - Math.cos(theta))
+        float yPrime = (float) (v * uxvywz * (1d - Math.cos(theta))
                 + y * Math.cos(theta)
                 + (w * x - u * z) * Math.sin(theta));
-        float zPrime = (float) (w * (u * x + v * y + w * z) * (1d - Math.cos(theta))
+        float zPrime = (float) (w * uxvywz * (1d - Math.cos(theta))
                 + z * Math.cos(theta)
                 + (-v * x + u * y) * Math.sin(theta));
         return new ColumnVector(xPrime, yPrime, zPrime);

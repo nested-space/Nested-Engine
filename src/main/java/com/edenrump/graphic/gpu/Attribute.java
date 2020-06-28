@@ -1,6 +1,5 @@
 package com.edenrump.graphic.gpu;
 
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL20.*;
 
 /**
@@ -31,19 +30,15 @@ public class Attribute {
     /**
      * The attribute location.
      * <p>
-     * This should generally be generated in the shader program.
+     * This should preferentially be generated in the shader program (e.g. (location=1))
      */
     private final int location;
-    /**
-     * The name of the attribute
-     * <p>
-     * This should be identical to that used by the shader program
-     */
     private final String name;
     /**
-     * Parameter representing number of bytes in between attribute information in GPU memory
+     * Parameter representing number of bytes in-between each vertex in the array in GPU memory
      */
     private int stride;
+
     /**
      * Parameter representing number of bytes from beginning of VBO attribute starts in GPU memory
      */
@@ -52,7 +47,10 @@ public class Attribute {
      * Parameter representing the size of the attribute
      */
     private int size;
-    private int vboID;
+    /**
+     * The VBO in which this attribute is stored
+     */
+    private final int vboID;
 
     /**
      * Constructor allowing full set up of attribute for further use
@@ -75,30 +73,6 @@ public class Attribute {
 
     public Attribute(int location, String name, int size, int vboID){
         this(location, name, size, 0, 0, vboID);
-    }
-
-    /**
-     * Method to get type-safe attribute for referencing a standard location and
-     * name for vertex positions
-     */
-    public static Attribute getDefaultPositionsAttribute(int vboID, int dimensionsPerVertex) {
-        return new Attribute(
-                POSITION_ATTRIB,
-                POSITIONS_ATTRIB_NAME,
-                dimensionsPerVertex, 0, 0,
-                vboID);
-    }
-
-    /**
-     * Method to get type-safe attribute for referencing a standard location and
-     * name for vertex positions
-     */
-    public static Attribute getDefaultNormalsAttribute(int vboID) {
-        return new Attribute(
-                NORMALS_ATTRIB,
-                NORMALS_ATTRIB_NAME,
-                3, 0, 0,
-                vboID);
     }
 
     /**
@@ -188,7 +162,6 @@ public class Attribute {
 
     /**
      * Enables a vertex attribute.
-     * TODO: stop this from being static
      */
     public void enableVertexAttribute() {
         glEnableVertexAttribArray(location);

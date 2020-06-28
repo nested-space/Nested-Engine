@@ -43,19 +43,11 @@ public class Icosahedron {
         this.radius = radius;
     }
 
-    public ShadingType getShadingType() {
-        return shadingType;
-    }
-
     public void setShadingType(ShadingType shadingType) {
         if (this.shadingType == shadingType) return;
 
         this.construct = null;
         this.shadingType = shadingType;
-    }
-
-    public void cacheMesh() {
-        construct = getMesh();
     }
 
     public GeometricConstruct getMesh() {
@@ -174,7 +166,9 @@ public class Icosahedron {
     }
 
     private static class Triangle {
-        int v1, v2, v3;
+        final int v1;
+        final int v2;
+        final int v3;
 
         Triangle(int v1, int v2, int v3) {
             this.v1 = v1;

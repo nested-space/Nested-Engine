@@ -35,7 +35,7 @@ public class WrappedConstructTest {
         Assert.assertEquals(construct.getNumberOfTextureCoordinates(), 4);
     }
 
-    private WrappedConstruct getTestSquare(){
+    private WrappedConstruct getTestSquare() {
         float[][] points = squarePoints();
 
         WrappedConstruct square = new WrappedConstruct(POLAR);

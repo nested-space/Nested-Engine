@@ -37,7 +37,7 @@ import static org.lwjgl.opengl.GL31.glUniformBlockBinding;
 /**
  * This class represents a shader program.
  *
- * @author Heiko Brumme
+ * @author Ed Eden-Rump
  */
 public class ShaderProgram {
 

@@ -9,11 +9,11 @@ import java.util.Random;
 
 public class EdgeTest {
 
-    Random r = new Random(10258);
-    Vertex v1 = new Vertex(r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE));
-    Vertex v2 = new Vertex(r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE));
-    Edge edge1 = new Edge(v1, v2);
-    Edge edge2 = new Edge(v1, v2);
+    final Random r = new Random(10258);
+    final Vertex v1 = new Vertex(r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE));
+    final Vertex v2 = new Vertex(r.nextInt(Integer.MAX_VALUE), r.nextInt(Integer.MAX_VALUE));
+    final Edge edge1 = new Edge(v1, v2);
+    final Edge edge2 = new Edge(v1, v2);
 
     @Test
     public void constructorTest() {
@@ -34,7 +34,7 @@ public class EdgeTest {
     }
 
     @Test
-    public void mapTest(){
+    public void mapTest() {
         Map<Edge, Integer> edges = new HashMap<>();
         edges.put(edge1, 1);
         edges.put(edge2, 2);

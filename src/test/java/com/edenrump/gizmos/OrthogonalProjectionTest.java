@@ -2,8 +2,8 @@ package com.edenrump.gizmos;
 
 import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.graphic.geom.PerspectiveProjection;
-import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.gpu.Uniform;
+import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
@@ -13,9 +13,6 @@ import org.lwjgl.BufferUtils;
 
 import java.awt.*;
 import java.nio.FloatBuffer;
-
-import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
-import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 
 public class OrthogonalProjectionTest {
 
@@ -37,8 +34,8 @@ public class OrthogonalProjectionTest {
             String VERTEX_FILE_LOCATION = "src/test/resources/shaders/ProjectionTestShader.vert";
             String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/ProjectionTestShader.frag";
             ShaderProgram shaderProgram = new ShaderProgram();
-            Shader v = Shader.loadShader(GL_VERTEX_SHADER, VERTEX_FILE_LOCATION);
-            Shader f = Shader.loadShader(GL_FRAGMENT_SHADER, FRAGMENT_FILE_LOCATION);
+            Shader v = Shader.loadShader(Shader.VERTEX, VERTEX_FILE_LOCATION);
+            Shader f = Shader.loadShader(Shader.FRAGMENT, FRAGMENT_FILE_LOCATION);
             shaderProgram.attachShaders(v, f);
             shaderProgram.link();
             v.delete();
@@ -56,7 +53,7 @@ public class OrthogonalProjectionTest {
             StaticRenderer flatRenderer = new StaticRenderer(shaderProgram);
             flatRenderer.addMesh(r1);
 
-            while (!window.isCloseRequested()) {
+            while (window.closeNotRequested()) {
                 r1.rotate(0, 0, 3);
                 r1.translate(0, 0, -0.03f);
                 gameTime.updateTime();

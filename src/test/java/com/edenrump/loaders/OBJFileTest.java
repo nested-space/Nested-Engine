@@ -1,6 +1,5 @@
 package com.edenrump.loaders;
 
-import com.edenrump.loaders.OBJFile;
 import com.edenrump.math.shape.textured.WrappedConstruct;
 import org.testng.Assert;
 import org.testng.annotations.Test;

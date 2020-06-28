@@ -16,7 +16,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.edenrump.math.shape.mesh.GeometricConstruct.CARTESIAN;
-import static com.edenrump.math.shape.mesh.GeometricConstruct.POLAR;
 
 public class OBJFile {
 
@@ -32,7 +31,7 @@ public class OBJFile {
         this.fileName = fileName;
 
         if (fileName == null) {
-            throw new IllegalArgumentException("Cannot load OBJ file " + fileName + " with null fileName");
+            throw new IllegalArgumentException("Cannot load OBJ file with null fileName");
         }
 
         parseTextByLineIdentifier(getReader());
@@ -142,7 +141,7 @@ public class OBJFile {
     }
 
     private BufferedReader getReader() {
-        FileReader isr = null;
+        FileReader isr;
         File objFile = new File(fileName);
         try {
             isr = new FileReader(objFile);
@@ -199,9 +198,9 @@ public class OBJFile {
             throw new RuntimeException("OBJ File " + fileName + " has not bee correctly triangulated." +
                     " Expected 3 indices for each face vertex but found " + (vertexInfo.length));
 
-        int vertexIndex = 0;
-        int textureIndex = 0;
-        int normalIndex = 0;
+        int vertexIndex;
+        int textureIndex;
+        int normalIndex;
         try {
             vertexIndex = Integer.parseInt(vertexInfo[0]) - 1; //remove 1 because OBJ face format is 1-indexed not 0-indexed
             textureIndex = Integer.parseInt(vertexInfo[1]) - 1;

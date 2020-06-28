@@ -8,9 +8,9 @@ import java.nio.FloatBuffer;
 
 public class std140ColumnVectorTest {
 
-    Std140Compatible v2 = new std140ColumnVector(1, 0);
-    Std140Compatible v3 = new std140ColumnVector(1, 2, 3);
-    Std140Compatible v4 = new std140ColumnVector(1, 2, 3, 4);
+    final Std140Compatible v2 = new std140ColumnVector(1, 0);
+    final Std140Compatible v3 = new std140ColumnVector(1, 2, 3);
+    final Std140Compatible v4 = new std140ColumnVector(1, 2, 3, 4);
 
     @Test
     public void constructorTest() {

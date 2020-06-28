@@ -8,11 +8,11 @@ import java.nio.FloatBuffer;
 
 public class std140SquareMatrixTest {
 
-    Std140Compatible m2 = new std140SquareMatrix(2);
-    Std140Compatible m3 = new std140SquareMatrix(3);
-    Std140Compatible m4 = new std140SquareMatrix(4);
+    final Std140Compatible m2 = new std140SquareMatrix(2);
+    final Std140Compatible m3 = new std140SquareMatrix(3);
+    final Std140Compatible m4 = new std140SquareMatrix(4);
 
-    Std140Compatible m4Square = new std140SquareMatrix(
+    final Std140Compatible m4Square = new std140SquareMatrix(
             new std140ColumnVector(1, 0, 0),
             new std140ColumnVector(0, 1, 0),
             new std140ColumnVector(0, 0, 1)

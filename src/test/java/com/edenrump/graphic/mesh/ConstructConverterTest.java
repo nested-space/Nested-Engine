@@ -1,7 +1,6 @@
 package com.edenrump.graphic.mesh;
 
 import com.edenrump.math.shape.mesh.GeometricConstructTest;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

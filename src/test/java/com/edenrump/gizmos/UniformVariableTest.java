@@ -1,8 +1,8 @@
 package com.edenrump.gizmos;
 
 import com.edenrump.graphic.entities.StaticEntity;
-import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.gpu.Uniform;
+import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
@@ -10,9 +10,6 @@ import com.edenrump.graphic.time.Time;
 import com.edenrump.graphic.viewport.Window;
 
 import java.awt.*;
-
-import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
-import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 
 public class UniformVariableTest {
 
@@ -36,8 +33,8 @@ public class UniformVariableTest {
             String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/UniformColorTestShader.frag";
 
             ShaderProgram uniformColorTestShader = new ShaderProgram();
-            Shader v = Shader.loadShader(GL_VERTEX_SHADER, VERTEX_FILE_LOCATION);
-            Shader f = Shader.loadShader(GL_FRAGMENT_SHADER, FRAGMENT_FILE_LOCATION);
+            Shader v = Shader.loadShader(Shader.VERTEX, VERTEX_FILE_LOCATION);
+            Shader f = Shader.loadShader(Shader.FRAGMENT, FRAGMENT_FILE_LOCATION);
             uniformColorTestShader.attachShaders(v, f);
             uniformColorTestShader.link();
             v.delete();
@@ -77,7 +74,7 @@ public class UniformVariableTest {
             flatRenderer.addMesh(r1);
             flatRenderer.addMesh(r2);
 
-            while (!window.isCloseRequested()) {
+            while (window.closeNotRequested()) {
                 gameTime.updateTime();
                 window.update();
                 window.prepareForRender();

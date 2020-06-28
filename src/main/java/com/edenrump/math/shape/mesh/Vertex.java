@@ -2,8 +2,8 @@ package com.edenrump.math.shape.mesh;
 
 public class Vertex {
 
-    int vertexPositionIndex;
-    int vertexNormalIndex;
+    private final int vertexPositionIndex;
+    private final int vertexNormalIndex;
 
     public Vertex(int vertexPositionIndex, int vertexNormalIndex) {
         if (vertexPositionIndex < 0 || vertexNormalIndex < 0)
@@ -17,16 +17,8 @@ public class Vertex {
         return vertexPositionIndex;
     }
 
-    public void setVertexPositionIndex(int vertexPositionIndex) {
-        this.vertexPositionIndex = vertexPositionIndex;
-    }
-
     public int getVertexNormalIndex() {
         return vertexNormalIndex;
-    }
-
-    public void setVertexNormalIndex(int vertexNormalIndex) {
-        this.vertexNormalIndex = vertexNormalIndex;
     }
 
     @Override

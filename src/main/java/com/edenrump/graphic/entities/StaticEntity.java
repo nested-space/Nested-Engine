@@ -6,9 +6,9 @@ import com.edenrump.graphic.gpu.Uniform;
 
 public class StaticEntity implements Renderable {
 
-    GPUMesh mesh;
-    Transform transform;
-    Uniform transformationMatrix = new Uniform(0, 0, "null");
+    final GPUMesh mesh;
+    final Transform transform;
+    Uniform transformationMatrix = null;
 
     public StaticEntity(GPUMesh mesh) {
         this.mesh = mesh;
@@ -32,7 +32,9 @@ public class StaticEntity implements Renderable {
     @Override
     public void update() {
         mesh.enableAttributes();
-        if(transformationMatrix.getName()!="null"){
+        if (transformationMatrix == null) return;
+
+        if (transformationMatrix.getName() != "null") {
             transformationMatrix.asUniformMatrix().update_4x4(transform.getTransformationMatrix());
         }
     }
@@ -48,8 +50,8 @@ public class StaticEntity implements Renderable {
     }
 
     @Override
-    public int getElements() {
-        return mesh.getElements();
+    public int getNumberOfElements() {
+        return mesh.getNumberOfElements();
     }
 
     public void scale(float x, float y, float z) {
@@ -64,15 +66,7 @@ public class StaticEntity implements Renderable {
         transform.rotate(x, y, z);
     }
 
-    public float[] getScale() {
-        return transform.getScale().getValues();
-    }
-
-    public float[] getTranslation(){
-        return transform.getTranslation().getValues();
-    }
-
-    public float[] getRotation(){
-        return transform.getRotation().getValues();
+    public Transform getTransform() {
+        return transform;
     }
 }

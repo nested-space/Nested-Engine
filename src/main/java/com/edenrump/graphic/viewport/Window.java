@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL;
 import java.awt.*;
 import java.io.PrintStream;
 import java.nio.IntBuffer;
+import java.util.Objects;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
@@ -26,8 +27,9 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Window {
 
     private long windowID;
-    private Time gameTime = Time.getInstance();
-    private double widthProportion, heighProportion;
+    private final Time gameTime = Time.getInstance();
+    private final double widthProportion;
+    private final double heighProportion;
     private String applicationName;
     private Color defaultBackground;
 
@@ -136,11 +138,11 @@ public class Window {
         glfwFreeCallbacks(windowID);
         glfwDestroyWindow(windowID);
         glfwTerminate();
-        glfwSetErrorCallback(null).free();
+        Objects.requireNonNull(glfwSetErrorCallback(null)).free();
     }
 
-    public boolean isCloseRequested() {
-        return glfwWindowShouldClose(windowID);
+    public boolean closeNotRequested() {
+        return !glfwWindowShouldClose(windowID);
     }
 
     public double getFrameTimeSeconds() {

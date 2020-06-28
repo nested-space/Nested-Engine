@@ -1,7 +1,7 @@
 package com.edenrump.math.shape.mesh;
 
 import com.edenrump.math.arrays.ColumnVector;
-import com.edenrump.math.calculations.Volume;
+import com.edenrump.math.util.Volume;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,12 +13,12 @@ public class GeometricConstruct {
     public static final int CARTESIAN = 0x0;
     public static final int POLAR = 0x1;
     protected int coordinateType = -1;
-    protected int dimensions;
+    protected final int dimensions;
 
     protected List<ColumnVector> vertexPositions = new ArrayList<>();
     protected List<ColumnVector> vertexNormals = new ArrayList<>();
-    protected List<Face> faces = new ArrayList<>();
-    protected List<Vertex> vertices = new ArrayList<>();
+    protected final List<Face> faces = new ArrayList<>();
+    protected final List<Vertex> vertices = new ArrayList<>();
 
     public GeometricConstruct(int coordinateType) {
         setCoordinateType(coordinateType);
@@ -124,7 +124,7 @@ public class GeometricConstruct {
         return vertices.size();
     }
 
-    public int addFace(int v1, int v2, int v3) {
+    public void addFace(int v1, int v2, int v3) {
         int maxVert = Math.max(v1, Math.max(v2, v3));
         if (maxVert >= vertices.size())
             throw new IllegalArgumentException("Cannot create face with vertex out of range." +
@@ -136,11 +136,7 @@ public class GeometricConstruct {
 
         Face newFace = new Face(vertices.get(v1), vertices.get(v2), vertices.get(v3));
         if (!this.faces.contains(newFace)) this.faces.add(newFace);
-        return this.faces.indexOf(newFace);
-    }
-
-    public int getFaceIndex(Face f) {
-        return faces.indexOf(f);
+        this.faces.indexOf(newFace);
     }
 
     public int getNumberOfFaces() {

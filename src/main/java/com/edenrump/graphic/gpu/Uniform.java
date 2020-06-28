@@ -4,9 +4,9 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 
 public class Uniform {
 
-    int location;
-    int shaderProgramID;
-    CharSequence name;
+    final int location;
+    final int shaderProgramID;
+    final CharSequence name;
 
     public Uniform(int shaderProgramID, int location, CharSequence name) {
         this.shaderProgramID = shaderProgramID;

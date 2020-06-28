@@ -11,9 +11,9 @@ import java.io.IOException;
 //https://memorynotfound.com/generate-gif-image-java-delay-infinite-loop-example/
 public class GifSequenceWriter {
 
-    protected ImageWriter writer;
-    protected ImageWriteParam params;
-    protected IIOMetadata metadata;
+    protected final ImageWriter writer;
+    protected final ImageWriteParam params;
+    protected final IIOMetadata metadata;
 
     public GifSequenceWriter(ImageOutputStream out, int imageType, int delay, boolean loop) throws IOException {
         writer = ImageIO.getImageWritersBySuffix("gif").next();

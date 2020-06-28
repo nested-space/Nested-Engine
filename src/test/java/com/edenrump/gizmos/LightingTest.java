@@ -1,11 +1,8 @@
 package com.edenrump.gizmos;
 
-import com.edenrump.graphic.data.Std140Compatible;
-import com.edenrump.graphic.data.std140ColumnVector;
 import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.graphic.geom.PerspectiveProjection;
 import com.edenrump.graphic.gpu.Uniform;
-import com.edenrump.graphic.gpu.UniformBlockBuffer;
 import com.edenrump.graphic.mesh.CPUMesh;
 import com.edenrump.graphic.mesh.ConstructConverter;
 import com.edenrump.graphic.mesh.GPUMesh;
@@ -23,8 +20,6 @@ import java.awt.*;
 import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL11C.*;
-import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
-import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_SRGB;
 
 public class LightingTest {
@@ -49,8 +44,8 @@ public class LightingTest {
             String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/ProjectionTestShader.frag";
 
             ShaderProgram shaderProgram = new ShaderProgram();
-            Shader v = Shader.loadShader(GL_VERTEX_SHADER, VERTEX_FILE_LOCATION);
-            Shader f = Shader.loadShader(GL_FRAGMENT_SHADER, FRAGMENT_FILE_LOCATION);
+            Shader v = Shader.loadShader(Shader.VERTEX, VERTEX_FILE_LOCATION);
+            Shader f = Shader.loadShader(Shader.FRAGMENT, FRAGMENT_FILE_LOCATION);
             shaderProgram.attachShaders(v, f);
             shaderProgram.link();
             v.delete();
@@ -80,7 +75,7 @@ public class LightingTest {
             rectEntity.translate(0, 0, -3f);
             rectEntity.rotate(90, 0, 0);
 
-            while (!window.isCloseRequested()) {
+            while (window.closeNotRequested()) {
                 rectEntity.rotate(1f, 2f, 0);
                 gameTime.updateTime();
                 window.update();
@@ -104,18 +99,6 @@ public class LightingTest {
         StaticEntity r1 = new StaticEntity(committed);
         r1.setTransformationUniform(roundedCornersShaderProgram.getUniform("modelMatrix"));
         return r1;
-    }
-
-    private static void setUpWindowBuffer(ShaderProgram shader, Window window) {
-        int bufferBlockBinding = 0;
-        String uniformBlockName = "WindowProperties";
-
-        UniformBlockBuffer ubo = new UniformBlockBuffer();
-        ubo.blockBind(bufferBlockBinding);
-        shader.bindUniformBlock(uniformBlockName, bufferBlockBinding);
-
-        Std140Compatible vec2 = new std140ColumnVector(window.getWidth(), window.getHeight());
-        ubo.updateBuffer(Std140Compatible.putAllInBuffer(vec2));
     }
 
 }

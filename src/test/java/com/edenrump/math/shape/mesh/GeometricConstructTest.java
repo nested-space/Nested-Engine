@@ -33,7 +33,7 @@ public class GeometricConstructTest {
 
         Assert.assertThrows(IllegalArgumentException.class, () -> new GeometricConstruct(POLAR).setCoordinateType(-1));
     }
-    
+
     @Test
     public void vertexPositionsTest() {
         GeometricConstruct construct = getTestSquare();
@@ -84,7 +84,7 @@ public class GeometricConstructTest {
     protected void addMidPointTest() {
         GeometricConstruct construct = getTestSquare();
         Edge edge = new Edge(construct.vertices.get(0), construct.vertices.get(2)); //opposite corners
-        int vp1 = construct.vertices.get(construct.addMidPoint(edge)).vertexPositionIndex;
+        int vp1 = construct.vertices.get(construct.addMidPoint(edge)).getVertexNormalIndex();
         Assert.assertEquals(construct.vertexPositions.get(vp1).getValue(0), 1.0f); //no change
         Assert.assertEquals(construct.vertexPositions.get(vp1).getValue(2), 0.0f); //zero (centre)
     }
@@ -100,7 +100,7 @@ public class GeometricConstructTest {
         //test to see whether conversion to coordinates has kept the opposite corners equidistant around the centre
         float THRESHOLD = 0.00001f;
         Edge edge = new Edge(construct.vertices.get(0), construct.vertices.get(2));
-        int vp1 = construct.vertices.get(construct.addMidPoint(edge)).vertexPositionIndex;
+        int vp1 = construct.vertices.get(construct.addMidPoint(edge)).getVertexPositionIndex();
 
         Assert.assertTrue( //root2/2 within float rounding errors
                 construct.vertexPositions.get(vp1).getValue(0) - Math.sqrt(2) / 2f < THRESHOLD
@@ -123,7 +123,7 @@ public class GeometricConstructTest {
         //test to see whether conversion to coordinates has kept r and inclination angle consistent
         float THRESHOLD = 0.0001f;
         Edge edge = new Edge(construct.vertices.get(0), construct.vertices.get(2));
-        int vp1 = construct.vertices.get(construct.addMidPoint(edge)).vertexPositionIndex;
+        int vp1 = construct.vertices.get(construct.addMidPoint(edge)).getVertexPositionIndex();
         Assert.assertTrue(//r is 1 within float rounding errors
                 construct.vertexPositions.get(vp1).getValue(0) - 1 < THRESHOLD
         );

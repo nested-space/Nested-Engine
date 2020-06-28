@@ -1,10 +1,10 @@
 package com.edenrump.gizmos;
 
-import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.graphic.data.Std140Compatible;
 import com.edenrump.graphic.data.std140ColumnVector;
-import com.edenrump.graphic.mesh.GPUMesh;
+import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.graphic.gpu.UniformBlockBuffer;
+import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
@@ -13,18 +13,15 @@ import com.edenrump.graphic.viewport.Window;
 
 import java.awt.*;
 
-import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
-import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
-
 public class UniformRoundedCornersTest {
 
-    static float[] positions = new float[]{
+    static final float[] positions = new float[]{
             1f, 1f, 0,//v0
             -1f, 1f, 0,//v1
             -1f, -1f, 0,//v2
             1f, -1f, 0//v3
     };
-    static int[] indices = new int[]{
+    static final int[] indices = new int[]{
             0, 1, 3,//top left triangle (v0, v1, v3)
             3, 1, 2//bottom right triangle (v3, v1, v2)
     };
@@ -47,8 +44,8 @@ public class UniformRoundedCornersTest {
             String VERTEX_FILE_LOCATION = "src/test/resources/shaders/roundedCornersTestShader.vert";
             String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/roundedCornersTestShader.frag";
             ShaderProgram roundedCornersShaderProgram = new ShaderProgram();
-            Shader v = Shader.loadShader(GL_VERTEX_SHADER, VERTEX_FILE_LOCATION);
-            Shader f = Shader.loadShader(GL_FRAGMENT_SHADER, FRAGMENT_FILE_LOCATION);
+            Shader v = Shader.loadShader(Shader.VERTEX, VERTEX_FILE_LOCATION);
+            Shader f = Shader.loadShader(Shader.FRAGMENT, FRAGMENT_FILE_LOCATION);
             roundedCornersShaderProgram.attachShaders(v, f);
             roundedCornersShaderProgram.link();
             v.delete();
@@ -63,7 +60,7 @@ public class UniformRoundedCornersTest {
             StaticRenderer flatRenderer = new StaticRenderer(roundedCornersShaderProgram);
             flatRenderer.addMesh(r1);
 
-            while (!window.isCloseRequested()) {
+            while (window.closeNotRequested()) {
                 r1.rotate(0, 0, 1);
                 gameTime.updateTime();
                 window.update();

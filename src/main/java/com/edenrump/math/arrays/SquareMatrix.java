@@ -1,14 +1,11 @@
 package com.edenrump.math.arrays;
 
-import org.lwjgl.BufferUtils;
-
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 public class SquareMatrix{
 
-    private int dimensions;
-    private float[] values;
+    private final int dimensions;
+    private final float[] values;
 
     public SquareMatrix(int dimensions) {
         this.dimensions = dimensions;
@@ -210,8 +207,8 @@ public class SquareMatrix{
     @Override
     public int hashCode() {
         int hash = dimensions * 100003;
-        for (int i = 0; i < values.length; i++) {
-            hash += (int) values[i] * 13;
+        for (float value : values) {
+            hash += (int) value * 13;
         }
         return hash;
     }

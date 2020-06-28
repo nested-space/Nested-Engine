@@ -8,9 +8,9 @@ import java.nio.FloatBuffer;
 
 public class ColumnVectorTest {
 
-    ColumnVector one = new ColumnVector(1, 1);
-    ColumnVector pos_neg = new ColumnVector(123, -425);
-    ColumnVector neg_neg = new ColumnVector(-22.756f, -1000f);
+    final ColumnVector one = new ColumnVector(1, 1);
+    final ColumnVector pos_neg = new ColumnVector(123, -425);
+    final ColumnVector neg_neg = new ColumnVector(-22.756f, -1000f);
 
     @Test
     public void normaliseTest() {

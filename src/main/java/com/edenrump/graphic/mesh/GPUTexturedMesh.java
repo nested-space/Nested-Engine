@@ -29,10 +29,8 @@ package com.edenrump.graphic.mesh;
 import com.edenrump.graphic.gpu.Attribute;
 import com.edenrump.graphic.gpu.Texture;
 import com.edenrump.graphic.gpu.VertexBufferObject;
-import com.edenrump.math.util.DataUtils;
+import com.edenrump.math.util.Buffers;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL15.*;
 
 /**
@@ -70,10 +68,10 @@ public class GPUTexturedMesh extends GPUMesh {
 
         VertexBufferObject textureVBO = new VertexBufferObject();
         textureVBO.bind(GL_ARRAY_BUFFER);
-        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, DataUtils.storeDataInBuffer(textureCoords), GL_STATIC_DRAW);
+        VertexBufferObject.uploadData(GL_ARRAY_BUFFER, Buffers.storeDataInBuffer(textureCoords), GL_STATIC_DRAW);
         Attribute textureAttrib = Attribute.getDefaultTextureCoordsAttribute(textureVBO.getID());
         textureAttrib.enableVertexAttribute();
-        this.addAttribute(textureAttrib);
+        attributes.put(textureAttrib.getName(), textureAttrib);
         this.texture = texture;
 
         this.unbind();

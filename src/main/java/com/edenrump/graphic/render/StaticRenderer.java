@@ -38,7 +38,7 @@ public class StaticRenderer implements GenericRenderer {
             allMeshInstances.get(0).prepare();
             for (Renderable currentMesh : allMeshInstances) {
                 currentMesh.update();
-                glDrawElements(currentMesh.getDrawType(), currentMesh.getElements(), GL_UNSIGNED_INT, 0);
+                glDrawElements(currentMesh.getDrawType(), currentMesh.getNumberOfElements(), GL_UNSIGNED_INT, 0);
                 currentMesh.finish();
             }
             Renderable.unbind();

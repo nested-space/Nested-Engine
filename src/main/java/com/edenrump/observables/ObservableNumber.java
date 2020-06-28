@@ -16,7 +16,7 @@ public abstract class ObservableNumber<N> {
 
     private N value;
 
-    private PropertyChangeSupport support;
+    private final PropertyChangeSupport support;
 
     public ObservableNumber() {
         support = new PropertyChangeSupport(this);

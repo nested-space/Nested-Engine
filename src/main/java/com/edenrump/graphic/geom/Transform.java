@@ -2,7 +2,7 @@ package com.edenrump.graphic.geom;
 
 import com.edenrump.math.arrays.ColumnVector;
 import com.edenrump.math.arrays.SquareMatrix;
-import com.edenrump.math.calculations.Volume;
+import com.edenrump.math.util.Volume;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -15,36 +15,24 @@ public class Transform {
 
     public Transform() {
         translation = new ColumnVector(4);
-        rotation = new ColumnVector(0, 0, 0, 0);
+        rotation = new ColumnVector(4);
         scale = new ColumnVector(1, 1, 1, 0);
     }
 
-    public ColumnVector getTranslation() {
-        return translation;
+    public float[] getTranslation() {
+        return translation.getValues();
     }
 
-    public ColumnVector getRotation() {
-        return rotation;
+    public float[] getRotation() {
+        return rotation.getValues();
     }
 
-    public ColumnVector getScale() {
-        return scale;
+    public float[] getScale() {
+        return scale.getValues();
     }
 
     public void rotate(float x, float y, float z) {
         rotation = rotation.add(new ColumnVector(x, y, z, 0));
-    }
-
-    protected void rotateX(float x) {
-        rotate(x, 0, 0);
-    }
-
-    protected void rotateY(float y) {
-        rotate(0, y, 0);
-    }
-
-    protected void rotateZ(float z) {
-        rotate(0, 0, z);
     }
 
     public void scale(float x, float y, float z) {
@@ -56,32 +44,8 @@ public class Transform {
                 1);
     }
 
-    protected void scaleX(float x) {
-        scale(x, 0, 0);
-    }
-
-    protected void scaleY(float y) {
-        scale(0, y, 0);
-    }
-
-    protected void scaleZ(float z) {
-        scale(0, 0, z);
-    }
-
     public void translate(float x, float y, float z) {
         translation = translation.add(new ColumnVector(x, y, z, 0));
-    }
-
-    protected void translateX(float x) {
-        translate(x, 0, 0);
-    }
-
-    protected void translateY(float y) {
-        translate(0, y, 0);
-    }
-
-    protected void translateZ(float z) {
-        translate(0, 0, z);
     }
 
     public FloatBuffer getTransformationMatrix() {

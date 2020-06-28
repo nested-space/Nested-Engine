@@ -18,9 +18,11 @@ public class ObservableFloat extends ObservableNumber<Float> {
         this.setValue(value);
     }
 
+
     /**
      * Unparameterised constructor leaves initial value as null.
      */
     public ObservableFloat() {
     }
 }
+
