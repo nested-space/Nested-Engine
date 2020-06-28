@@ -61,9 +61,11 @@ public class GPUMesh {
     }
 
     public void setIndices(int[] indices) {
+        vao.bind();
         indexBuffer = new VertexBufferObject();
         indexBuffer.bind(GL_ELEMENT_ARRAY_BUFFER);
         VertexBufferObject.uploadData(GL_ELEMENT_ARRAY_BUFFER, Buffers.storeDataInBuffer(indices), GL_STATIC_DRAW);
+        this.unbind();
     }
 
     public void bindVAO() {
@@ -72,6 +74,7 @@ public class GPUMesh {
 
     public void addAttribute(int location, String name, float[] values) {
         VertexBufferObject vbo = new VertexBufferObject();
+        vao.bind();
         vbo.bind(GL_ARRAY_BUFFER);
         VertexBufferObject.uploadData(
                 GL_ARRAY_BUFFER,
@@ -84,16 +87,13 @@ public class GPUMesh {
                 dimensionsPerVertex,
                 vbo.getID());
         attributes.put(attribute.getName(), attribute);
+        this.unbind();
     }
 
     public void setPositions(float[] positions, int[] indices) {
         numberOfElements = indices.length;
-        vao.bind();
-
         addAttribute(POSITION_ATTRIB, POSITIONS_ATTRIB_NAME, positions);
         setIndices(indices);
-
-        this.unbind();
     }
 
     void unbind() {
