@@ -1,8 +1,6 @@
-package com.edenrump.graphic.mesh;
+package com.edenrump.gpu;
 
-import com.edenrump.math.shape.mesh.GeometricConstructTest;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import static org.lwjgl.opengl.GL20C.*;
 
 /*
  * Copyright (c) 2020 Ed Eden-Rump
@@ -25,18 +23,29 @@ import org.testng.annotations.Test;
  *
  */
 
-public class ConstructConverterTest {
+public class UniformFloat extends Uniform {
 
-    @Test
-    public void convertConstructToMeshTest() {
-        CPUMesh mesh = ConstructConverter.convertConstructToMesh(
-                GeometricConstructTest.getTestSquare()
-        );
-
-        Assert.assertEquals(mesh.getFloatsPerVertex(), 3);
-        Assert.assertEquals(mesh.getIndices().length, 6);
-        Assert.assertEquals(mesh.getVertexPositions().length, 4 * 3);
-        Assert.assertEquals(mesh.getVertexNormals().length, 4 * 3);
+    public UniformFloat(int shaderProgramID, int location, CharSequence name) {
+        super(shaderProgramID, location, name);
     }
 
+    public void update(float value) {
+        engageShader();
+        glUniform1f(getLocation(), value);
+    }
+
+    public void update2values(float v1, float v2) {
+        engageShader();
+        glUniform2f(getLocation(), v1, v2);
+    }
+
+    public void update3values(float v1, float v2, float v3) {
+        engageShader();
+        glUniform3f(getLocation(), v1, v2, v3);
+    }
+
+    public void update4values(float v1, float v2, float v3, float v4) {
+        engageShader();
+        glUniform4f(getLocation(), v1, v2, v3, v4);
+    }
 }

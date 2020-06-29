@@ -1,8 +1,4 @@
-package com.edenrump.graphic.mesh;
-
-import com.edenrump.math.shape.mesh.GeometricConstructTest;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+package com.edenrump.graphic.viewport.display;
 
 /*
  * Copyright (c) 2020 Ed Eden-Rump
@@ -25,18 +21,19 @@ import org.testng.annotations.Test;
  *
  */
 
-public class ConstructConverterTest {
+public class Layer {
 
-    @Test
-    public void convertConstructToMeshTest() {
-        CPUMesh mesh = ConstructConverter.convertConstructToMesh(
-                GeometricConstructTest.getTestSquare()
-        );
+    private Window window;
 
-        Assert.assertEquals(mesh.getFloatsPerVertex(), 3);
-        Assert.assertEquals(mesh.getIndices().length, 6);
-        Assert.assertEquals(mesh.getVertexPositions().length, 4 * 3);
-        Assert.assertEquals(mesh.getVertexNormals().length, 4 * 3);
+    public Layer(Window window) {
+        this.window = window;
     }
 
+    public Window getWindow() {
+        return window;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
+    }
 }
