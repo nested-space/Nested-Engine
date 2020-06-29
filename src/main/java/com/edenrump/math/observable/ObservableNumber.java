@@ -1,4 +1,4 @@
-package com.edenrump.observables;
+package com.edenrump.math.observable;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

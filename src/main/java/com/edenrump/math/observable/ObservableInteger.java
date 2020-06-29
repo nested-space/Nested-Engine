@@ -1,4 +1,4 @@
-package com.edenrump.observables;
+package com.edenrump.math.observable;
 
 /**
  * This class represents an observable float
