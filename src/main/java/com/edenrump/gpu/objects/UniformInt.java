@@ -17,31 +17,33 @@
  * along with Nested Engine.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.edenrump.math.observable;
+package com.edenrump.gpu.objects;
 
-/**
- * This class represents an observable float
- * <p>
- * It extends the ObservableNumber class and locks the generic value parameter to Integer.
- *
- * @author Ed EdenRump
- */
+import static org.lwjgl.opengl.GL20C.*;
 
-public class ObservableInteger extends ObservableNumber<Integer> {
-    /**
-     * Parameterised constructor sets the initial value.
-     *
-     * @param value initial value
-     */
-    public ObservableInteger(int value) {
-        this.setValue(value);
+public class UniformInt extends Uniform {
+
+    public UniformInt(int shaderProgramID, int location, CharSequence name) {
+        super(shaderProgramID, location, name);
     }
 
-
-    /**
-     * Unparameterised constructor leaves initial value as null.
-     */
-    public ObservableInteger() {
+    public void update(int v1) {
+        engageShader();
+        glUniform1i(getLocation(), v1);
     }
 
+    public void update2values(int v1, int v2) {
+        engageShader();
+        glUniform2i(getLocation(), v1, v2);
+    }
+
+    public void update3values(int v1, int v2, int v3) {
+        engageShader();
+        glUniform3i(getLocation(), v1, v2, v3);
+    }
+
+    public void update4values(int v1, int v2, int v3, int v4) {
+        engageShader();
+        glUniform4i(getLocation(), v1, v2, v3, v4);
+    }
 }

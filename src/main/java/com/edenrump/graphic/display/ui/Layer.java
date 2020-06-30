@@ -17,31 +17,23 @@
  * along with Nested Engine.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.edenrump.math.observable;
+package com.edenrump.graphic.display.ui;
 
-/**
- * This class represents an observable float
- * <p>
- * It extends the ObservableNumber class and locks the generic value parameter to Float.
- *
- * @author Ed Eden-Rump
- */
-public class ObservableFloat extends ObservableNumber<Float> {
+import com.edenrump.graphic.display.global.Window;
 
-    /**
-     * Parameterised constructor sets the initial value.
-     *
-     * @param value initial value
-     */
-    public ObservableFloat(float value) {
-        this.setValue(value);
+public class Layer {
+
+    private Window window;
+
+    public Layer(Window window) {
+        this.window = window;
     }
 
+    public Window getWindow() {
+        return window;
+    }
 
-    /**
-     * Unparameterised constructor leaves initial value as null.
-     */
-    public ObservableFloat() {
+    public void setWindow(Window window) {
+        this.window = window;
     }
 }
-

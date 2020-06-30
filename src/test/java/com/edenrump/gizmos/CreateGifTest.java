@@ -1,8 +1,27 @@
+/*
+ * Copyright (c) 2020 Ed Eden-Rump
+ *
+ * This file is part of Nested Engine.
+ *
+ * Nested Engine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Nested Engine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Nested Engine.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.edenrump.gizmos;
 
 import com.edenrump.graphic.entities.StaticEntity;
 import com.edenrump.math.geom.PerspectiveProjection;
-import com.edenrump.gpu.Uniform;
+import com.edenrump.gpu.objects.Uniform;
 import com.edenrump.graphic.mesh.CPUMesh;
 import com.edenrump.graphic.mesh.ConstructConverter;
 import com.edenrump.graphic.mesh.GPUMesh;
@@ -10,10 +29,10 @@ import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
-import com.edenrump.graphic.viewport.display.Bounds;
-import com.edenrump.graphic.viewport.display.Window;
-import com.edenrump.graphic.viewport.window.GifSequenceWriter;
-import com.edenrump.graphic.viewport.window.Screenshot;
+import com.edenrump.graphic.display.ui.Bounds;
+import com.edenrump.graphic.display.global.Window;
+import com.edenrump.graphic.util.GifSequenceWriter;
+import com.edenrump.graphic.util.Screenshot;
 import com.edenrump.math.shape.mesh.GeometricConstruct;
 import com.edenrump.math.shape.mesh.ShadingType;
 import com.edenrump.math.shape.solids.Icosahedron;
@@ -31,27 +50,6 @@ import java.nio.FloatBuffer;
 import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_SRGB;
-
-/*
- * Copyright (c) 2020 Ed Eden-Rump
- *     This file is part of Nested Engine.
- *
- *     Nested Engine is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     Nested Engine is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with Nested Engine.  If not, see <https://www.gnu.org/licenses/>.
- *
- *     @Author Ed Eden-Rump
- *
- */
 
 public class CreateGifTest {
 

@@ -1,39 +1,37 @@
+/*
+ * Copyright (c) 2020 Ed Eden-Rump
+ *
+ * This file is part of Nested Engine.
+ *
+ * Nested Engine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Nested Engine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Nested Engine.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package com.edenrump.gizmos;
 
-import com.edenrump.graphic.data.Std140Compatible;
-import com.edenrump.graphic.data.std140ColumnVector;
+import com.edenrump.gpu.data.Std140Compatible;
+import com.edenrump.gpu.data.std140ColumnVector;
 import com.edenrump.graphic.entities.StaticEntity;
-import com.edenrump.gpu.UniformBlockBuffer;
+import com.edenrump.gpu.objects.UniformBlockBuffer;
 import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.render.StaticRenderer;
 import com.edenrump.graphic.shaders.Shader;
 import com.edenrump.graphic.shaders.ShaderProgram;
 import com.edenrump.graphic.time.Time;
-import com.edenrump.graphic.viewport.display.Bounds;
-import com.edenrump.graphic.viewport.display.Window;
+import com.edenrump.graphic.display.ui.Bounds;
+import com.edenrump.graphic.display.global.Window;
 
 import java.awt.*;
-
-/*
- * Copyright (c) 2020 Ed Eden-Rump
- *     This file is part of Nested Engine.
- *
- *     Nested Engine is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     Nested Engine is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with Nested Engine.  If not, see <https://www.gnu.org/licenses/>.
- *
- *     @Author Ed Eden-Rump
- *
- */
 
 public class UniformRoundedCornersTest {
 

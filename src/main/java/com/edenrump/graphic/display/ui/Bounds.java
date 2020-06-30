@@ -1,37 +1,35 @@
-package com.edenrump.graphic.viewport.display;
+/*
+ * Copyright (c) 2020 Ed Eden-Rump
+ *
+ * This file is part of Nested Engine.
+ *
+ * Nested Engine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Nested Engine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Nested Engine.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package com.edenrump.graphic.display.ui;
 
 import java.text.DecimalFormat;
 
-/*
- * Copyright (c) 2020 Ed Eden-Rump
- *     This file is part of Nested Engine.
- *
- *     Nested Engine is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     Nested Engine is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with Nested Engine.  If not, see <https://www.gnu.org/licenses/>.
- *
- *     @Author Ed Eden-Rump
- *
- */
-
 public class Bounds {
 
-    float minX, maxX, minY, maxY;
+    private final float minX, maxX, minY, maxY;
 
-    public Bounds(float minX, float maxX, float minY, float maxY) {
+    public Bounds(float minX, float minY, float width, float height) {
         this.minX = minX;
-        this.maxX = maxX;
+        this.maxX = minX + width;
         this.minY = minY;
-        this.maxY = maxY;
+        this.maxY = minY + height;
     }
 
     public float getMinX() {
@@ -48,42 +46,6 @@ public class Bounds {
 
     public float getMaxY() {
         return maxY;
-    }
-
-    public void setMinX(float x) {
-        if (x < this.maxX) {
-            this.minX = x;
-        } else {
-            this.minX = maxX;
-            this.maxX = x;
-        }
-    }
-
-    public void setMaxX(float x) {
-        if (x > this.minX) {
-            this.maxX = x;
-        } else {
-            this.minX = x;
-            this.maxX = x;
-        }
-    }
-
-    public void setMinY(float y) {
-        if (y < this.maxY) {
-            this.minY = y;
-        } else {
-            this.minY = maxY;
-            this.maxY = y;
-        }
-    }
-
-    public void setMaxY(float y) {
-        if (y > this.minY) {
-            this.maxY = y;
-        } else {
-            this.minY = y;
-            this.maxY = y;
-        }
     }
 
     /**
