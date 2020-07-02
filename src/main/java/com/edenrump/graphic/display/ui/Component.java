@@ -31,22 +31,22 @@ import com.edenrump.math.geom.Transform;
  **/
 public abstract class Component extends Container implements Renderable {
 
-    Container parent;
-    GPUMesh mesh;
-    Uniform transformationMatrix;
+    private final GPUMesh mesh;
+    private Transform transform;
+    private final Uniform transformationUniform;
 
-    public Component(){
-        transformationMatrix = new Uniform()
+    private Component() {
+        super();
+        ComponentGPUSupport staff = ComponentGPUSupport.getInstance();
+
+        mesh = staff.getSquareMesh();
+        transformationUniform = staff.getTransformationMatrix();
+        transform = new Transform();
     }
 
-    private Transform createTransformFromConstraints(){
-        //FIXME
-        return new Transform();
-    }
-
-    @Override
-    public int getID() {
-        return mesh.getVAO_ID();
+    private void updateTransformFromConstraints() {
+        //TODO FIXME -- convert layout constraints to transform.
+        transform = new Transform();
     }
 
     @Override
@@ -56,21 +56,33 @@ public abstract class Component extends Container implements Renderable {
 
     @Override
     public void update() {
+        mesh.enableAttributes();
+        if (transformationUniform == null) return;
 
+        if (transformationUniform.getName() != "null") {
+            transformationUniform.asUniformMatrix().update_4x4(transform.getTransformationMatrix());
+        }
     }
 
     @Override
     public void finish() {
-
+        mesh.disableAttributes();
     }
 
     @Override
-    public int getDrawType() {
-        return 0;
+    public GPUMesh getMesh() {
+        return mesh;
     }
 
-    @Override
-    public int getNumberOfElements() {
-        return 0;
+    public void scale(float x, float y) {
+        transform.scale(x, y, 1);
+    }
+
+    public void translate(float x, float y) {
+        transform.translate(x, y, 0);
+    }
+
+    public void rotate(float x, float y) {
+        transform.rotate(x, y, 0);
     }
 }

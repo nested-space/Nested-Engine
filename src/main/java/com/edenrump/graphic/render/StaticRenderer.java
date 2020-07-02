@@ -20,6 +20,7 @@
 package com.edenrump.graphic.render;
 
 import com.edenrump.graphic.entities.Renderable;
+import com.edenrump.graphic.mesh.GPUMesh;
 import com.edenrump.graphic.shaders.ShaderProgram;
 
 import java.util.ArrayList;
@@ -55,10 +56,13 @@ public class StaticRenderer implements GenericRenderer {
         for (Integer id : vaoIDMeshMap.keySet()) {
             List<Renderable> allMeshInstances = vaoIDMeshMap.get(id);
             allMeshInstances.get(0).prepare();
-            for (Renderable currentMesh : allMeshInstances) {
-                currentMesh.update();
-                glDrawElements(currentMesh.getDrawType(), currentMesh.getNumberOfElements(), GL_UNSIGNED_INT, 0);
-                currentMesh.finish();
+            for (Renderable renderable : allMeshInstances) {
+                renderable.update();
+
+                GPUMesh mesh = renderable.getMesh();
+                glDrawElements(mesh.getDrawType(), mesh.getNumberOfElements(), GL_UNSIGNED_INT, 0);
+
+                renderable.finish();
             }
             Renderable.unbind();
         }
@@ -74,17 +78,19 @@ public class StaticRenderer implements GenericRenderer {
         shaderProgram.delete();
     }
 
-    public void addMesh(Renderable mesh) {
-        if (!vaoIDMeshMap.containsKey(mesh.getID())) {
+    public void addMesh(Renderable renderable) {
+        GPUMesh mesh = renderable.getMesh();
+        if (!vaoIDMeshMap.containsKey(mesh.getVAO_ID())) {
             List<Renderable> newMeshList = new ArrayList<>();
             vaoIDMeshMap.put(
-                    mesh.getID(),
+                    mesh.getVAO_ID(),
                     newMeshList);
         }
-        vaoIDMeshMap.get(mesh.getID()).add(mesh);
+        vaoIDMeshMap.get(mesh.getVAO_ID()).add(renderable);
     }
 
-    public void removeMesh(Renderable mesh) {
-        vaoIDMeshMap.getOrDefault(mesh.getID(), new ArrayList<>()).remove(mesh);
+    public void removeMesh(Renderable renderable) {
+        GPUMesh mesh = renderable.getMesh();
+        vaoIDMeshMap.getOrDefault(mesh.getVAO_ID(), new ArrayList<>()).remove(renderable);
     }
 }

@@ -20,6 +20,7 @@
 package com.edenrump.graphic.display.ui;
 
 import com.edenrump.math.util.Scalar;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,14 @@ import java.util.List;
  * @created 30/06/2020 - 17:54
  * @project Nested Engine
  **/
-public class Container {
+public abstract class Container extends Region {
 
     List<Component> components = new ArrayList<>();
+    SizingBehaviour sizingBehaviour;
+
+    protected Container() {
+        sizingBehaviour = new SizingBehaviour(this);
+    }
 
     public void addComponent(Component component) {
         components.add(component);
@@ -42,15 +48,15 @@ public class Container {
         components.add(index, component);
     }
 
-    public void addComponents(List<Component> components){
+    public void addComponents(List<Component> components) {
         this.components.addAll(components);
     }
 
-    public void removeComponent(Component component){
+    public void removeComponent(Component component) {
         components.remove(component);
     }
 
-    public void clearComponents(){
+    public void clearComponents() {
         components.clear();
     }
 }

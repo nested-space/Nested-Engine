@@ -66,8 +66,8 @@ public class WindowScreenShotTest {
             window.show();
             gameTime = Time.getInstance();
 
-            String VERTEX_FILE_LOCATION = "src/test/resources/shaders/roundedCornersTestShader.vert";
-            String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/roundedCornersTestShader.frag";
+            String VERTEX_FILE_LOCATION = "src/test/resources/shaders/ComponentShader.vert";
+            String FRAGMENT_FILE_LOCATION = "src/test/resources/shaders/ComponentShader.frag";
             ShaderProgram shaderProgram = new ShaderProgram();
             Shader v = Shader.loadShader(Shader.VERTEX, VERTEX_FILE_LOCATION);
             Shader f = Shader.loadShader(Shader.FRAGMENT, FRAGMENT_FILE_LOCATION);

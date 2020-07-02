@@ -39,11 +39,6 @@ public class StaticEntity implements Renderable {
     }
 
     @Override
-    public int getID() {
-        return mesh.getVAO_ID();
-    }
-
-    @Override
     public void prepare() {
         mesh.bindVAO();
     }
@@ -64,13 +59,8 @@ public class StaticEntity implements Renderable {
     }
 
     @Override
-    public int getDrawType() {
-        return mesh.getDrawType();
-    }
-
-    @Override
-    public int getNumberOfElements() {
-        return mesh.getNumberOfElements();
+    public GPUMesh getMesh() {
+        return mesh;
     }
 
     public void scale(float x, float y, float z) {
@@ -88,4 +78,5 @@ public class StaticEntity implements Renderable {
     public Transform getTransform() {
         return transform;
     }
+
 }

@@ -17,24 +17,12 @@
  * along with Nested Engine.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.edenrump.graphic.entities;
+package com.edenrump.graphic.display.ui;
 
-import com.edenrump.graphic.mesh.GPUMesh;
-
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
-
-public interface Renderable {
-
-    GPUMesh getMesh();
-
-    void prepare();
-
-    void update();
-
-    void finish();
-
-    static void unbind() {
-        glBindVertexArray(0);
-    }
-
+/**
+ * @author Ed Eden-Rump
+ * @created 02/07/2020 - 17:10
+ * @project Nested Engine
+ **/
+public class LengthConstraint {
 }
