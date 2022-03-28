@@ -56,7 +56,7 @@ public class LightingTest {
         return () -> {
             window = new Window(800, 500);
             window.setApplicationName( "Lighting Test");
-            window.setDefaultBackground(Color.BLUE);
+            window.setDefaultBackground(Color.BLACK);
             window.show();
             gameTime = Time.getInstance();
 
@@ -96,7 +96,7 @@ public class LightingTest {
             rectEntity.rotate(90, 0, 0);
 
             while (window.closeNotRequested()) {
-                rectEntity.rotate(1f, 2f, 0);
+                rectEntity.rotate(0f, 2f, 0);
                 gameTime.updateTime();
                 window.update();
                 window.prepareForRender();
